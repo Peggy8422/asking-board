@@ -8,6 +8,10 @@ const theme = extendTheme({
       400: '#3FA34D',
       500: '#137547'
     }
+  },
+  config: {
+    initialColorMode: 'light',
+    useSystemColorMode: false
   }
   
 });

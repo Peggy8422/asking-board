@@ -17,7 +17,7 @@ const LandingPage = () => {
         </Box>
       </Container>
     </Box>
-  )
+  );
 };
 
 export default LandingPage;
