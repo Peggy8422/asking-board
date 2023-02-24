@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as ReactLink } from 'react-router-dom';
 import { Box, Flex, Button, Text } from '@chakra-ui/react';
 import { Logo } from '../assets/images';
 import { AdminIcon } from '../assets/icons';
@@ -13,6 +14,8 @@ const LandingPanel = () => {
       <Text color={'brand.500'} fontSize={'medium'} fontWeight={'semibold'}>學科問答、線上解惑，知識分享交流的最佳平台</Text>
       <Flex mt={'10'} mb={'3'} gap={3}>
         <Button
+          as={ReactLink}
+          to={'/login'}
           bg={'brand.500'}
           colorScheme={'green'}
           size={'md'}
@@ -21,6 +24,8 @@ const LandingPanel = () => {
           登入會員  
         </Button>
         <Button
+          as={ReactLink}
+          to={'/regist'}
           bg={'white'}
           color={'brand.500'}
           colorScheme={'green'}
@@ -32,6 +37,8 @@ const LandingPanel = () => {
         </Button>
       </Flex>
       <Button
+        as={ReactLink}
+        to={'/admin_login'}
         color={'brand.500'}
         colorScheme={'green'}
         variant={'link'}
