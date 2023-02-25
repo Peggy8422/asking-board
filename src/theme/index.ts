@@ -6,7 +6,10 @@ const theme = extendTheme({
     brand: {
       300: '#5BBA6F',
       400: '#3FA34D',
-      500: '#137547'
+      500: '#137547',
+      gray_1: '#C4C4C4',
+      gray_2: '#F8F8F8',
+      gray_3: '#707070'
     }
   },
   config: {

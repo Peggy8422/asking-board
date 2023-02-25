@@ -4,10 +4,9 @@ import Sidebar from '../components/Sidebar';
 import { Box, Grid, GridItem, Heading } from '@chakra-ui/react';
 
 //card元件
-import AllPostsCard from '../components/admin/AllPostsCard';
+import AllUsersCard from '../components/admin/AllUsersCard';
 
-
-const AdminPostsPage = () => {
+const AdminUsersPage = () => {
   return (
     <Box width={'100%'} height={'100vh'} overflowX={'hidden'}>
       <Header />
@@ -16,16 +15,19 @@ const AdminPostsPage = () => {
           <Sidebar userName='管理員' isOnUserPages={false} />
         </GridItem>
         <GridItem colSpan={4} pt={'30px'} px={5} mt={'92px'}>
-          <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>所有問題</Heading>
-          {/* map所有問題的card */}
-          <AllPostsCard 
-            firstImg='https://picsum.photos/300'
-            title='關於XXXXX解法?'
-            content='Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu semper lorem. Proin pretium aliquam est, nec commodo tellus euismod sit amet....'
+          <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>所有用戶</Heading>
+          {/* map所有用戶的card */}
+          <AllUsersCard 
             avatar='123'
+            userName='莊珮琪'
             account='peggy_test'
-            createdAt='數秒前'
-            likedCount={500}
+            identity='學生'
+            followersCount={251}
+            followingsCount={10}
+            questionsCount={23}
+            repliesCount={300}
+            QLikedCount={500}
+            RLikedCount={45}
           />
         </GridItem>
         
@@ -34,4 +36,4 @@ const AdminPostsPage = () => {
   );
 };
 
-export default AdminPostsPage;
+export default AdminUsersPage;
