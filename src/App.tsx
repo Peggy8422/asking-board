@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import RegistPage from './pages/RegistPage';
 import Layout from './components/Layout';
 import SettingsPage from './pages/SettingsPage';
+import HomePage from './pages/HomePage';
 //Admin pages
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminPostsPage from './pages/AdminPostsPage';
@@ -28,6 +29,7 @@ const App: React.FC = () => {
           <Route path='/admin_users' element={<AdminUsersPage />} />
           <Route path='/front' element={<Layout />}>
             <Route path='settings' element={<SettingsPage />} />
+            <Route path='home' element={<HomePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

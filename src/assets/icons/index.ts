@@ -10,6 +10,7 @@ import { ReactComponent as SettingIcon } from './setting-icon.svg';
 import { ReactComponent as HandIcon } from './hand-icon.svg';
 import { ReactComponent as LogoutIcon } from './logout-icon.svg';
 import { ReactComponent as HeartIcon } from './heart-icon.svg';
+import { ReactComponent as HeartOutlineIcon } from './heart-outline-icon.svg';
 import { ReactComponent as CrossIcon } from './cross-icon.svg';
 import { ReactComponent as CommentIcon } from './comment-icon.svg';
 import { ReactComponent as ThumbsUpIcon } from './thumbs-up-icon.svg';
@@ -27,6 +28,7 @@ export {
   HandIcon,
   LogoutIcon,
   HeartIcon,
+  HeartOutlineIcon,
   CrossIcon,
   CommentIcon,
   ThumbsUpIcon
