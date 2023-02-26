@@ -8,6 +8,8 @@ import RegistPage from './pages/RegistPage';
 import Layout from './components/Layout';
 import SettingsPage from './pages/SettingsPage';
 import HomePage from './pages/HomePage';
+import HotIssuePage from './pages/HotIssuePage';
+import ActiveUsersPage from './pages/ActiveUsersPage';
 //Admin pages
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminPostsPage from './pages/AdminPostsPage';
@@ -30,6 +32,8 @@ const App: React.FC = () => {
           <Route path='/front' element={<Layout />}>
             <Route path='settings' element={<SettingsPage />} />
             <Route path='home' element={<HomePage />} />
+            <Route path='hot_issue' element={<HotIssuePage />} />
+            <Route path='active_users' element={<ActiveUsersPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

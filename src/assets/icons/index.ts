@@ -14,6 +14,8 @@ import { ReactComponent as HeartOutlineIcon } from './heart-outline-icon.svg';
 import { ReactComponent as CrossIcon } from './cross-icon.svg';
 import { ReactComponent as CommentIcon } from './comment-icon.svg';
 import { ReactComponent as ThumbsUpIcon } from './thumbs-up-icon.svg';
+import { ReactComponent as CheckedIcon } from './checked-icon.svg';
+import { ReactComponent as AddIcon } from './add-icon.svg';
 
 export {
   AdminIcon,
@@ -31,5 +33,7 @@ export {
   HeartOutlineIcon,
   CrossIcon,
   CommentIcon,
-  ThumbsUpIcon
+  ThumbsUpIcon,
+  CheckedIcon,
+  AddIcon
 };
