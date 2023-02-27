@@ -16,6 +16,9 @@ import { ReactComponent as CommentIcon } from './comment-icon.svg';
 import { ReactComponent as ThumbsUpIcon } from './thumbs-up-icon.svg';
 import { ReactComponent as CheckedIcon } from './checked-icon.svg';
 import { ReactComponent as AddIcon } from './add-icon.svg';
+import { ReactComponent as PhotosIcon } from './photos-icon.svg';
+import { ReactComponent as RightArrowIcon } from './right-arrow-icon.svg';
+import { ReactComponent as EditIcon } from './edit-icon.svg';
 
 export {
   AdminIcon,
@@ -35,5 +38,8 @@ export {
   CommentIcon,
   ThumbsUpIcon,
   CheckedIcon,
-  AddIcon
+  AddIcon,
+  PhotosIcon,
+  RightArrowIcon,
+  EditIcon
 };

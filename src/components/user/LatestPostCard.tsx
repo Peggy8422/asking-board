@@ -34,31 +34,32 @@ const LatestPostCard: React.FC<CardProps> = (props) => {
               >
                 {props.identity}
               </Tag>
-              <Tag
-                size={'sm'}
-                variant={'outline'}
-                color={'brand.500'}
-                colorScheme={'green'}
-                bg={'white'}
-                borderColor={'brand.400'}
-              >
-                {props.category}
-              </Tag>
             </Flex>
             <Text fontSize={'sm'} fontWeight={'medium'} color={'brand.gray_3'}>@{props.account}</Text>
           </Box>
         </Flex>
         <Heading
           as={'h5'}
-          size={'md'}
+          size={'sm'}
           color={'brand.500'}
-          overflow={'hidden'}
-          whiteSpace={'nowrap'}
-          textOverflow={'ellipsis'}
+          noOfLines={2}
+          my={2}
         >
           {props.title}
         </Heading>
-        <Text fontSize={'sm'} color={'brand.gray_3'} textAlign={'right'}>{props.createdAt}</Text>
+        <Flex justify={'space-between'}>
+          <Tag
+            size={'sm'}
+            variant={'outline'}
+            color={'brand.500'}
+            colorScheme={'green'}
+            bg={'white'}
+            borderColor={'brand.400'}
+          >
+            {props.category}
+          </Tag>
+          <Text fontSize={'sm'} color={'brand.gray_3'} textAlign={'right'}>{props.createdAt}</Text>
+        </Flex>
       </CardBody>
     </Card>
   );

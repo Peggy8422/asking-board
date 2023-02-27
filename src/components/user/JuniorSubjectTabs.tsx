@@ -8,7 +8,7 @@ interface TabsProps {
 
 const JuniorSubjectTabs: React.FC<TabsProps> = (props) => {
   return (
-    <Flex wrap={'wrap'} w={'60%'} gap={2}>
+    <Flex position={'relative'} wrap={'wrap'} w={'60%'} gap={2} left={'10px'} >
       {[
         '全部',
         '國文',
@@ -24,7 +24,7 @@ const JuniorSubjectTabs: React.FC<TabsProps> = (props) => {
       ].map((item, index) => {
         return <Button 
           key={index}
-          size={'sm'}
+          size={'xs'}
           borderRadius={'full'}
           bg={props.activeTab === item ? 'brand.400' : ''}
           color={props.activeTab === item ? 'white' : 'brand.400'}

@@ -10,6 +10,7 @@ import SettingsPage from './pages/SettingsPage';
 import HomePage from './pages/HomePage';
 import HotIssuePage from './pages/HotIssuePage';
 import ActiveUsersPage from './pages/ActiveUsersPage';
+import UserProfilePage from './pages/UserProfilePage';
 //Admin pages
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminPostsPage from './pages/AdminPostsPage';
@@ -34,6 +35,7 @@ const App: React.FC = () => {
             <Route path='home' element={<HomePage />} />
             <Route path='hot_issue' element={<HotIssuePage />} />
             <Route path='active_users' element={<ActiveUsersPage />} />
+            <Route path='user_self' element={<UserProfilePage />} />
           </Route>
         </Routes>
       </BrowserRouter>
