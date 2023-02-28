@@ -10,11 +10,18 @@ import {
   Avatar,
   Divider,
   Image,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { RightArrowIcon, EditIcon } from '../assets/icons';
+//card元件
 import LatestPostCard from '../components/user/LatestPostCard';
+import EditProfileModal from '../components/user/EditProfileModal';
+
+const introTest = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Pellentesque venenatis a mauris in ullamcorper. Sed pulvinar augue egetturpis iaculis, quis semper erat vestibulum. Curabitur fermentumvehicula risus ut auctor. Integer volutpat, neque id tempor aliquet,dolor odio fringilla enim, ut tincidunt lorem leo eget nibh.';
 
 const UserProfilePage = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box w={'100%'}>
       {/* 封面照 */}
@@ -68,16 +75,21 @@ const UserProfilePage = () => {
         </Badge>
       </Flex>
       <Text m={3} mt={-3}>
-        自我介紹：Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Pellentesque venenatis a mauris in ullamcorper. Sed pulvinar augue eget
-        turpis iaculis, quis semper erat vestibulum. Curabitur fermentum
-        vehicula risus ut auctor. Integer volutpat, neque id tempor aliquet,
-        dolor odio fringilla enim, ut tincidunt lorem leo eget nibh.
+        自我介紹：{introTest}
       </Text>
       <Flex justify={'end'}>
-        <Button size={'sm'} leftIcon={<EditIcon />} bg={'brand.400'} colorScheme={'green'}>編輯個人資料</Button>
+        <Button
+          size={'sm'}
+          leftIcon={<EditIcon />}
+          bg={'brand.400'}
+          colorScheme={'green'}
+          onClick={onOpen}
+        >
+          編輯個人資料
+        </Button>
+        <EditProfileModal isOpen={isOpen} onClose={onClose} currentUserAvatar={'123'} currentUserCover={'123'} currentUserName={'Peggy Test'} currentUserIntro={introTest} />
       </Flex>
-      
+
       <Divider mt={3} borderColor={'brand.300'} />
       <Box
         position={'relative'}
@@ -193,7 +205,7 @@ const UserProfilePage = () => {
               createdAt="5秒前"
             />
           </Flex>
-        </Box>  
+        </Box>
         {/* 區塊3：回答過的提問 */}
         <Box mb={6}>
           <Flex align={'center'} justify={'space-between'}>

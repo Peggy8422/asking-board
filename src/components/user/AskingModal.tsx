@@ -59,6 +59,7 @@ const AskingModal: React.FC<ModalProps> = (props) => {
         <ModalHeader
           pb={2}
           display={'flex'}
+          gap={1}
           color={'brand.500'}
           borderBottom={'1px'}
           borderBottomColor={'brand.gray_1'}

@@ -19,6 +19,7 @@ import { ReactComponent as AddIcon } from './add-icon.svg';
 import { ReactComponent as PhotosIcon } from './photos-icon.svg';
 import { ReactComponent as RightArrowIcon } from './right-arrow-icon.svg';
 import { ReactComponent as EditIcon } from './edit-icon.svg';
+import { ReactComponent as CameraIcon } from './camera-icon.svg';
 
 export {
   AdminIcon,
@@ -41,5 +42,6 @@ export {
   AddIcon,
   PhotosIcon,
   RightArrowIcon,
-  EditIcon
+  EditIcon,
+  CameraIcon
 };
