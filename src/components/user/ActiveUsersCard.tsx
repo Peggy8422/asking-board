@@ -44,7 +44,7 @@ const ActiveUsersCard: React.FC<CardProps> = (props) => {
         <Text mt={2} noOfLines={3}>{props.discription}</Text>
       </CardBody>
       <CardFooter justify={'space-between'} p={3} pt={0}>
-        <Badge fontSize={'md'} variant={'solid'} colorScheme={'green'} >追蹤者：{props.statistic}位</Badge>
+        <Badge fontSize={'md'} variant={'subtle'} colorScheme={'green'} >追蹤者：{props.statistic}位</Badge>
         { props.isFollowed?
           (<Button
             size={'xs'}

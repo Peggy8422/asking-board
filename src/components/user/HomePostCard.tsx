@@ -79,11 +79,13 @@ const HomePostCard: React.FC<CardProps> = (props) => {
                 {props.likedCount}個收藏
               </Text>
             </Box>
-            {props.isLiked ? (
-              <HeartIcon fill="#FF4752" width={'37px'} />
-            ) : (
-              <HeartOutlineIcon />
-            )}
+            <Box cursor={'pointer'}>
+              {props.isLiked ? (
+                <HeartIcon fill="#FF4752" width={'37px'} />
+              ) : (
+                <HeartOutlineIcon />
+              )}
+            </Box>
           </Flex>
         </Flex>
         <Flex justify={'space-between'} mt={5}>

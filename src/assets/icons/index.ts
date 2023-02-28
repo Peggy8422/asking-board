@@ -20,6 +20,9 @@ import { ReactComponent as PhotosIcon } from './photos-icon.svg';
 import { ReactComponent as RightArrowIcon } from './right-arrow-icon.svg';
 import { ReactComponent as EditIcon } from './edit-icon.svg';
 import { ReactComponent as CameraIcon } from './camera-icon.svg';
+import { ReactComponent as GoBackIcon } from './goback-icon.svg';
+import { ReactComponent as ArrowUpIcon } from './arrow-up-icon.svg';
+import { ReactComponent as ArrowDownIcon } from './arrow-down-icon.svg';
 
 export {
   AdminIcon,
@@ -43,5 +46,8 @@ export {
   PhotosIcon,
   RightArrowIcon,
   EditIcon,
-  CameraIcon
+  CameraIcon,
+  GoBackIcon,
+  ArrowUpIcon,
+  ArrowDownIcon
 };
