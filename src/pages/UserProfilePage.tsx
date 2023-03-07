@@ -17,6 +17,7 @@ import { RightArrowIcon, EditIcon } from '../assets/icons';
 import LatestPostCard from '../components/user/LatestPostCard';
 import EditProfileModal from '../components/user/EditProfileModal';
 
+//test words
 const introTest = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Pellentesque venenatis a mauris in ullamcorper. Sed pulvinar augue egetturpis iaculis, quis semper erat vestibulum. Curabitur fermentumvehicula risus ut auctor. Integer volutpat, neque id tempor aliquet,dolor odio fringilla enim, ut tincidunt lorem leo eget nibh.';
 
 const UserProfilePage = () => {
@@ -116,7 +117,7 @@ const UserProfilePage = () => {
         <Box mb={6}>
           <Flex align={'center'} justify={'space-between'}>
             <Heading as={'h3'} size={'md'} color={'brand.500'}>
-              所有提問
+              所有提問：{123}則
             </Heading>
             <Button
               size={'lg'}
@@ -163,7 +164,7 @@ const UserProfilePage = () => {
         <Box mb={6}>
           <Flex align={'center'} justify={'space-between'}>
             <Heading as={'h3'} size={'md'} color={'brand.500'}>
-              收藏的提問
+              收藏的提問：{3}則
             </Heading>
             <Button
               size={'lg'}
@@ -210,7 +211,7 @@ const UserProfilePage = () => {
         <Box mb={6}>
           <Flex align={'center'} justify={'space-between'}>
             <Heading as={'h3'} size={'md'} color={'brand.500'}>
-              回答過的提問
+              回答過的提問：{4}則
             </Heading>
             <Button
               size={'lg'}
