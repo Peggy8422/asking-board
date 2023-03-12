@@ -19,6 +19,7 @@ interface AuthFormProps {
   children: React.ReactNode;
   onClickLogin?: () => void;
   onClickRegist?: () => void;
+  isLoading: boolean;
 }
 
 interface InputProps {
@@ -111,6 +112,7 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
         </Box>
         {props.children}
         <Button 
+          isLoading={props.isLoading}
           bg={'brand.500'}
           colorScheme={'green'}
           size={'md'}

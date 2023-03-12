@@ -10,7 +10,7 @@ const AdminLoginPage = () => {
 
   return (
     <Box w={'100%'} h={'100vh'} bg={'brand.400'}>
-      <AuthForm isUser={false} isOnRegist={false} onClickLogin={() => {}}>
+      <AuthForm isUser={false} isOnRegist={false} onClickLogin={() => {}} isLoading={false} >
         <AuthInput
           label="Email(帳號)"
           type="email"

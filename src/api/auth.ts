@@ -29,7 +29,7 @@ export const loginRequest = async ({ email, password }: loginParams, role: strin
 }
 
 //註冊：使用者註冊
-interface registParams {
+export interface registParams {
   name: string;
   email: string;
   password: string;

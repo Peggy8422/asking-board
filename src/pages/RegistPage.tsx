@@ -1,5 +1,11 @@
-import React, { useState } from 'react';
+//工具
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { Link as ReactLink } from 'react-router-dom';
+import { regist, reset } from '../features/auth/authSlice';
+//元件
 import AuthForm, { AuthInput, AuthSelect } from '../components/AuthForm';
 import { Box, Tooltip, Circle } from '@chakra-ui/react';
 import { AdminIcon } from '../assets/icons';
@@ -12,10 +18,41 @@ const RegistPage = () => {
     confirmPassword: '',
     role: '', //學生或老師身分
   });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector((state: any) => state.auth);
+
+  useEffect(() => {
+    if(isError) {
+      console.log(message)
+    }
+
+    if(isSuccess || user) {
+      navigate('/login')
+    }
+
+    dispatch(reset())
+
+  }, [user, isError, isSuccess, message, navigate, dispatch])
+
+  const handleRegistClicked = () => {
+    if(formData.password !== formData.confirmPassword) {
+      Swal.fire({
+        position: "top",
+        title: "請輸入兩次相同密碼!",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+    } else {
+      dispatch(regist(formData) as any);
+    }
+  }
 
   return (
     <Box w={'100%'} h={'140vh'} bg={'brand.400'}>
-      <AuthForm isOnRegist={true} isUser={true} onClickRegist={() => {}}>
+      <AuthForm isOnRegist={true} isUser={true} onClickRegist={handleRegistClicked} isLoading={isLoading}>
         <AuthInput
           label="暱稱"
           type="text"
