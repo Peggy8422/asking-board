@@ -17,12 +17,16 @@ interface AuthFormProps {
   isUser: boolean;
   isOnRegist: boolean;
   children: React.ReactNode;
+  onClickLogin?: () => void;
+  onClickRegist?: () => void;
 }
 
 interface InputProps {
   label: string;
   type: string;
+  value: string;
   placeholder: string;
+  onChange: (e?: {target: {value: string}}) => void;
 }
 
 export const AuthInput: React.FC<InputProps> = (props) => {
@@ -35,6 +39,8 @@ export const AuthInput: React.FC<InputProps> = (props) => {
       >{props.label}</Text>
       <Input
         type={props.type}
+        value={props.value}
+        onChange={props.onChange}
         borderBottomWidth={'2px'} 
         borderBottomColor={'brand.500'}
         variant={'flushed'} 
@@ -61,9 +67,10 @@ export const AuthSelect: React.FC<InputProps> = (props) => {
         borderBottomColor={'brand.500'}
         variant={'flushed'} 
         placeholder={props.placeholder}
+        onChange={props.onChange}
       >
-        <option value='student'>學生</option>
-        <option value='teacher'>老師</option>
+        <option value='學生'>學生</option>
+        <option value='老師'>老師</option>
       </Select>
     </Box>
   );
@@ -109,6 +116,7 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
           size={'md'}
           w={'100%'}
           my={3}
+          onClick={props.isOnRegist? props.onClickRegist : props.onClickLogin}
         >{props.isOnRegist ? '註冊' : '登入'}</Button>
         {props.isUser && <Button
           bg={'white'}
