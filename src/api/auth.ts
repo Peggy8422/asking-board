@@ -4,7 +4,7 @@ const baseURL = process.env.REACT_APP_API_BASEURL;
 
 //API請求的函式(跟使用者動作的函式不同)
 //登入：使用者/管理者登入
-interface loginParams {
+export interface loginParams {
   email: string;
   password: string;
 }
@@ -15,16 +15,19 @@ export const loginRequest = async ({ email, password }: loginParams, role: strin
       email,
       password
     });
-    const { token, status } = data;
+    const { token } = data;
     
-    if(token) { //有拿到token就自己寫成功定義+data
-      return { success: true, ...data };
+    if(token) { 
+      return data;
     }
 
-    return status; //沒token直接回傳失敗狀態
   } catch (error) {
     console.log(error);
-    return { success: false }
+    if (axios.isAxiosError(error)) {
+      const errorMessage = error.response?.data.message
+      return errorMessage;
+    }
+    throw new Error('different error than axios');
   }
 }
 
@@ -53,17 +56,23 @@ export const registRequest = async ({
       role
     });
     if (status === 200) {
-      return { success: true, ...data };
+      console.log(data);
+      return data;
     }
 
   } catch (error) {
     console.log(error);
     if (axios.isAxiosError(error)) {
       const errorMessage = error.response?.data.message
-      return { success: false, errorMessage }
+      return errorMessage;
     }
     throw new Error('different error than axios');
   }
+}
+
+//登出：不需發API請求但放在此統一定義
+export const logout = () => {
+  localStorage.removeItem('token');
 }
 
 

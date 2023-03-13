@@ -1,5 +1,9 @@
+//工具
 import React from 'react';
-import { Link as ReactLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link as ReactLink, useNavigate } from 'react-router-dom';
+import { logoutAct, reset } from '../features/auth/authSlice';
+//元件
 import {
   Box,
   Container,
@@ -104,6 +108,9 @@ const AdminNavList = () => {
 };
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
+  // const naviagte = useNavigate();
+  const dispatch = useDispatch();
+
   return (
     <Box
       w={'100%'}
@@ -137,6 +144,10 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
           size={'lg'}
           position={'absolute'}
           bottom={'5%'}
+          onClick={() => {
+            dispatch(logoutAct() as any);
+            dispatch(reset());
+          }}
         >
           登出
         </Button>

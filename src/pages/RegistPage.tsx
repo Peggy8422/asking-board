@@ -21,38 +21,59 @@ const RegistPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector((state: any) => state.auth);
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state: any) => state.auth,
+  );
 
   useEffect(() => {
-    if(isError) {
-      console.log(message)
+    if (isError) {
+      Swal.fire({
+        position: 'top',
+        title: '註冊失敗',
+        timer: 1000,
+        icon: 'error',
+        showConfirmButton: false,
+      });
+      console.log(message);
     }
 
-    if(isSuccess || user) {
-      navigate('/login')
+    if (isSuccess || user) {
+      Swal.fire({
+        position: 'top',
+        title: '註冊成功',
+        timer: 1000,
+        icon: 'success',
+        showConfirmButton: false,
+      });
+      dispatch(reset());
+      navigate('/login');
     }
 
-    dispatch(reset())
-
-  }, [user, isError, isSuccess, message, navigate, dispatch])
+    // dispatch(reset())
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const handleRegistClicked = () => {
-    if(formData.password !== formData.confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       Swal.fire({
-        position: "top",
-        title: "請輸入兩次相同密碼!",
+        position: 'top',
+        title: '請輸入兩次相同密碼!',
         timer: 1000,
-        icon: "error",
+        icon: 'warning',
         showConfirmButton: false,
       });
     } else {
-      dispatch(regist(formData) as any);
+      dispatch(regist(formData) as any); //發送註冊請求
     }
-  }
+  };
 
   return (
     <Box w={'100%'} h={'140vh'} bg={'brand.400'}>
-      <AuthForm isOnRegist={true} isUser={true} onClickRegist={handleRegistClicked} isLoading={isLoading}>
+      <AuthForm
+        isOnRegist={true}
+        isUser={true}
+        onClickRegist={handleRegistClicked}
+        isLoading={isLoading}
+      >
         <AuthInput
           label="暱稱"
           type="text"
@@ -61,15 +82,19 @@ const RegistPage = () => {
             setFormData({ ...formData, name: e!.target.value });
           }}
           placeholder="請輸入暱稱"
+          isError={isError}
+          errorMsg={message.name || ''}
         />
         <AuthInput
-          label="Email"
+          label="Email(帳號)"
           type="email"
           value={formData.email}
           onChange={(e) => {
             setFormData({ ...formData, email: e!.target.value });
           }}
           placeholder="請輸入Email"
+          isError={isError}
+          errorMsg={message.email || message || ''}
         />
         <AuthInput
           label="密碼設定"
@@ -79,6 +104,8 @@ const RegistPage = () => {
             setFormData({ ...formData, password: e!.target.value });
           }}
           placeholder="請設定密碼"
+          isError={isError}
+          errorMsg={message.password || ''}
         />
         <AuthInput
           label="確認密碼"
@@ -88,11 +115,21 @@ const RegistPage = () => {
             setFormData({ ...formData, confirmPassword: e!.target.value });
           }}
           placeholder="請再次確認密碼"
+          isError={isError}
+          errorMsg={message.password || ''}
         />
         {/* 身分select */}
-        <AuthSelect label="身分" type="" value={formData.role} onChange={(e) => {
+        <AuthSelect
+          label="身分"
+          type=""
+          value={formData.role}
+          onChange={(e) => {
             setFormData({ ...formData, role: e!.target.value });
-          }} placeholder="請選擇身分" />
+          }}
+          placeholder="請選擇身分"
+          isError={isError}
+          errorMsg={message.role || ''}
+        />
       </AuthForm>
       <Tooltip label={'前往管理者登入'} placement={'top'}>
         <Circle

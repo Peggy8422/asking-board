@@ -47,7 +47,7 @@ const Header = () => {
       width={'100%'}
       boxShadow={'md'}
       bg={'white'} 
-      zIndex={'overlay'}
+      zIndex={2}
     >
       <Container maxW={'container.xl'} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
         <Flex align={'center'} gap={2}>

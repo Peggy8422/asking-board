@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link as ReactLink } from 'react-router-dom';
 import { 
-  FormControl, 
+  FormControl,
+  FormErrorMessage, 
   Input,
   Text,
   Box,
@@ -28,11 +29,13 @@ interface InputProps {
   value: string;
   placeholder: string;
   onChange: (e?: {target: {value: string}}) => void;
+  isError?: boolean;
+  errorMsg?: string;
 }
 
 export const AuthInput: React.FC<InputProps> = (props) => {
   return (
-    <Box py={2}>
+    <FormControl py={2} isInvalid={props.isError}>
       <Text 
         color={'brand.500'} 
         fontSize={'xs'} 
@@ -48,14 +51,15 @@ export const AuthInput: React.FC<InputProps> = (props) => {
         placeholder={props.placeholder}
         _placeholder={{fontSize: 'sm'}}
       />
-    </Box>
+      <FormErrorMessage>{props.errorMsg}</FormErrorMessage>
+    </FormControl>
   );
 };
 
 
 export const AuthSelect: React.FC<InputProps> = (props) => {
   return (
-    <Box py={2}>
+    <FormControl py={2} isInvalid={props.isError}>
       <Text 
         color={'brand.500'} 
         fontSize={'xs'} 
@@ -73,7 +77,8 @@ export const AuthSelect: React.FC<InputProps> = (props) => {
         <option value='學生'>學生</option>
         <option value='老師'>老師</option>
       </Select>
-    </Box>
+      <FormErrorMessage>{props.errorMsg}</FormErrorMessage>
+    </FormControl>
   );
 };
 

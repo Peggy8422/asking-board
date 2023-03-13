@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { registRequest, registParams } from "../../api/auth";
+import { registRequest, registParams, loginRequest, loginParams, logout } from "../../api/auth";
 
 export interface initStateType {
   user: unknown;
@@ -43,7 +43,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
-        state.email = action.payload.email;
+        state.email = action.payload.email || '';
       })
       .addCase(regist.rejected, (state, action) => {
         state.isLoading = false;
@@ -52,21 +52,52 @@ export const authSlice = createSlice({
         state.email = '';
         state.message = action.payload;
       })
+      .addCase(login.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+        console.log(action.payload);
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.user = null;
+        state.email = '';
+        state.message = action.payload;
+      })
+      .addCase(logoutAct.fulfilled, (state) => {
+        state.user = null;
+      })
   }
 })
  
 //非同步處理：註冊，也是action creator
 export const regist = createAsyncThunk('auth/regist', async (user: registParams, thunkAPI) => {
-  try {
-    const { success, data } = await registRequest(user)
-    if(success) {
-      return data.user;
-    }
-  } catch (error: any) {
-    console.log(error); 
-    const message = (error.response?.data?.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+  const data = await registRequest(user);
+  if (data.status === "success") {
+    return data.user;
   }
+
+  return thunkAPI.rejectWithValue(data); //errormessage
+})
+
+//非同步處理：註冊，也是action creator
+export const login = createAsyncThunk('auth/login', async (user: loginParams, thunkAPI) => {
+  const data = await loginRequest(user, 'users');
+  if (data.status === "success") {
+    localStorage.setItem('token', data.token);
+    return data.user;
+  }
+
+  return thunkAPI.rejectWithValue(data); //errormessage
+})
+
+//非同步處理：登出，也是action creator
+export const logoutAct = createAsyncThunk('auth/logoutAct', async () => {
+  logout();
 })
 
 // 基本的action creator
