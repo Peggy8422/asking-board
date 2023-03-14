@@ -11,7 +11,7 @@ export interface loginParams {
 
 export const loginRequest = async ({ email, password }: loginParams, role: string) => {
   try { 
-    const { data } = await axios.post(`${baseURL}/v1/${role}/login`, {
+    const { data } = await axios.post(`${baseURL}/${role}/login`, {
       email,
       password
     });
@@ -48,7 +48,7 @@ export const registRequest = async ({
   role
 }: registParams) => {
   try { 
-    const { status, data } = await axios.post(`${baseURL}/v1/users`, {
+    const { status, data } = await axios.post(`${baseURL}/users`, {
       name,
       email,
       password,

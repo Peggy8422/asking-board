@@ -10,13 +10,14 @@ interface CardProps {
   account: string;
   createdAt: string;
   likedCount: number;
+  category: string;
 }
 
 const AllPostsCard: React.FC<CardProps> = (props) => {
   return (
-    <Flex borderRadius={'lg'} boxShadow={'md'} p={5} pt={8} pr={6} position={'relative'}>
+    <Flex borderRadius={'lg'} boxShadow={'md'} p={5} pt={8} pr={6} gap={2} position={'relative'}>
       <Image boxSize={'200px'} h={'150px'} objectFit={'cover'} src={props.firstImg} alt={''} />
-      <Box ml={5}>
+      <Box ml={5} w={'full'}>
         <Flex justify={'space-between'}>
           <Heading as={'h6'} size={'lg'} color={'brand.500'}>{props.title}</Heading>
           <Flex direction={'column'} justify={'end'}>
@@ -43,6 +44,7 @@ const AllPostsCard: React.FC<CardProps> = (props) => {
       <Box position={'absolute'} right={'0px'} top={'5px'} cursor={'pointer'}>
         <CrossIcon width={'50px'}/>
       </Box>
+      <Tag colorScheme={'green'} position={'absolute'} right={'15px'} bottom={'15px'} >{props.category}</Tag>
     </Flex>
 
   );
