@@ -18,7 +18,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   const { email, isLoading, isError, isSuccess, message } = useSelector(
-    (state: any) => state.auth,
+    (state: any) => state.auth
   );
 
   useEffect(() => {
@@ -30,7 +30,6 @@ const LoginPage = () => {
         icon: 'error',
         showConfirmButton: false,
       });
-      console.log(message);
     }
 
     if (isSuccess) {
@@ -45,7 +44,7 @@ const LoginPage = () => {
       navigate('/front/home');
     }
 
-  }, [isError, isSuccess, message, navigate, dispatch])
+  }, [isError, isSuccess, navigate, dispatch])
 
   const handleLoginClicked = () => {
     dispatch(login(formData) as any); //發送登入請求
@@ -88,6 +87,9 @@ const LoginPage = () => {
           position={'fixed'}
           bottom={'5%'}
           right={'5%'}
+          onClick={() => {
+            dispatch(reset());
+          }}
         >
           <AdminIcon />
         </Circle>

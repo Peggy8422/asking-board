@@ -21,8 +21,8 @@ const RegistPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state: any) => state.auth,
+  const { isLoading, isError, isSuccess, message } = useSelector(
+    (state: any) => state.auth
   );
 
   useEffect(() => {
@@ -34,10 +34,9 @@ const RegistPage = () => {
         icon: 'error',
         showConfirmButton: false,
       });
-      console.log(message);
     }
 
-    if (isSuccess || user) {
+    if (isSuccess) {
       Swal.fire({
         position: 'top',
         title: '註冊成功',
@@ -50,7 +49,7 @@ const RegistPage = () => {
     }
 
     // dispatch(reset())
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  }, [isError, isSuccess, message, navigate, dispatch]);
 
   const handleRegistClicked = () => {
     if (formData.password !== formData.confirmPassword) {
@@ -142,6 +141,9 @@ const RegistPage = () => {
           position={'fixed'}
           bottom={'5%'}
           right={'5%'}
+          onClick={() => {
+            dispatch(reset());
+          }}
         >
           <AdminIcon />
         </Circle>

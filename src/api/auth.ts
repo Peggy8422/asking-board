@@ -73,6 +73,7 @@ export const registRequest = async ({
 //登出：不需發API請求但放在此統一定義
 export const logout = () => {
   localStorage.removeItem('token');
+  localStorage.removeItem('currentUser');
 }
 
 

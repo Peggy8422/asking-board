@@ -1,4 +1,6 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { reset } from '../features/auth/authSlice';
 import { Link as ReactLink } from 'react-router-dom';
 import { 
   FormControl,
@@ -84,6 +86,8 @@ export const AuthSelect: React.FC<InputProps> = (props) => {
 
 
 const AuthForm: React.FC<AuthFormProps> = (props) => {
+  const dispatch = useDispatch();
+
   return (
     <Box
       position={'relative'}
@@ -148,6 +152,9 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
             fontWeight={'semibold'}
             as={ReactLink} 
             to={props.isUser ? (props.isOnRegist ? '/login' : '/regist') : '/login'}
+            onClick={() => {
+              dispatch(reset());
+            }}
           > {props.isUser ? 
               (props.isOnRegist ? '立即登入' : '立即註冊')
               :

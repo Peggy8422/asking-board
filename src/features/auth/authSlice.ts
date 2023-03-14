@@ -11,8 +11,8 @@ export interface initStateType {
 }
 
 //從localStorage取得存取的使用者資料&單獨email資料(為了註冊後導轉登入頁直接帶入email欄位)
-const user = JSON.parse(localStorage.getItem('user')!);
-const email = JSON.parse(localStorage.getItem('email')!);
+const user = JSON.parse(localStorage.getItem('currentUser')!);
+const email = user?.email;
 
 const initialState = {
   user: user || null,
@@ -59,9 +59,23 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
-        console.log(action.payload);
       })
       .addCase(login.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.user = null;
+        state.email = '';
+        state.message = action.payload;
+      })
+      .addCase(adminLogin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(adminLogin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(adminLogin.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.user = null;
@@ -89,6 +103,7 @@ export const login = createAsyncThunk('auth/login', async (user: loginParams, th
   const data = await loginRequest(user, 'users');
   if (data.status === "success") {
     localStorage.setItem('token', data.token);
+    localStorage.setItem('currentUser', JSON.stringify(data.user));
     return data.user;
   }
 
@@ -98,6 +113,18 @@ export const login = createAsyncThunk('auth/login', async (user: loginParams, th
 //非同步處理：登出，也是action creator
 export const logoutAct = createAsyncThunk('auth/logoutAct', async () => {
   logout();
+})
+
+//非同步處理：管理者登入，也是action creator
+export const adminLogin = createAsyncThunk('auth/adminLogin', async (user: loginParams, thunkAPI) => {
+  const data = await loginRequest(user, 'admin');
+  if (data.status === "success") {
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('currentUser', JSON.stringify(data.admin));
+    return data.admin;
+  }
+
+  return thunkAPI.rejectWithValue(data); //errormessage
 })
 
 // 基本的action creator

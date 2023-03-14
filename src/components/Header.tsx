@@ -1,4 +1,8 @@
+//工具
 import React from 'react';
+import { useSelector } from 'react-redux';
+
+//元件
 import { 
   Box, 
   Container, 
@@ -41,6 +45,7 @@ const SearchFilterMenu = () => {
 };
 
 const Header = () => {
+  const { user } = useSelector((state: any) => state.auth);
   return (
     <Box 
       position={'fixed'}
@@ -78,7 +83,7 @@ const Header = () => {
         </InputGroup>
         <Flex align={'center'} gap={3}>
           <BellIcon />
-          <Avatar name={'user name'} src={''} cursor={'pointer'} />
+          <Avatar name={'user name'} src={user.avatar} cursor={'pointer'} />
         </Flex>
       </Container>
     </Box>
