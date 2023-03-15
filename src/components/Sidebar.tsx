@@ -1,7 +1,11 @@
 //工具
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link as ReactLink, useNavigate } from 'react-router-dom';
+import {
+  Link as ReactLink,
+  NavLink as ReactNavLink,
+  useNavigate,
+} from 'react-router-dom';
 import { logoutAct, reset } from '../features/auth/authSlice';
 //元件
 import {
@@ -73,7 +77,7 @@ const UserNavList = () => {
         我要發問
       </Button>
       {/* 發問的modal */}
-      <AskingModal 
+      <AskingModal
         isOpen={isOpen}
         onClose={onClose}
         currentUserAvatar={'your avatar'}
@@ -88,6 +92,9 @@ const AdminNavList = () => {
   return (
     <Flex direction={'column'} align={'start'} gap={2} my={'5'}>
       <Button
+        as={ReactNavLink}
+        // style={}
+        to={'/admin_home'}
         leftIcon={<HomeIcon width={'20px'} fill={'#137547'} />}
         color={'brand.500'}
         colorScheme={'green'}
@@ -96,6 +103,8 @@ const AdminNavList = () => {
         問題列表
       </Button>
       <Button
+        as={ReactNavLink}
+        to={'/admin_users'}
         leftIcon={<UsersIcon width={'20px'} />}
         color={'brand.gray_1'}
         colorScheme={'green'}

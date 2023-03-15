@@ -1,12 +1,38 @@
-import React from 'react';
+//工具
+import React, { useState, useEffect } from 'react';
+import { getAllUsers } from '../api/adminRelated';
+import { useNavigate } from 'react-router-dom';
+//元件
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
-import { Box, Grid, GridItem, Heading, Container } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  Container,
+} from '@chakra-ui/react';
 
 //card元件
 import AllUsersCard from '../components/admin/AllUsersCard';
 
 const AdminUsersPage = () => {
+  const [usersData, setUsersData] = useState([]);
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const data = await getAllUsers(token!);
+      setUsersData(data);
+    };
+    if (!token) {
+      navigate('/admin_login');
+    }
+    getUsers();
+  }, [token, navigate]);
+
   return (
     <Box width={'100%'} height={'100vh'} overflowX={'hidden'}>
       <Header />
@@ -19,19 +45,47 @@ const AdminUsersPage = () => {
             <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
               所有用戶
             </Heading>
-            {/* map所有用戶的card */}
-            <AllUsersCard
-              avatar="123"
-              userName="莊珮琪"
-              account="peggy_test"
-              identity="學生"
-              followersCount={251}
-              followingsCount={10}
-              questionsCount={23}
-              repliesCount={300}
-              QLikedCount={500}
-              RLikedCount={45}
-            />
+            <Flex
+              position={'relative'}
+              pb={5}
+              mt={2}
+              px={5}
+              mr={-3}
+              left={-4}
+              h={'73vh'}
+              gap={5}
+              wrap={'wrap'}
+              overflowY={'scroll'}
+              sx={{
+                '::-webkit-scrollbar': {
+                  width: '6px',
+                  'background-color': 'transparent',
+                },
+                '::-webkit-scrollbar-thumb': {
+                  width: '6px',
+                  border: 'none',
+                  'border-radius': '3px',
+                  'background-color': 'var(--chakra-colors-brand-300)',
+                },
+              }}
+            >
+              {/* map所有用戶的card */}
+              {usersData.map((user: any) => (
+                <AllUsersCard
+                  key={user.id}
+                  avatar={user.avatar}
+                  userName={user.name}
+                  account="peggy_test"
+                  identity={user.role}
+                  followersCount={user.followerCount}
+                  followingsCount={user.followingCount}
+                  questionsCount={user.questionCount}
+                  repliesCount={user.replyCount}
+                  QLikedCount={user.likeCount}
+                  RLikedCount={45}
+                />
+              ))}
+            </Flex>
           </GridItem>
         </Grid>
       </Container>

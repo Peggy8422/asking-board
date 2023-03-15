@@ -1,7 +1,8 @@
 //工具
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllQuestions } from '../api/adminRelated';
+import { getAllQuestions, deleteQuestion } from '../api/adminRelated';
+import Swal from 'sweetalert2';
 //元件
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
@@ -19,8 +20,23 @@ import AllPostsCard from '../components/admin/AllPostsCard';
 
 const AdminPostsPage = () => {
   const [questions, setQuestions] = useState([]);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token')!;
   const navigate = useNavigate();
+
+  //刪除特定問題
+  const handleQuestionDeleted = async (id: number) => {
+    const { success } = await deleteQuestion(id, token) as {success: boolean};
+    if(success) {
+      Swal.fire({
+        position: 'top',
+        title: '刪除成功',
+        timer: 1000,
+        icon: 'success',
+        showConfirmButton: false,
+      });
+      setQuestions([...questions].filter((q: any) => q.id !== id));
+    }
+  }
 
   useEffect(() => {
     const getQuestions = async () => {
@@ -73,14 +89,16 @@ const AdminPostsPage = () => {
               {questions.map((q: any) => (
                 <AllPostsCard
                   key={q.id}
+                  Q_Id={q.id}
                   firstImg={''}
                   title={q.title}
                   content={q.description}
-                  avatar={q.User.id}
-                  account="peggy_test"
+                  avatar={q.User.avatar}
+                  account={q.User.account}
                   createdAt={q.createdAt}
                   likedCount={q.likeCount}
                   category={q.grade + q.subject}
+                  onDelete={handleQuestionDeleted}
                 />
               ))}
             </Flex>

@@ -14,7 +14,7 @@ export const getAllQuestions = async (token: string) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 //管理者取得所有使用者資料
 export const getAllUsers = async (token: string) => {
@@ -28,4 +28,23 @@ export const getAllUsers = async (token: string) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+//管理者刪除特定問題
+export const deleteQuestion = async (questionId: number, token: string) => {
+  try {
+    const { status } = await axios.delete(
+      `${baseURL}/admin/questions/${questionId}`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      },
+    );
+    if (status === 200) {
+      return { success: true };
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

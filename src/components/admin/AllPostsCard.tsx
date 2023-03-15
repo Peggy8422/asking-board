@@ -3,6 +3,7 @@ import { Box, Flex, Image, Text, Heading, Avatar, Tag, Badge } from '@chakra-ui/
 import { HeartIcon, CrossIcon } from '../../assets/icons';
 
 interface CardProps {
+  Q_Id: number;
   firstImg: string;
   title: string;
   content: string;
@@ -11,6 +12,7 @@ interface CardProps {
   createdAt: string;
   likedCount: number;
   category: string;
+  onDelete: (id: number) => Promise<void>;
 }
 
 const AllPostsCard: React.FC<CardProps> = (props) => {
@@ -41,7 +43,7 @@ const AllPostsCard: React.FC<CardProps> = (props) => {
         </Flex>
         <Text>{props.content}</Text>
       </Box>
-      <Box position={'absolute'} right={'0px'} top={'5px'} cursor={'pointer'}>
+      <Box position={'absolute'} right={'0px'} top={'5px'} cursor={'pointer'} onClick={() => props.onDelete?.(props.Q_Id)}>
         <CrossIcon width={'50px'}/>
       </Box>
       <Tag colorScheme={'green'} position={'absolute'} right={'15px'} bottom={'15px'} >{props.category}</Tag>
