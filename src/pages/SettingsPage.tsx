@@ -3,13 +3,15 @@ import { AuthInput, AuthSelect } from '../components/AuthForm';
 import { Box, Heading, FormControl, Button } from '@chakra-ui/react';
 
 const SettingsPage = () => {
-  const userData = JSON.parse(localStorage.getItem('users')!);
+  const userData = JSON.parse(localStorage.getItem('currentUser')!);
   const [formData, setFormData] = useState({
     email: userData.email,
     role: userData.role,
     password: '',
     confirmPassword: '',
   });
+
+  
 
   return (
     <Box w={'100%'}>

@@ -38,7 +38,7 @@ const HomePostCard: React.FC<CardProps> = (props) => {
             <Box>
               <Flex gap={3}>
                 <Text
-                  w={'200px'}
+                  // w={'200px'}
                   color={'brand.500'}
                   fontSize={'lg'}
                   fontWeight={'semibold'}

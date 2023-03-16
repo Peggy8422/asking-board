@@ -61,6 +61,8 @@ const UserNavList = () => {
         活躍用戶
       </Button>
       <Button
+        as={ReactNavLink}
+        to={'/front/settings'}
         leftIcon={<SettingIcon width={'20px'} />}
         color={'brand.gray_1'}
         colorScheme={'green'}

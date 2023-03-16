@@ -73,6 +73,7 @@ export const AuthSelect: React.FC<InputProps> = (props) => {
         borderBottomWidth={'2px'} 
         borderBottomColor={'brand.500'}
         variant={'flushed'} 
+        value={props.value}
         placeholder={props.placeholder}
         onChange={props.onChange}
       >

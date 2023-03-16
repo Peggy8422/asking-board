@@ -1,21 +1,46 @@
-import React from 'react';
+//工具
+import React, { useEffect, useState } from 'react';
+import { userGetAllQuestions } from '../api/questionRelated';
+
+//元件
 import { Outlet } from 'react-router-dom';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
-import { Box, Flex, Grid, GridItem, Heading, Container } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  Container,
+} from '@chakra-ui/react';
 
 //card元件
 import LatestPostCard from '../components/user/LatestPostCard';
 
 //Only for user related pages
 const Layout = () => {
+  const [latestQuestions, setLatestQuestions] = useState([]);
+  const token = localStorage.getItem('token')!;
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+
+  useEffect(() => {
+    const getLatestQuestions = async () => {
+      const data = await userGetAllQuestions(token);
+      setLatestQuestions(data.slice(0, 10));
+    };
+    if (!token) return;
+
+    getLatestQuestions();
+  }, [token]);
+
   return (
     <Box width={'100%'} height={'100vh'} overflow={'hidden'}>
       <Header />
-      <Container maxW={'container.xl'}> 
+      <Container maxW={'container.xl'}>
         <Grid templateColumns={'repeat(5, 1fr)'} h={'100vh'}>
           <GridItem colSpan={1} position={'relative'}>
-            <Sidebar userName="Peggy" isOnUserPages={true} />
+            <Sidebar userName={currentUser.name} isOnUserPages={true} />
           </GridItem>
           <GridItem colSpan={3} pt={'30px'} px={5} mt={'92px'}>
             {/* 前台User相關頁面 */}
@@ -57,61 +82,18 @@ const Layout = () => {
                 rowGap={5}
                 overflowY={'scroll'}
               >
-                <LatestPostCard
-                  avatar="123"
-                  userName="莊珮琪"
-                  account="peggy_test"
-                  identity="學生"
-                  category="國中一年級數學"
-                  title="關於XXXXX解法?......擠到第二行會變怎樣"
-                  createdAt="5秒前"
-                />
-                {/* test scroll用 */}
-                <LatestPostCard
-                  avatar="123"
-                  userName="莊珮琪"
-                  account="peggy_test"
-                  identity="學生"
-                  category="國中一年級數學"
-                  title="關於XXXXX解法?......擠到第二行會變怎樣"
-                  createdAt="5秒前"
-                />
-                <LatestPostCard
-                  avatar="123"
-                  userName="莊珮琪"
-                  account="peggy_test"
-                  identity="學生"
-                  category="國中一年級數學"
-                  title="關於XXXXX解法?......擠到第二行會變怎樣"
-                  createdAt="5秒前"
-                />
-                <LatestPostCard
-                  avatar="123"
-                  userName="莊珮琪"
-                  account="peggy_test"
-                  identity="學生"
-                  category="國中一年級數學"
-                  title="關於XXXXX解法?......擠到第二行會變怎樣"
-                  createdAt="5秒前"
-                />
-                <LatestPostCard
-                  avatar="123"
-                  userName="莊珮琪"
-                  account="peggy_test"
-                  identity="學生"
-                  category="國中一年級數學"
-                  title="關於XXXXX解法?......擠到第二行會變怎樣"
-                  createdAt="5秒前"
-                />
-                <LatestPostCard
-                  avatar="123"
-                  userName="莊珮琪"
-                  account="peggy_test"
-                  identity="學生"
-                  category="國中一年級數學"
-                  title="關於XXXXX解法?......擠到第二行會變怎樣"
-                  createdAt="5秒前"
-                />
+                {latestQuestions.map((q: any) => (
+                  <LatestPostCard
+                    key={q.id}
+                    avatar={q.User.avatar}
+                    userName={q.User.name}
+                    account={q.User.account}
+                    identity={q.User.role}
+                    category={q.grade + q.subject}
+                    title={q.title}
+                    createdAt={q.createdAt}
+                  />
+                ))}
               </Flex>
             </Box>
           </GridItem>

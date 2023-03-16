@@ -20,6 +20,7 @@ const LatestPostCard: React.FC<CardProps> = (props) => {
           <Box>
             <Flex align={'start'} gap={1}>
               <Text 
+                // w={'80%'}
                 color={'brand.500'}
                 fontWeight={'semibold'}
                 overflow={'hidden'}

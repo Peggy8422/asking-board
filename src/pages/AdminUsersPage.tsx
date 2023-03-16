@@ -12,6 +12,7 @@ import {
   GridItem,
   Heading,
   Container,
+  Spinner,
 } from '@chakra-ui/react';
 
 //card元件
@@ -19,13 +20,16 @@ import AllUsersCard from '../components/admin/AllUsersCard';
 
 const AdminUsersPage = () => {
   const [usersData, setUsersData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoading(true);
     const getUsers = async () => {
       const data = await getAllUsers(token!);
       setUsersData(data);
+      setIsLoading(false);
     };
     if (!token) {
       navigate('/admin_login');
@@ -70,21 +74,34 @@ const AdminUsersPage = () => {
               }}
             >
               {/* map所有用戶的card */}
-              {usersData.map((user: any) => (
-                <AllUsersCard
-                  key={user.id}
-                  avatar={user.avatar}
-                  userName={user.name}
-                  account="peggy_test"
-                  identity={user.role}
-                  followersCount={user.followerCount}
-                  followingsCount={user.followingCount}
-                  questionsCount={user.questionCount}
-                  repliesCount={user.replyCount}
-                  QLikedCount={user.likeCount}
-                  RLikedCount={45}
+              {isLoading ? (
+                <Spinner
+                  thickness="5px"
+                  speed="0.65s"
+                  emptyColor="gray.200"
+                  color="brand.300"
+                  size="xl"
+                  position={'absolute'}
+                  top={'40%'}
+                  left={'50%'}
                 />
-              ))}
+              ) : (
+                usersData.map((user: any) => (
+                  <AllUsersCard
+                    key={user.id}
+                    avatar={user.avatar}
+                    userName={user.name}
+                    account={user.account}
+                    identity={user.role}
+                    followersCount={user.followerCount}
+                    followingsCount={user.followingCount}
+                    questionsCount={user.questionCount}
+                    repliesCount={user.replyCount}
+                    QLikedCount={user.likeCount}
+                    RLikedCount={45}
+                  />
+                ))
+              )}
             </Flex>
           </GridItem>
         </Grid>
