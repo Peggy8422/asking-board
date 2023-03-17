@@ -92,17 +92,17 @@ const AdminPostsPage = () => {
               }}
             >
               {/* map所有問題的card */}
-              {isLoading ? (
-                <Box padding="6" boxShadow="lg" bg="white">
-                  <SkeletonText
-                    mt="4"
-                    noOfLines={4}
-                    spacing="4"
-                    skeletonHeight="2"
-                  />
-                </Box>
-              ) : (
-                questions.map((q: any) => (
+              {questions.map((q: any) =>
+                isLoading ? (
+                  <Box key={q.id} padding="6" boxShadow="lg" bg="white">
+                    <SkeletonText
+                      mt="4"
+                      noOfLines={4}
+                      spacing="4"
+                      skeletonHeight="2"
+                    />
+                  </Box>
+                ) : (
                   <AllPostsCard
                     key={q.id}
                     Q_Id={q.id}
@@ -116,7 +116,7 @@ const AdminPostsPage = () => {
                     category={q.grade + q.subject}
                     onDelete={handleQuestionDeleted}
                   />
-                ))
+                ),
               )}
             </Flex>
           </GridItem>

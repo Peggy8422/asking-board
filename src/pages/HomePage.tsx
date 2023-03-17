@@ -24,9 +24,10 @@ export const testWords = '';
 
 const HomePage = () => {
   const [activeCategory, setActiveCategory] = useState('全部');
-  const [activeJuniorTab, setActiveJuniorTab] = useState('全部');
+  const [activeSubjectTab, setActiveSubjectTab] = useState('全部');
+  const [activeGrade, setActiveGrade] = useState('國中全年級');
   const [isLoading, setIsLoading] = useState(false);
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState([]); //科目有選擇時要用filter改
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token')!;
@@ -45,6 +46,20 @@ const HomePage = () => {
     getAllQuestions();
   }, [token, navigate]);
 
+  const handleSubjectClicked = async (subject: string) => {
+    setIsLoading(true);
+    let data = await userGetAllQuestions(token, activeCategory, subject);
+    if (activeGrade !== '國中全年級') {
+      data = await userGetAllQuestions(token, activeGrade, subject);
+    }
+    if (subject === '') {
+      setQuestions(data);
+    } else {
+      setQuestions(data.filter((q: any) => q.subject === subject));
+    }
+    setIsLoading(false);
+  };
+
   return (
     <Box w={'100%'}>
       <Flex align={'start'} justify={'space-between'} bg={'white'}>
@@ -62,6 +77,21 @@ const HomePage = () => {
               borderColor={'brand.500'}
               borderRadius={'full'}
               display={'inline'}
+              value={activeGrade}
+              onChange={async (e) => {
+                setIsLoading(true);
+                let selectedOp = e.target.value; 
+                if (selectedOp === '國中全年級') {
+                  selectedOp = '國中';
+                }
+                setActiveGrade(selectedOp);
+                let data = await userGetAllQuestions(token, selectedOp, activeSubjectTab);
+                if (activeSubjectTab === '全部') {
+                  data = await userGetAllQuestions(token, selectedOp);
+                }
+                setQuestions(data);
+                setIsLoading(false);
+              }}
             >
               <option value="國中全年級">國中全年級</option>
               <option value="國中一年級">國中一年級</option>
@@ -72,8 +102,9 @@ const HomePage = () => {
         </Box>
         {activeCategory === '國中' && (
           <JuniorSubjectTabs
-            activeTab={activeJuniorTab}
-            setActiveTab={setActiveJuniorTab}
+            activeTab={activeSubjectTab}
+            setActiveTab={setActiveSubjectTab}
+            onSubjectClicked={handleSubjectClicked}
           />
         )}
         <ButtonGroup
@@ -93,11 +124,18 @@ const HomePage = () => {
                 onClick={async () => {
                   setIsLoading(true);
                   setActiveCategory(item);
-                  if (item === '其他') {
-                    const data = await userGetAllQuestions(token, item);
-                    setQuestions(data);
-                  } else if (item === '全部') {
+                  if (item === '全部') {
                     const data = await userGetAllQuestions(token);
+                    setQuestions(data);
+                  } else if (item === '國中' && activeSubjectTab !== '全部') {
+                    const data = await userGetAllQuestions(
+                      token,
+                      item,
+                      activeSubjectTab,
+                    );
+                    setQuestions(data);
+                  } else {
+                    const data = await userGetAllQuestions(token, item);
                     setQuestions(data);
                   }
                   setIsLoading(false);
@@ -134,28 +172,41 @@ const HomePage = () => {
         }}
       >
         {/* map所有問題的卡片 */}
-        {isLoading ? (
-          <Box padding="6" boxShadow="lg" bg="white">
-            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
-          </Box>
-        ) : (
-          questions.map((q: any) => (
-            <HomePostCard
-              key={q.id}
-              avatar={q.User.avatar}
-              userName={q.User.name}
-              account={q.User.account}
-              identity={q.User.role}
-              category={q.grade + q.subject}
-              title={q.title}
-              image={q.Images.url}
-              content={q.description}
-              createdAt={q.createdAt}
-              likedCount={q.likeCount}
-              isLiked={q.isLiked}
-            />
-          ))
-        )}
+        {
+          questions.length === 0 ?
+          <Heading
+            color={'brand.300'}
+            size={'lg'}
+          >目前尚無相關資料</Heading>
+          :
+          questions.map((q: any) =>
+            isLoading ? (
+              <Box key={q.id} padding="6" boxShadow="lg" bg="white">
+                <SkeletonText
+                  mt="4"
+                  noOfLines={4}
+                  spacing="4"
+                  skeletonHeight="2"
+                />
+              </Box>
+            ) : (
+              <HomePostCard
+                key={q.id}
+                avatar={q.User.avatar}
+                userName={q.User.name}
+                account={q.User.account}
+                identity={q.User.role}
+                category={q.grade + q.subject}
+                title={q.title}
+                image={q.Images.url}
+                content={q.description}
+                createdAt={q.createdAt}
+                likedCount={q.likeCount}
+                isLiked={q.isLiked}
+              />
+            ),
+          )
+        }
       </Flex>
     </Box>
   );

@@ -32,6 +32,9 @@ export const authSlice = createSlice({
       state.isError = false;
       state.isSuccess = false;
       state.message = '';
+    },
+    clearEmail: (state) => {
+      state.email = '';
     }
   },
   extraReducers: (builder) => {
@@ -129,5 +132,5 @@ export const adminLogin = createAsyncThunk('auth/adminLogin', async (user: login
 })
 
 // 基本的action creator
-export const {reset} = authSlice.actions;
+export const {reset, clearEmail} = authSlice.actions;
 export default authSlice.reducer;

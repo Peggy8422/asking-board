@@ -6,7 +6,7 @@ import {
   NavLink as ReactNavLink,
   useNavigate,
 } from 'react-router-dom';
-import { logoutAct, reset } from '../features/auth/authSlice';
+import { logoutAct, reset, clearEmail } from '../features/auth/authSlice';
 //元件
 import {
   Box,
@@ -158,6 +158,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
           onClick={() => {
             dispatch(logoutAct() as any);
             dispatch(reset());
+            dispatch(clearEmail());
           }}
         >
           登出

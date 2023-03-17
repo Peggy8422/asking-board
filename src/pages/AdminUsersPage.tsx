@@ -97,8 +97,8 @@ const AdminUsersPage = () => {
                     followingsCount={user.followingCount}
                     questionsCount={user.questionCount}
                     repliesCount={user.replyCount}
-                    QLikedCount={user.likeCount}
-                    RLikedCount={45}
+                    QLikedCount={user.questionLikedCount}
+                    RLikedCount={user.replyLikedCount}
                   />
                 ))
               )}

@@ -4,6 +4,7 @@ import { Flex, Button } from '@chakra-ui/react';
 interface TabsProps {
   activeTab: string;
   setActiveTab: (value: string) => void;
+  onSubjectClicked: (subject: string) => void;
 }
 
 const JuniorSubjectTabs: React.FC<TabsProps> = (props) => {
@@ -32,7 +33,12 @@ const JuniorSubjectTabs: React.FC<TabsProps> = (props) => {
           variant={props.activeTab === item ? 'solid' : 'outline'}
           boxShadow={'md'}
           onClick={() => {
-            props.setActiveTab(item)
+            props.setActiveTab(item);
+            if (item === '全部') {
+              props.onSubjectClicked('');
+            } else {
+              props.onSubjectClicked(item);
+            }
           }}
         >
           {item}
