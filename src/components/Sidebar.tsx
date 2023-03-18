@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import {
   Link as ReactLink,
   NavLink as ReactNavLink,
-  useNavigate,
 } from 'react-router-dom';
 import { logoutAct, reset, clearEmail } from '../features/auth/authSlice';
 //元件

@@ -10,6 +10,7 @@ interface CardProps {
   statistic: number;
   discription: string;
   isFollowed: boolean;
+  activeTab: string;
 }
 
 const ActiveUsersCard: React.FC<CardProps> = (props) => {
@@ -44,7 +45,15 @@ const ActiveUsersCard: React.FC<CardProps> = (props) => {
         <Text mt={2} noOfLines={3}>{props.discription}</Text>
       </CardBody>
       <CardFooter justify={'space-between'} p={3} pt={0}>
-        <Badge fontSize={'md'} variant={'subtle'} colorScheme={'green'} >追蹤者：{props.statistic}位</Badge>
+        <Badge fontSize={'md'} variant={'subtle'} colorScheme={'green'} >
+          {props.activeTab === '最多追蹤者' && '追蹤者：'}
+          {props.activeTab === '最常回答' && '回答數：'}
+          {props.activeTab === '回答讚數最多' && '回答讚數：'}
+          {props.statistic}
+          {props.activeTab === '最多追蹤者' && '位'}
+          {props.activeTab === '最常回答' && '則'}
+          {props.activeTab === '回答讚數最多' && '讚'}
+        </Badge>
         { props.isFollowed?
           (<Button
             size={'xs'}
