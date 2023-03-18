@@ -37,6 +37,8 @@ const UserNavList = () => {
   return (
     <Flex direction={'column'} align={'start'} gap={2} my={'5'}>
       <Button
+        as={ReactNavLink}
+        to={'/front/home'}
         leftIcon={<HomeIcon width={'20px'} fill={'#137547'} />}
         color={'brand.500'}
         colorScheme={'green'}
@@ -45,6 +47,8 @@ const UserNavList = () => {
         首頁
       </Button>
       <Button
+        as={ReactNavLink}
+        to={'/front/hot_issue'}
         leftIcon={<HotIcon width={'20px'} />}
         color={'brand.gray_1'}
         colorScheme={'green'}
@@ -53,6 +57,8 @@ const UserNavList = () => {
         熱門問題
       </Button>
       <Button
+        as={ReactNavLink}
+        to={'/front/active_users'}
         leftIcon={<UsersIcon width={'20px'} />}
         color={'brand.gray_1'}
         colorScheme={'green'}
