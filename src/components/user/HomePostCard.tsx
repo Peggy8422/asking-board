@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Card,
   CardBody,
@@ -13,6 +14,7 @@ import {
 import { HeartIcon, HeartOutlineIcon } from '../../assets/icons';
 
 interface CardProps {
+  id: number;
   avatar: string;
   userName: string;
   account: string;
@@ -30,9 +32,7 @@ const HomePostCard: React.FC<CardProps> = (props) => {
   return (
     <Card h={'40vh'} boxShadow={'lg'} borderRadius={'2xl'} p={2}>
       <CardBody overflow={'hidden'}>
-        <Flex align={'start'} 
-        justify={'space-between'}
-        >
+        <Flex align={'start'} justify={'space-between'}>
           <Flex gap={3}>
             <Avatar name={props.userName} src={props.avatar} />
             <Box>
@@ -103,10 +103,12 @@ const HomePostCard: React.FC<CardProps> = (props) => {
             {props.category}
           </Tag>
         </Flex>
-        {props.image && <Image mt={3} src={props.image} />}
-        <Text mt={3} noOfLines={3}>
-          {props.content}
-        </Text>
+        <Link to={`/front/reply/?reply_to=${props.id}`}>
+          {props.image && <Image mt={3} src={props.image} />}
+          <Text mt={3} noOfLines={3}>
+            {props.content}
+          </Text>
+        </Link>
       </CardBody>
     </Card>
   );

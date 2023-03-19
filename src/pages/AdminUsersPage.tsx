@@ -33,6 +33,7 @@ const AdminUsersPage = () => {
     };
     if (!token) {
       navigate('/admin_login');
+      return;
     }
     getUsers();
   }, [token, navigate]);

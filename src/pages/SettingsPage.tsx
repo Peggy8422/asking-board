@@ -22,8 +22,8 @@ interface errorDataType {
 const SettingsPage = () => {
   let userData = JSON.parse(localStorage.getItem('currentUser')!);
   const [formData, setFormData] = useState<formData>({
-    email: userData.email,
-    role: userData.role,
+    email: userData?.email,
+    role: userData?.role,
   });
   const [errorData, setErrorData] = useState<errorDataType>({
     status: false,

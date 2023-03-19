@@ -65,6 +65,7 @@ const HotIssuePage = () => {
       >
         {/* map所有問題的卡片 */}
         <HomePostCard
+          id={4}
           avatar="123"
           userName="我要測試如果名稱超長會怎樣我要測試如果名稱超長會怎樣"
           account="peggy_test"
@@ -78,6 +79,7 @@ const HotIssuePage = () => {
           isLiked={false}
         />
         <HomePostCard
+          id={4}
           avatar="123"
           userName="我要測試如果名稱超長會怎樣"
           account="peggy_test"

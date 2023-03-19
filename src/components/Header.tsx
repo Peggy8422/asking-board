@@ -83,7 +83,7 @@ const Header = () => {
         </InputGroup>
         <Flex align={'center'} gap={3}>
           <BellIcon />
-          <Avatar name={'user name'} src={user.avatar} cursor={'pointer'} />
+          <Avatar name={'user name'} src={user?.avatar} cursor={'pointer'} />
         </Flex>
       </Container>
     </Box>

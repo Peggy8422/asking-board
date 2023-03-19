@@ -18,10 +18,6 @@ import JuniorSubjectTabs from '../components/user/JuniorSubjectTabs';
 //card元件
 import HomePostCard from '../components/user/HomePostCard';
 
-/*--- 要刪掉的 ---*/
-//test用的假字資料
-export const testWords = '';
-
 const HomePage = () => {
   const [activeCategory, setActiveCategory] = useState('全部');
   const [activeSubjectTab, setActiveSubjectTab] = useState('全部');
@@ -192,6 +188,7 @@ const HomePage = () => {
             ) : (
               <HomePostCard
                 key={q.id}
+                id={q.id}
                 avatar={q.User.avatar}
                 userName={q.User.name}
                 account={q.User.account}

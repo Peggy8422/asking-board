@@ -21,6 +21,8 @@ const LoginPage = () => {
     (state: any) => state.auth
   );
 
+  const token = localStorage.getItem('token')!;
+
   useEffect(() => {
     if (isError) {
       Swal.fire({
@@ -44,7 +46,11 @@ const LoginPage = () => {
       navigate('/front/home');
     }
 
-  }, [isError, isSuccess, navigate, dispatch])
+    if (token) {
+      navigate('/front/home');
+    }
+
+  }, [isError, isSuccess, navigate, dispatch, token])
 
   const handleLoginClicked = () => {
     dispatch(login(formData) as any); //發送登入請求

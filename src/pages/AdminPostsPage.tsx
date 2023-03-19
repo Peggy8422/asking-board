@@ -51,6 +51,7 @@ const AdminPostsPage = () => {
     };
     if (!token) {
       navigate('/admin_login');
+      return;
     }
     getQuestions();
   }, [token, navigate]);
