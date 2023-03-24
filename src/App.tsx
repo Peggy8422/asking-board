@@ -37,6 +37,7 @@ const App: React.FC = () => {
             <Route path='hot_issue' element={<HotIssuePage />} />
             <Route path='active_users' element={<ActiveUsersPage />} />
             <Route path='profile' element={<UserProfilePage />} />
+            <Route path='profile_others' element={<UserProfilePage />} />
             <Route path='reply' element={<ReplyPage/>} />
           </Route>
         </Routes>

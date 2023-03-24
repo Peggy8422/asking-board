@@ -40,7 +40,7 @@ const AdminUsersPage = () => {
 
   return (
     <Box width={'100%'} height={'100vh'} overflowX={'hidden'}>
-      <Header />
+      <Header isAdmin={true} />
       <Container maxW={'container.xl'}>
         <Grid templateColumns={'repeat(5, 1fr)'} h={'100vh'}>
           <GridItem colSpan={1} position={'relative'}>

@@ -1,4 +1,9 @@
-import React from 'react';
+//工具
+import React, { useEffect, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import { getCurrentUserInfo, getOtherUsersInfo } from '../api/userRelated';
+
+//元件
 import {
   Box,
   Heading,
@@ -18,10 +23,49 @@ import LatestPostCard from '../components/user/LatestPostCard';
 import EditProfileModal from '../components/user/EditProfileModal';
 
 //test words
-const introTest = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Pellentesque venenatis a mauris in ullamcorper. Sed pulvinar augue egetturpis iaculis, quis semper erat vestibulum. Curabitur fermentumvehicula risus ut auctor. Integer volutpat, neque id tempor aliquet,dolor odio fringilla enim, ut tincidunt lorem leo eget nibh.';
+const introTest = '';
+
+const initUserInfo = {
+  id: 0,
+  name: '',
+  role: '',
+  avatar: '',
+  introduction: '',
+  questionCount: 0,
+  replyCount: 0,
+  questionLikedCount: 0,
+  replyLikedCount: 0,
+  followerCount: 0,
+  followingCount: 0,
+  account: '',
+};
 
 const UserProfilePage = () => {
+  const [userInfo, setUserInfo] = useState(initUserInfo);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [searchParams] = useSearchParams();
+  let location = useLocation();
+  console.log(location.pathname)
+
+  const token = localStorage.getItem('token')!;
+  //使用者id
+  const currentUserId = JSON.parse(localStorage.getItem('currentUser')!).id;
+  const otherUserId = Number(searchParams.get('userId'));
+
+  useEffect(() => {
+    let data;
+    const getUserInfo = async () => {
+      if (location.pathname === '/front/profile') {
+        data = await getOtherUsersInfo(token, currentUserId);
+        setUserInfo(data);
+      } else if (location.pathname === '/front/profile_others/') {
+        data = await getOtherUsersInfo(token, otherUserId);
+        setUserInfo(data);
+      }
+    };
+
+    getUserInfo();
+  }, [token, location.pathname, currentUserId, otherUserId]);
 
   return (
     <Box w={'100%'}>
@@ -45,14 +89,14 @@ const UserProfilePage = () => {
         <Avatar
           size={'2xl'}
           name={'Temp'}
-          src={''}
+          src={userInfo?.avatar || ''}
           border={'4px'}
           color={'white'}
         />
         <Box>
           <Flex align={'center'} gap={2}>
             <Heading as={'h2'} size={'lg'} color={'brand.500'}>
-              User_test
+              {userInfo?.name || ''}
             </Heading>
             <Tag
               size={'md'}
@@ -60,10 +104,10 @@ const UserProfilePage = () => {
               bg={'brand.400'}
               color={'white'}
             >
-              學生
+              {userInfo?.role || ''}
             </Tag>
           </Flex>
-          <Text color={'brand.gray_3'}>@userName</Text>
+          <Text color={'brand.gray_3'}>@{userInfo?.account || ''}</Text>
         </Box>
         <Badge
           position={'absolute'}
@@ -72,11 +116,11 @@ const UserProfilePage = () => {
           bg={'transparent'}
           color={'brand.500'}
         >
-          {123}個追蹤者 | {321}個追蹤中
+          {userInfo?.followerCount || 0}個追蹤者 | {userInfo?.followingCount || 0}個追蹤中
         </Badge>
       </Flex>
       <Text m={3} mt={-3}>
-        自我介紹：{introTest}
+        {userInfo?.introduction || ''}
       </Text>
       <Flex justify={'end'}>
         <Button
@@ -88,7 +132,14 @@ const UserProfilePage = () => {
         >
           編輯個人資料
         </Button>
-        <EditProfileModal isOpen={isOpen} onClose={onClose} currentUserAvatar={'123'} currentUserCover={'123'} currentUserName={'Peggy Test'} currentUserIntro={introTest} />
+        <EditProfileModal
+          isOpen={isOpen}
+          onClose={onClose}
+          currentUserAvatar={userInfo?.avatar || ''}
+          currentUserCover={'123'}
+          currentUserName={userInfo?.name || ''}
+          currentUserIntro={userInfo?.introduction || ''}
+        />
       </Flex>
 
       <Divider mt={3} borderColor={'brand.300'} />
@@ -117,7 +168,7 @@ const UserProfilePage = () => {
         <Box mb={6}>
           <Flex align={'center'} justify={'space-between'}>
             <Heading as={'h3'} size={'md'} color={'brand.500'}>
-              所有提問：{123}則
+              所有提問：{userInfo?.questionCount || 0}則
             </Heading>
             <Button
               size={'lg'}
@@ -132,6 +183,7 @@ const UserProfilePage = () => {
           <Flex gap={2}>
             {/* 排版用 */}
             <LatestPostCard
+              id={0}
               avatar="123"
               userName="莊珮琪"
               account="peggy_test"
@@ -141,6 +193,7 @@ const UserProfilePage = () => {
               createdAt="5秒前"
             />
             <LatestPostCard
+              id={0}
               avatar="123"
               userName="莊珮琪"
               account="peggy_test"
@@ -150,6 +203,7 @@ const UserProfilePage = () => {
               createdAt="5秒前"
             />
             <LatestPostCard
+              id={0}
               avatar="123"
               userName="莊珮琪"
               account="peggy_test"
@@ -179,6 +233,7 @@ const UserProfilePage = () => {
           <Flex gap={2}>
             {/* 排版用 */}
             <LatestPostCard
+              id={0}
               avatar="123"
               userName="莊珮琪"
               account="peggy_test"
@@ -188,6 +243,7 @@ const UserProfilePage = () => {
               createdAt="5秒前"
             />
             <LatestPostCard
+              id={0}
               avatar="123"
               userName="莊珮琪"
               account="peggy_test"
@@ -197,6 +253,7 @@ const UserProfilePage = () => {
               createdAt="5秒前"
             />
             <LatestPostCard
+              id={0}
               avatar="123"
               userName="莊珮琪"
               account="peggy_test"
@@ -226,6 +283,7 @@ const UserProfilePage = () => {
           <Flex gap={2}>
             {/* 排版用 */}
             <LatestPostCard
+              id={0}
               avatar="123"
               userName="莊珮琪"
               account="peggy_test"
@@ -235,6 +293,7 @@ const UserProfilePage = () => {
               createdAt="5秒前"
             />
             <LatestPostCard
+              id={0}
               avatar="123"
               userName="莊珮琪"
               account="peggy_test"
@@ -244,6 +303,7 @@ const UserProfilePage = () => {
               createdAt="5秒前"
             />
             <LatestPostCard
+              id={0}
               avatar="123"
               userName="莊珮琪"
               account="peggy_test"

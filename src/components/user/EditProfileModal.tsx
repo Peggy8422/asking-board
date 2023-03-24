@@ -128,7 +128,7 @@ const EditProfileModal: React.FC<ModalProps> = (props) => {
             size={'2xl'}
             border={'4px'}
             color={'white'}
-            name={props.currentUserAvatar}
+            src={props.currentUserAvatar}
           />
           <Popover>
             <PopoverTrigger>
@@ -164,7 +164,7 @@ const EditProfileModal: React.FC<ModalProps> = (props) => {
               borderBottomWidth={'2px'}
               borderBottomColor={'brand.500'}
               variant={'flushed'}
-              value={'123test'}
+              value={props.currentUserName}
               placeholder={'請輸入你的暱稱...'}
             />
             <FormHelperText position={'absolute'} right={0} fontSize={'xs'}>
@@ -176,7 +176,7 @@ const EditProfileModal: React.FC<ModalProps> = (props) => {
               自我介紹：
             </Text>
             <Textarea
-              value={'1234567890'}
+              value={props.currentUserIntro}
               placeholder="關於我..."
               size={'lg'}
               border={'none'}

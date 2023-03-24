@@ -173,7 +173,7 @@ const HomePage = () => {
           <Heading
             color={'brand.300'}
             size={'lg'}
-          >目前尚無相關資料</Heading>
+          >目前尚無相關提問</Heading>
           :
           questions.map((q: any) =>
             isLoading ? (
@@ -189,6 +189,7 @@ const HomePage = () => {
               <HomePostCard
                 key={q.id}
                 id={q.id}
+                userId={q.User.id}
                 avatar={q.User.avatar}
                 userName={q.User.name}
                 account={q.User.account}

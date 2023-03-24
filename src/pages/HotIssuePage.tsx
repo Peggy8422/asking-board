@@ -1,16 +1,37 @@
-import React, { useState } from 'react';
-import { Box, Flex, Heading, Button, ButtonGroup } from '@chakra-ui/react';
+//工具
+import React, { useState, useEffect } from 'react';
+import { getHotIssues } from '../api/questionRelated';
+
+//元件
+import {
+  Box,
+  Flex,
+  Heading,
+  Button,
+  ButtonGroup,
+  SkeletonText,
+} from '@chakra-ui/react';
 
 //card元件
 import HomePostCard from '../components/user/HomePostCard';
 
-/*--- 要刪掉的 ---*/ 
-//test用的假字資料
-const testWords='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque venenatis a mauris in ullamcorper. Sed pulvinar augue eget turpis iaculis, quis semper erat vestibulum. Curabitur fermentum vehicula risus ut auctor. Integer volutpat, neque id tempor aliquet, dolor odio fringilla enim, ut tincidunt lorem leo eget nibh. Suspendisse interdum lacus erat, eu tristique felis tristique sed. Curabitur in tellus eget neque vestibulum vestibulum. Maecenas porta orci quis felis sagittis, sed placerat erat eleifend. Nam ultrices congue turpis dictum porttitor. Quisque vulputate sem quis auctor faucibus. Nulla et mauris lectus.Integer ante erat, vulputate quis metus eu, ornare ultricies eros. In magna mauris, sodales vitae risus ut, bibendum maximus ante. Vivamus vel massa non est interdum viverra a vel quam. Nulla facilisis a eros et luctus. Nulla vehicula bibendum interdum. Suspendisse bibendum elit ornare lectus auctor suscipit. Aliquam posuere, ex vitae luctus efficitur, sapien nulla fermentum ex, vitae elementum justo ligula id dolor. Vestibulum elementum convallis urna, ac congue dolor. Vivamus porttitor, metus non porttitor aliquam, sapien urna dictum nulla, at pulvinar felis dolor eu tellus.'
-
-
 const HotIssuePage = () => {
-  const [activeCategory, setActiveCategory] = useState('國中');
+  const [activeCategory, setActiveCategory] = useState('全部');
+  const [questionsData, setQuestionsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const token = localStorage.getItem('token')!;
+
+  useEffect(() => {
+    setIsLoading(true);
+    const getQuestions = async () => {
+      const data = await getHotIssues(token);
+      setQuestionsData(data);
+      setIsLoading(false);
+    };
+
+    getQuestions();
+  }, [token]);
 
   return (
     <Box w={'100%'}>
@@ -32,6 +53,18 @@ const HotIssuePage = () => {
                 key={index}
                 color={activeCategory === item ? 'brand.500' : 'brand.gray_1'}
                 colorScheme={activeCategory === item ? 'green' : 'gray'}
+                onClick={async () => {
+                  setIsLoading(true);
+                  setActiveCategory(item);
+                  if (item === '全部') {
+                    const data = await getHotIssues(token);
+                    setQuestionsData(data);
+                  } else {
+                    const data = await getHotIssues(token, item);
+                    setQuestionsData(data);
+                  }
+                  setIsLoading(false);
+                }}
               >
                 {item}
               </Button>
@@ -46,52 +79,54 @@ const HotIssuePage = () => {
         px={5}
         mr={-3}
         left={-4}
-        h={activeCategory === '國中' ? '65vh' : '73vh'}
+        h={'73vh'}
         direction={'column'}
         rowGap={5}
         overflowY={'scroll'}
         sx={{
           '::-webkit-scrollbar': {
-            'width': '6px',
+            width: '6px',
             'background-color': 'transparent',
           },
           '::-webkit-scrollbar-thumb': {
-            'width': '6px',
-            'border': 'none',
+            width: '6px',
+            border: 'none',
             'border-radius': '3px',
             'background-color': 'var(--chakra-colors-brand-300)',
-          }
+          },
         }}
       >
         {/* map所有問題的卡片 */}
-        <HomePostCard
-          id={4}
-          avatar="123"
-          userName="我要測試如果名稱超長會怎樣我要測試如果名稱超長會怎樣"
-          account="peggy_test"
-          identity="學生"
-          category="國中一年級數學"
-          title="關於XXXXX解法?......擠到第二行會變怎樣"
-          image=''
-          content={testWords}
-          createdAt="5秒前"
-          likedCount={123}
-          isLiked={false}
-        />
-        <HomePostCard
-          id={4}
-          avatar="123"
-          userName="我要測試如果名稱超長會怎樣"
-          account="peggy_test"
-          identity="學生"
-          category="國中一年級數學"
-          title="關於XXXXX解法?......擠到第二行會變怎樣"
-          image=''
-          content={testWords}
-          createdAt="5秒前"
-          likedCount={123}
-          isLiked={true}
-        />
+
+        {questionsData.map((q: any) =>
+          isLoading ? (
+            <Box key={q.id} padding="6" boxShadow="lg" bg="white">
+              <SkeletonText
+                mt="4"
+                noOfLines={4}
+                spacing="4"
+                skeletonHeight="2"
+              />
+            </Box>
+          ) : (
+            <HomePostCard
+              key={q.id}
+              id={q.id}
+              userId={q.User.id}
+              avatar={q.User.avatar}
+              userName={q.User.name}
+              account={q.User.account}
+              identity={q.User.role}
+              category={q.grade + q.subject}
+              title={q.title}
+              image={q.Images.url}
+              content={q.description}
+              createdAt={q.createdAt}
+              likedCount={q.likeCount}
+              isLiked={q.isLiked}
+            />
+          )
+        )}
       </Flex>
     </Box>
   );

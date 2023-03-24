@@ -40,7 +40,7 @@ const Layout = () => {
 
   return (
     <Box width={'100%'} height={'100vh'} overflow={'hidden'}>
-      <Header />
+      <Header isAdmin={false} />
       <Container maxW={'container.xl'}>
         <Grid templateColumns={'repeat(5, 1fr)'} h={'100vh'}>
           <GridItem colSpan={1} position={'relative'}>
@@ -89,6 +89,7 @@ const Layout = () => {
                 {latestQuestions.map((q: any) => (
                   <LatestPostCard
                     key={q.id || ''}
+                    id={q.id || 0}
                     avatar={q.User.avatar || ''}
                     userName={q.User.name || ''}
                     account={q.User.account || ''}

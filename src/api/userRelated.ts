@@ -82,3 +82,36 @@ export const getMostLikedUsers = async (token: string) => {
   }
   
 }
+
+//個人資料頁面相關
+//取得當前使用者個人資料(含自我介紹)，修改個人資料用
+export const getCurrentUserInfo = async (token: string) => {
+  try {
+    const { status, data } = await axios.get(`${baseURL}/users`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    if (status === 200) {
+      return data.currentUser;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//取得用戶個人資料，[從頭貼點過去]
+export const getOtherUsersInfo = async (token: string, id: number) => {
+  try {
+    const { status, data } = await axios.get(`${baseURL}/users/${id}`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    if (status === 200) {
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}

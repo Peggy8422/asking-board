@@ -1,7 +1,12 @@
 //工具
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getQuestionDetail, getQuestionReplies } from '../api/questionRelated';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  getQuestionDetail,
+  getQuestionReplies,
+  postQuestionReply,
+} from '../api/questionRelated';
+import Swal from 'sweetalert2';
 
 //元件
 import {
@@ -50,12 +55,34 @@ const initQuestionData = {
 const ReplyPage = () => {
   const [questionData, setQuestionData] = useState(initQuestionData);
   const [repliesData, setRepliesData] = useState([]);
+  const [reply, setReply] = useState({
+    comment: '',
+    images: [],
+  });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const questionId = Number(searchParams.get('reply_to'));
 
   const token = localStorage.getItem('token')!;
+
+  const handleReplyPosted = async () => {
+    const status = await postQuestionReply(token, questionId, reply);
+    console.log(status);
+    if (status === 'success') {
+      Swal.fire({
+        position: 'top',
+        title: '成功送出回答',
+        timer: 1000,
+        icon: 'success',
+        showConfirmButton: false,
+      });
+      setReply({
+        comment: '',
+        images: [],
+      });
+    }
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -106,10 +133,12 @@ const ReplyPage = () => {
             <Text color={'brand.500'} fontSize={'lg'} fontWeight={'bold'}>
               提問者：
             </Text>
-            <Avatar
-              name={questionData.User.name}
-              src={questionData.User.avatar}
-            />
+            <Link to={questionData.User.name === '匿名' ? `/front/reply/?reply_to=${questionId}` : `/front/profile_others/?userId=${questionData.User.id}`} >
+              <Avatar
+                name={questionData.User.name}
+                src={questionData.User.avatar}
+              />
+            </Link>
             <Box>
               <Flex align={'start'} gap={2}>
                 <Text
@@ -154,9 +183,6 @@ const ReplyPage = () => {
           pb={5}
           mt={2}
           mx={-5}
-          // mr={-3}
-          // left={-4}
-          // right={-4}
           h={'70vh'}
           overflowY={'scroll'}
           overflowX={'hidden'}
@@ -197,9 +223,16 @@ const ReplyPage = () => {
               resize={'none'}
               rows={10}
               borderRadius={'xl'}
+              value={reply.comment}
+              onChange={(e) => setReply({ ...reply, comment: e.target.value })}
             />
             <Flex p={2} pr={5} justify={'end'}>
-              <Button size={'sm'} bg={'brand.500'} colorScheme={'green'}>
+              <Button
+                size={'sm'}
+                bg={'brand.500'}
+                colorScheme={'green'}
+                onClick={handleReplyPosted}
+              >
                 回覆
               </Button>
             </Flex>

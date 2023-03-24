@@ -1,5 +1,6 @@
 //工具
 import React from 'react';
+import { Link as ReactLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 //元件
@@ -44,7 +45,11 @@ const SearchFilterMenu = () => {
   );
 };
 
-const Header = () => {
+interface HeaderProps {
+  isAdmin: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({isAdmin}) => {
   const { user } = useSelector((state: any) => state.auth);
   return (
     <Box 
@@ -83,7 +88,7 @@ const Header = () => {
         </InputGroup>
         <Flex align={'center'} gap={3}>
           <BellIcon />
-          <Avatar name={'user name'} src={user?.avatar} cursor={'pointer'} />
+          <Avatar as={ReactLink} to={isAdmin ? '' : '/front/profile'} name={'user name'} src={user?.avatar} cursor={isAdmin ? 'not-allowed' : 'pointer'}  />
         </Flex>
       </Container>
     </Box>

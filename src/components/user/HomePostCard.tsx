@@ -15,6 +15,7 @@ import { HeartIcon, HeartOutlineIcon } from '../../assets/icons';
 
 interface CardProps {
   id: number;
+  userId: number;
   avatar: string;
   userName: string;
   account: string;
@@ -34,7 +35,9 @@ const HomePostCard: React.FC<CardProps> = (props) => {
       <CardBody overflow={'hidden'}>
         <Flex align={'start'} justify={'space-between'}>
           <Flex gap={3}>
-            <Avatar name={props.userName} src={props.avatar} />
+            <Link to={`/front/profile_others/?userId=${props.userId}`}>
+              <Avatar name={props.userName} src={props.avatar} />
+            </Link>
             <Box>
               <Flex gap={3}>
                 <Text
