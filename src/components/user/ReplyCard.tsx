@@ -47,7 +47,7 @@ const ReplyCard: React.FC<CardProps> = (props) => {
         <Flex gap={3}>
           <Text fontSize={'sm'} color={'brand.500'}>發佈於：{props.createdAt}</Text>
           <Flex direction={'column'} align={'center'}>
-            <IconButton isDisabled={props.isLiked}  size={'xs'} variant={'ghost'} aria-label='Liked this answer' icon={<ArrowUpIcon fill={props.isLiked ? '#C4C4C4' : '#137547'} />} />
+            <IconButton isDisabled={props.isLiked}  size={'xs'} variant={'ghost'} aria-label='Liked this answer' icon={<ArrowUpIcon fill={props.isLiked ? '#C4C4C4' : '#137547'} />}  />
             <Flex align={'center'} gap={2}>
               <ThumbsUpIcon fill={'#137547'} width={'20px'} />
               <Text fontSize={'md'} fontWeight={'bold'} color={'brand.500'}>{props.likedCount}</Text>

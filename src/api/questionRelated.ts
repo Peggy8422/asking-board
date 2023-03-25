@@ -80,3 +80,5 @@ export const postQuestionReply = async (token: string, id: number, reply: {}) =>
     console.log(error);
   }
 }
+
+//對特定回答按讚

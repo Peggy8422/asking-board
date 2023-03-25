@@ -2,7 +2,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Card, CardBody, Heading, Text, Avatar, Box, Flex, Tag } from '@chakra-ui/react';
+import {
+  Card,
+  CardBody,
+  Heading,
+  Text,
+  Avatar,
+  Box,
+  Flex,
+  Tag,
+} from '@chakra-ui/react';
 
 interface CardProps {
   id: number;
@@ -17,23 +26,25 @@ interface CardProps {
 
 const LatestPostCard: React.FC<CardProps> = (props) => {
   return (
-    <Link to={`/front/reply/?reply_to=${props.id}`}>
-      <Card borderRadius={'xl'} boxShadow={'lg'} cursor={'pointer'}>
-        <CardBody p={4} >
+    <Card borderRadius={'xl'} boxShadow={'lg'} cursor={'pointer'} flexBasis={'20vw'}>
+      <Link to={`/front/reply/?reply_to=${props.id}`}>
+        <CardBody p={4}>
           <Flex gap={1}>
             <Avatar size={'sm'} name={props.userName} src={props.avatar} />
             <Box>
               <Flex align={'start'} gap={1}>
-                <Text 
+                <Text
                   // w={'80%'}
                   color={'brand.500'}
                   fontWeight={'semibold'}
                   overflow={'hidden'}
                   whiteSpace={'nowrap'}
                   textOverflow={'ellipsis'}
-                >{props.userName}</Text>
-                <Tag 
-                  size={'sm'} 
+                >
+                  {props.userName}
+                </Text>
+                <Tag
+                  size={'sm'}
                   borderRadius={'full'}
                   bg={props.identity === '學生' ? 'brand.400' : 'brand.500'}
                   color={'white'}
@@ -41,7 +52,13 @@ const LatestPostCard: React.FC<CardProps> = (props) => {
                   {props.identity}
                 </Tag>
               </Flex>
-              <Text fontSize={'sm'} fontWeight={'medium'} color={'brand.gray_3'}>@{props.account}</Text>
+              <Text
+                fontSize={'sm'}
+                fontWeight={'medium'}
+                color={'brand.gray_3'}
+              >
+                @{props.account}
+              </Text>
             </Box>
           </Flex>
           <Heading
@@ -64,11 +81,13 @@ const LatestPostCard: React.FC<CardProps> = (props) => {
             >
               {props.category}
             </Tag>
-            <Text fontSize={'sm'} color={'brand.gray_3'} textAlign={'right'}>{props.createdAt}</Text>
+            <Text fontSize={'sm'} color={'brand.gray_3'} textAlign={'right'}>
+              {props.createdAt}
+            </Text>
           </Flex>
         </CardBody>
-      </Card>
-    </Link>
+      </Link>
+    </Card>
   );
 };
 

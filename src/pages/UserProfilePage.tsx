@@ -1,7 +1,12 @@
 //工具
 import React, { useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { getCurrentUserInfo, getOtherUsersInfo } from '../api/userRelated';
+import {
+  getOtherUsersInfo,
+  getUserAllQuestions,
+  getUserLikedQuestions,
+  getUserAllReplies,
+} from '../api/userRelated';
 
 //元件
 import {
@@ -22,9 +27,6 @@ import { RightArrowIcon, EditIcon } from '../assets/icons';
 import LatestPostCard from '../components/user/LatestPostCard';
 import EditProfileModal from '../components/user/EditProfileModal';
 
-//test words
-const introTest = '';
-
 const initUserInfo = {
   id: 0,
   name: '',
@@ -33,19 +35,25 @@ const initUserInfo = {
   introduction: '',
   questionCount: 0,
   replyCount: 0,
-  questionLikedCount: 0,
-  replyLikedCount: 0,
+  likeQuestionCount: 0,
   followerCount: 0,
   followingCount: 0,
   account: '',
 };
 
-const UserProfilePage = () => {
+interface ProfileProps {
+  isOnOthersPage: boolean;
+}
+
+const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
   const [userInfo, setUserInfo] = useState(initUserInfo);
+  //使用者的問題相關資料
+  const [userAllQs, setUserAllQs] = useState([]);
+  const [userLikedQs, setUserLikedQs] = useState([]);
+  const [userRepliedQs, setUserRepliedQs] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchParams] = useSearchParams();
   let location = useLocation();
-  console.log(location.pathname)
 
   const token = localStorage.getItem('token')!;
   //使用者id
@@ -61,10 +69,39 @@ const UserProfilePage = () => {
       } else if (location.pathname === '/front/profile_others/') {
         data = await getOtherUsersInfo(token, otherUserId);
         setUserInfo(data);
-      }
+      } else return;
     };
 
     getUserInfo();
+  }, [token, location.pathname, currentUserId, otherUserId, isOpen]);
+
+  //下半部資料
+  useEffect(() => {
+    let dataOne, dataTwo, dataThree;
+    const getUserQsRelated = async () => {
+      if (location.pathname === '/front/profile') {
+        dataOne = await getUserAllQuestions(token, currentUserId);
+        dataTwo = await getUserLikedQuestions(token, currentUserId);
+        dataThree = await getUserAllReplies(token, currentUserId);
+      } else if (location.pathname === '/front/profile_others/') {
+        dataOne = await getUserAllQuestions(token, otherUserId);
+        dataTwo = await getUserLikedQuestions(token, otherUserId);
+        dataThree = await getUserAllReplies(token, otherUserId);
+      } else return;
+      setUserAllQs(dataOne.slice(0, 3));
+      setUserLikedQs(dataTwo.map((item: any) => item.Question).slice(0, 3));
+      const set = new Set();
+      setUserRepliedQs(
+        dataThree
+          .filter((item: any) =>
+            !set.has(item.questionId) ? set.add(item.questionId) : false,
+          )
+          .map((item: any) => item.Question)
+          .slice(0, 3),
+      );
+    };
+
+    getUserQsRelated();
   }, [token, location.pathname, currentUserId, otherUserId]);
 
   return (
@@ -116,36 +153,39 @@ const UserProfilePage = () => {
           bg={'transparent'}
           color={'brand.500'}
         >
-          {userInfo?.followerCount || 0}個追蹤者 | {userInfo?.followingCount || 0}個追蹤中
+          {userInfo?.followerCount || 0}個追蹤者 |{' '}
+          {userInfo?.followingCount || 0}個追蹤中
         </Badge>
       </Flex>
       <Text m={3} mt={-3}>
         {userInfo?.introduction || ''}
       </Text>
-      <Flex justify={'end'}>
-        <Button
-          size={'sm'}
-          leftIcon={<EditIcon />}
-          bg={'brand.400'}
-          colorScheme={'green'}
-          onClick={onOpen}
-        >
-          編輯個人資料
-        </Button>
-        <EditProfileModal
-          isOpen={isOpen}
-          onClose={onClose}
-          currentUserAvatar={userInfo?.avatar || ''}
-          currentUserCover={'123'}
-          currentUserName={userInfo?.name || ''}
-          currentUserIntro={userInfo?.introduction || ''}
-        />
-      </Flex>
+      {!isOnOthersPage && (
+        <Flex justify={'end'}>
+          <Button
+            size={'sm'}
+            leftIcon={<EditIcon />}
+            bg={'brand.400'}
+            colorScheme={'green'}
+            onClick={onOpen}
+          >
+            編輯個人資料
+          </Button>
+          <EditProfileModal
+            isOpen={isOpen}
+            onClose={onClose}
+            currentUserAvatar={userInfo?.avatar}
+            currentUserCover={'123'}
+            currentUserName={userInfo?.name}
+            currentUserIntro={userInfo?.introduction}
+          />
+        </Flex>
+      )}
 
       <Divider mt={3} borderColor={'brand.300'} />
       <Box
         position={'relative'}
-        h={'31vh'}
+        h={isOnOthersPage ? '37vh' : '31vh'}
         pb={5}
         mt={3}
         px={3}
@@ -182,43 +222,26 @@ const UserProfilePage = () => {
           </Flex>
           <Flex gap={2}>
             {/* 排版用 */}
-            <LatestPostCard
-              id={0}
-              avatar="123"
-              userName="莊珮琪"
-              account="peggy_test"
-              identity="學生"
-              category="國中一年級數學"
-              title="關於XXXXX解法?......擠到第二行會變怎樣"
-              createdAt="5秒前"
-            />
-            <LatestPostCard
-              id={0}
-              avatar="123"
-              userName="莊珮琪"
-              account="peggy_test"
-              identity="學生"
-              category="國中一年級數學"
-              title="關於XXXXX解法?......擠到第二行會變怎樣"
-              createdAt="5秒前"
-            />
-            <LatestPostCard
-              id={0}
-              avatar="123"
-              userName="莊珮琪"
-              account="peggy_test"
-              identity="學生"
-              category="國中一年級數學"
-              title="關於XXXXX解法?......擠到第二行會變怎樣"
-              createdAt="5秒前"
-            />
+            {userAllQs.map((q: any) => (
+              <LatestPostCard
+                key={q.id}
+                id={q.id}
+                avatar={q.User.avatar}
+                userName={q.User.name}
+                account={q.User.account}
+                identity={q.User.role}
+                category={q.grade + q.subject}
+                title={q.title}
+                createdAt={q.createdAt}
+              />
+            ))}
           </Flex>
         </Box>
         {/* 區塊2：收藏的提問 */}
         <Box mb={6}>
           <Flex align={'center'} justify={'space-between'}>
             <Heading as={'h3'} size={'md'} color={'brand.500'}>
-              收藏的提問：{3}則
+              收藏的提問：{userInfo?.likeQuestionCount}則
             </Heading>
             <Button
               size={'lg'}
@@ -232,43 +255,26 @@ const UserProfilePage = () => {
           </Flex>
           <Flex gap={2}>
             {/* 排版用 */}
-            <LatestPostCard
-              id={0}
-              avatar="123"
-              userName="莊珮琪"
-              account="peggy_test"
-              identity="學生"
-              category="國中一年級數學"
-              title="關於XXXXX解法?......擠到第二行會變怎樣"
-              createdAt="5秒前"
-            />
-            <LatestPostCard
-              id={0}
-              avatar="123"
-              userName="莊珮琪"
-              account="peggy_test"
-              identity="學生"
-              category="國中一年級數學"
-              title="關於XXXXX解法?......擠到第二行會變怎樣"
-              createdAt="5秒前"
-            />
-            <LatestPostCard
-              id={0}
-              avatar="123"
-              userName="莊珮琪"
-              account="peggy_test"
-              identity="學生"
-              category="國中一年級數學"
-              title="關於XXXXX解法?......擠到第二行會變怎樣"
-              createdAt="5秒前"
-            />
+            {userLikedQs.map((q: any) => (
+              <LatestPostCard
+                key={q.id}
+                id={q.id}
+                avatar={q.User.avatar}
+                userName={q.User.name}
+                account={q.User.account}
+                identity={q.User.role}
+                category={q.grade + q.subject}
+                title={q.title}
+                createdAt={q.createdAt}
+              />
+            ))}
           </Flex>
         </Box>
         {/* 區塊3：回答過的提問 */}
         <Box mb={6}>
           <Flex align={'center'} justify={'space-between'}>
             <Heading as={'h3'} size={'md'} color={'brand.500'}>
-              回答過的提問：{4}則
+              回答過的提問：{userInfo?.replyCount}則
             </Heading>
             <Button
               size={'lg'}
@@ -282,36 +288,19 @@ const UserProfilePage = () => {
           </Flex>
           <Flex gap={2}>
             {/* 排版用 */}
-            <LatestPostCard
-              id={0}
-              avatar="123"
-              userName="莊珮琪"
-              account="peggy_test"
-              identity="學生"
-              category="國中一年級數學"
-              title="關於XXXXX解法?......擠到第二行會變怎樣"
-              createdAt="5秒前"
-            />
-            <LatestPostCard
-              id={0}
-              avatar="123"
-              userName="莊珮琪"
-              account="peggy_test"
-              identity="學生"
-              category="國中一年級數學"
-              title="關於XXXXX解法?......擠到第二行會變怎樣"
-              createdAt="5秒前"
-            />
-            <LatestPostCard
-              id={0}
-              avatar="123"
-              userName="莊珮琪"
-              account="peggy_test"
-              identity="學生"
-              category="國中一年級數學"
-              title="關於XXXXX解法?......擠到第二行會變怎樣"
-              createdAt="5秒前"
-            />
+            {userRepliedQs.map((q: any) => (
+              <LatestPostCard
+                key={q.id}
+                id={q.id}
+                avatar={q.User.avatar}
+                userName={q.User.name}
+                account={q.User.account}
+                identity={q.User.role}
+                category={q.grade + q.subject}
+                title={q.title}
+                createdAt={q.createdAt}
+              />
+            ))}
           </Flex>
         </Box>
       </Box>

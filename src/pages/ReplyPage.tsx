@@ -59,6 +59,7 @@ const ReplyPage = () => {
     comment: '',
     images: [],
   });
+  const [isReplySubmmited, setIsReplySubmmited] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -81,6 +82,8 @@ const ReplyPage = () => {
         comment: '',
         images: [],
       });
+      setIsReplySubmmited(true);
+      setQuestionData({...questionData, replyCount: questionData.replyCount + 1});
     }
   };
 
@@ -97,6 +100,22 @@ const ReplyPage = () => {
     if (!token) return;
     getQuestion();
   }, [token, questionId]);
+
+  //成功送出回答後重新撈取所有回答內容
+  useEffect(() => {
+    if (isReplySubmmited) {
+      const getRepliesAgain = async () => {
+        const replies = await getQuestionReplies(token, questionId);
+        setRepliesData(replies);
+      };
+      getRepliesAgain();
+    }
+    if (!token) return;
+
+    return () => {
+      setIsReplySubmmited(false);
+    };
+  }, [token, questionId, isReplySubmmited]);
 
   return (
     <Box w={'100%'}>
@@ -133,7 +152,13 @@ const ReplyPage = () => {
             <Text color={'brand.500'} fontSize={'lg'} fontWeight={'bold'}>
               提問者：
             </Text>
-            <Link to={questionData.User.name === '匿名' ? `/front/reply/?reply_to=${questionId}` : `/front/profile_others/?userId=${questionData.User.id}`} >
+            <Link
+              to={
+                questionData.User.name === '匿名'
+                  ? `/front/reply/?reply_to=${questionId}`
+                  : `/front/profile_others/?userId=${questionData.User.id}`
+              }
+            >
               <Avatar
                 name={questionData.User.name}
                 src={questionData.User.avatar}

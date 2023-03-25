@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -72,6 +72,13 @@ interface ModalProps {
 }
 
 const EditProfileModal: React.FC<ModalProps> = (props) => {
+  const [userInfo, setUserInfo] = useState({
+    cover: props.currentUserCover,
+    avatar: props.currentUserAvatar,
+    name: props.currentUserName,
+    introduction: props.currentUserIntro
+  });
+
   return (
     <Modal
       size={'3xl'}
@@ -98,7 +105,7 @@ const EditProfileModal: React.FC<ModalProps> = (props) => {
         <Image
           h={'35vh'}
           bg={'brand.gray_1'}
-          src={props.currentUserCover}
+          src={userInfo.cover}
           objectFit={'cover'}
         />
         <Popover>
@@ -128,7 +135,7 @@ const EditProfileModal: React.FC<ModalProps> = (props) => {
             size={'2xl'}
             border={'4px'}
             color={'white'}
-            src={props.currentUserAvatar}
+            src={userInfo.avatar}
           />
           <Popover>
             <PopoverTrigger>
@@ -147,7 +154,7 @@ const EditProfileModal: React.FC<ModalProps> = (props) => {
           </Popover>
         </Box>
         <ModalBody mt={-10} zIndex={-1}>
-          <FormControl display={'flex'} alignItems={'center'}>
+          <FormControl display={'flex'} alignItems={'center'} >
             {/* 暱稱 */}
             <FormLabel
               w={'60px'}
@@ -164,11 +171,12 @@ const EditProfileModal: React.FC<ModalProps> = (props) => {
               borderBottomWidth={'2px'}
               borderBottomColor={'brand.500'}
               variant={'flushed'}
-              value={props.currentUserName}
+              // defaultValue={props.currentUserName}
+              value={userInfo.name}
               placeholder={'請輸入你的暱稱...'}
             />
             <FormHelperText position={'absolute'} right={0} fontSize={'xs'}>
-              0/50
+              {props.currentUserName.length}/50
             </FormHelperText>
           </FormControl>
           <Box mt={5}>
@@ -176,7 +184,8 @@ const EditProfileModal: React.FC<ModalProps> = (props) => {
               自我介紹：
             </Text>
             <Textarea
-              value={props.currentUserIntro}
+              // defaultValue={props.currentUserIntro}
+              value={userInfo.introduction}
               placeholder="關於我..."
               size={'lg'}
               border={'none'}

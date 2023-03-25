@@ -115,3 +115,52 @@ export const getOtherUsersInfo = async (token: string, id: number) => {
     console.log(error);
   }
 }
+
+//取得特定用戶的所有提問
+export const getUserAllQuestions = async (token: string, id: number) => {
+  try {
+    const { status, data } = await axios.get(`${baseURL}/users/${id}/questions`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    if (status === 200) {
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//取得特定用戶收藏的問題
+export const getUserLikedQuestions = async (token: string, id: number) => {
+  try {
+    const { status, data } = await axios.get(`${baseURL}/users/${id}/likes`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    if (status === 200) {
+      return data;
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//取得特定用戶所有發過的回答
+export const getUserAllReplies = async (token: string, id: number) => {
+  try {
+    const { status, data } = await axios.get(`${baseURL}/users/${id}/replies`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    if (status === 200) {
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
