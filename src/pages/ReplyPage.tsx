@@ -89,7 +89,6 @@ const ReplyPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    console.log(questionId);
     const getQuestion = async () => {
       const data = await getQuestionDetail(token, questionId);
       const replies = await getQuestionReplies(token, questionId);

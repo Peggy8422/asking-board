@@ -81,4 +81,40 @@ export const postQuestionReply = async (token: string, id: number, reply: {}) =>
   }
 }
 
+//收藏特定問題
+export const postLikedQuestion = async (token: string, id: number) => {
+  try {
+    const { status } = await axios({
+      method: 'POST',
+      url: `${baseURL}/questions/${id}/like`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    });
+
+    return status;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//取消收藏特定問題
+export const deleteLikedQuestion = async (token: string, id: number) => {
+  try {
+    const { status } = await axios({
+      method: 'DELETE',
+      url: `${baseURL}/questions/${id}/like`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    });
+
+    return status;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 //對特定回答按讚
+
+//對特定問題取消讚

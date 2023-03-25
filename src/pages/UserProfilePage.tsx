@@ -1,6 +1,10 @@
 //工具
 import React, { useEffect, useState } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import {
+  Link as ReactLink,
+  useLocation,
+  useSearchParams,
+} from 'react-router-dom';
 import {
   getOtherUsersInfo,
   getUserAllQuestions,
@@ -211,6 +215,9 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               所有提問：{userInfo?.questionCount || 0}則
             </Heading>
             <Button
+              as={ReactLink}
+              to={`/front/user/all_questions/?userId=${otherUserId}`} 
+              state={{isOnOthersPage}}
               size={'lg'}
               rightIcon={<RightArrowIcon />}
               variant={'ghost'}
@@ -244,6 +251,9 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               收藏的提問：{userInfo?.likeQuestionCount}則
             </Heading>
             <Button
+              as={ReactLink}
+              to={`/front/user/liked_questions/?userId=${otherUserId}`} 
+              state={{isOnOthersPage}}
               size={'lg'}
               rightIcon={<RightArrowIcon />}
               variant={'ghost'}
@@ -277,6 +287,9 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               回答過的提問：{userInfo?.replyCount}則
             </Heading>
             <Button
+              as={ReactLink}
+              to={`/front/user/replied_questions/?userId=${otherUserId}`} 
+              state={{isOnOthersPage}}
               size={'lg'}
               rightIcon={<RightArrowIcon />}
               variant={'ghost'}

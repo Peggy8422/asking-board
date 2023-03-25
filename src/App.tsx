@@ -12,6 +12,7 @@ import HotIssuePage from './pages/HotIssuePage';
 import ActiveUsersPage from './pages/ActiveUsersPage';
 import UserProfilePage from './pages/UserProfilePage';
 import ReplyPage from './pages/ReplyPage';
+import UserQuestionsPage from './pages/UserQuestionsPage';
 //Admin pages
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminPostsPage from './pages/AdminPostsPage';
@@ -39,6 +40,9 @@ const App: React.FC = () => {
             <Route path='profile' element={<UserProfilePage isOnOthersPage={false} />} />
             <Route path='profile_others' element={<UserProfilePage isOnOthersPage={true} />} />
             <Route path='reply' element={<ReplyPage/>} />
+            <Route path='user/all_questions' element={<UserQuestionsPage />} />
+            <Route path='user/liked_questions' element={<UserQuestionsPage />} />
+            <Route path='user/replied_questions' element={<UserQuestionsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

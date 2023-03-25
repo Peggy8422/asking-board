@@ -1,4 +1,8 @@
-import React from 'react';
+//工具
+import React, { useState } from 'react';
+import { postLikedQuestion, deleteLikedQuestion } from '../../api/questionRelated';
+
+//元件
 import { Link } from 'react-router-dom';
 import {
   Card,
@@ -30,6 +34,30 @@ interface CardProps {
 }
 
 const HomePostCard: React.FC<CardProps> = (props) => {
+  const [isLikedLocal, setIsLikedLocal] = useState(props.isLiked);
+  const [likedCountLocal, setLikedCountLocal] = useState(props.likedCount);
+
+  const token = localStorage.getItem('token')!;
+
+  //按收藏
+  const handleLikePost = async () => {
+    console.log('is Clicking!')
+    const status = await postLikedQuestion(token, props.id);
+    if (status === 200) {
+      setIsLikedLocal(true);
+      setLikedCountLocal(likedCountLocal + 1);
+    } else return;
+  }
+
+  //取消收藏
+  const handleLikeDelete = async () => {
+    const status = await deleteLikedQuestion(token, props.id);
+    if (status === 200) {
+      setIsLikedLocal(false);
+      setLikedCountLocal(likedCountLocal - 1);
+    } else return;
+  }
+
   return (
     <Card h={'40vh'} boxShadow={'lg'} borderRadius={'2xl'} p={2}>
       <CardBody overflow={'hidden'}>
@@ -79,14 +107,14 @@ const HomePostCard: React.FC<CardProps> = (props) => {
                 fontWeight={'semibold'}
                 color={'brand.gray_3'}
               >
-                {props.likedCount}個收藏
+                {likedCountLocal}個收藏
               </Text>
             </Box>
             <Box cursor={'pointer'}>
-              {props.isLiked ? (
-                <HeartIcon fill="#FF4752" width={'37px'} />
+              {isLikedLocal ? (
+                <HeartIcon fill="#FF4752" width={'37px'} onClick={handleLikeDelete} />
               ) : (
-                <HeartOutlineIcon />
+                <HeartOutlineIcon onClick={handleLikePost} />
               )}
             </Box>
           </Flex>
