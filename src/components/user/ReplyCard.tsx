@@ -1,8 +1,13 @@
-import React from 'react';
+//工具
+import React, { useState } from 'react';
+import { postLikedReply, deleteLikedReply } from '../../api/questionRelated';
+
+//元件
 import { Box, Flex, Text, Avatar, Tag, IconButton } from '@chakra-ui/react';
 import { ThumbsUpIcon, ArrowUpIcon, ArrowDownIcon } from '../../assets/icons';
 
 interface CardProps {
+  id: number;
   avatar: string;
   userName: string;
   account: string;
@@ -14,6 +19,29 @@ interface CardProps {
 }
 
 const ReplyCard: React.FC<CardProps> = (props) => {
+  const [isLikedLocal, setIsLikedLocal] = useState(props.isLiked);
+  const [likedCountLocal, setLikedCountLocal] = useState(props.likedCount);
+
+  const token = localStorage.getItem('token')!;
+
+  //按讚
+  const handleLikePost = async () => {
+    const status = await postLikedReply(token, props.id);
+    if (status === 200) {
+      setIsLikedLocal(true);
+      setLikedCountLocal(likedCountLocal + 1);
+    } else return;
+  }
+
+  //取消按讚
+  const handleLikeDelete = async () => {
+    const status = await deleteLikedReply(token, props.id);
+    if (status === 200) {
+      setIsLikedLocal(false);
+      setLikedCountLocal(likedCountLocal - 1);
+    } else return;
+  }
+
   return (
     <Box p={5} borderBottom={'1px'} borderBottomColor={'brand.300'}>
       <Flex justify={'space-between'}>
@@ -47,12 +75,12 @@ const ReplyCard: React.FC<CardProps> = (props) => {
         <Flex gap={3}>
           <Text fontSize={'sm'} color={'brand.500'}>發佈於：{props.createdAt}</Text>
           <Flex direction={'column'} align={'center'}>
-            <IconButton isDisabled={props.isLiked}  size={'xs'} variant={'ghost'} aria-label='Liked this answer' icon={<ArrowUpIcon fill={props.isLiked ? '#C4C4C4' : '#137547'} />}  />
+            <IconButton isDisabled={isLikedLocal}  size={'xs'} variant={'ghost'} aria-label='Liked this answer' icon={<ArrowUpIcon fill={isLikedLocal ? '#C4C4C4' : '#137547'} />} onClick={handleLikePost} />
             <Flex align={'center'} gap={2}>
               <ThumbsUpIcon fill={'#137547'} width={'20px'} />
-              <Text fontSize={'md'} fontWeight={'bold'} color={'brand.500'}>{props.likedCount}</Text>
+              <Text fontSize={'md'} fontWeight={'bold'} color={'brand.500'}>{likedCountLocal}</Text>
             </Flex>
-            <IconButton isDisabled={!props.isLiked} size={'xs'} variant={'ghost'} aria-label='Liked this answer' icon={<ArrowDownIcon fill={props.isLiked ? '#137547' : '#C4C4C4'} />} />
+            <IconButton isDisabled={!isLikedLocal} size={'xs'} variant={'ghost'} aria-label='Liked this answer' icon={<ArrowDownIcon fill={isLikedLocal ? '#137547' : '#C4C4C4'} />} onClick={handleLikeDelete} />
           </Flex>
         </Flex>
       </Flex>

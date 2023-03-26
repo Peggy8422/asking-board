@@ -266,6 +266,7 @@ const ReplyPage = () => {
           {repliesData.map((r: any) => (
             <ReplyCard
               key={r.id}
+              id={r.id}
               avatar={r.User.avatar}
               userName={r.User.name}
               account={r.User.account}

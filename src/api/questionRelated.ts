@@ -116,5 +116,33 @@ export const deleteLikedQuestion = async (token: string, id: number) => {
 }
 
 //對特定回答按讚
+export const postLikedReply = async (token: string, id: number) => {
+  try {
+    const { status } = await axios({
+      method: 'POST',
+      url: `${baseURL}/replies/${id}/like`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    });
+    return status;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 //對特定問題取消讚
+export const deleteLikedReply = async (token: string, id: number) => {
+  try {
+    const { status } = await axios({
+      method: 'DELETE',
+      url: `${baseURL}/replies/${id}/like`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    });
+    return status;
+  } catch (error) {
+    console.log(error);
+  }
+}

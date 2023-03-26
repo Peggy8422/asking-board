@@ -43,7 +43,6 @@ const HomePostCard: React.FC<CardProps> = (props) => {
 
   //按收藏
   const handleLikePost = async () => {
-    console.log('is Clicking!')
     const status = await postLikedQuestion(token, props.id);
     if (status === 200) {
       setIsLikedLocal(true);
