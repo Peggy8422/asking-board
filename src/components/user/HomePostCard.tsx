@@ -38,6 +38,8 @@ const HomePostCard: React.FC<CardProps> = (props) => {
   const [likedCountLocal, setLikedCountLocal] = useState(props.likedCount);
 
   const token = localStorage.getItem('token')!;
+  const currentUserId = JSON.parse(localStorage.getItem('currentUser')!).id;
+
 
   //按收藏
   const handleLikePost = async () => {
@@ -63,7 +65,7 @@ const HomePostCard: React.FC<CardProps> = (props) => {
       <CardBody overflow={'hidden'}>
         <Flex align={'start'} justify={'space-between'}>
           <Flex gap={3}>
-            <Link to={`/front/profile_others/?userId=${props.userId}`}>
+            <Link to={props.userId === currentUserId ? '/front/profile' : `/front/profile_others/?userId=${props.userId}`}>
               <Avatar name={props.userName} src={props.avatar} />
             </Link>
             <Box>

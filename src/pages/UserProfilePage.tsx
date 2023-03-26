@@ -157,8 +157,19 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
           bg={'transparent'}
           color={'brand.500'}
         >
-          {userInfo?.followerCount || 0}個追蹤者 |{' '}
-          {userInfo?.followingCount || 0}個追蹤中
+          <ReactLink
+            to={`/front/user/follow/?userId=${otherUserId}`}
+            state={{ isOnOthersPage, active: '追蹤者', userName: userInfo.name }}
+          >
+            {userInfo?.followerCount || 0}個追蹤者
+          </ReactLink>
+          {' '}|{' '}
+          <ReactLink
+            to={`/front/user/follow/?userId=${otherUserId}`}
+            state={{ isOnOthersPage, active: '追蹤中', userName: userInfo.name }}
+          >
+            {userInfo?.followingCount || 0}個追蹤中
+          </ReactLink>
         </Badge>
       </Flex>
       <Text m={3} mt={-3}>
@@ -216,8 +227,8 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
             </Heading>
             <Button
               as={ReactLink}
-              to={`/front/user/all_questions/?userId=${otherUserId}`} 
-              state={{isOnOthersPage}}
+              to={`/front/user/all_questions/?userId=${otherUserId}`}
+              state={{ isOnOthersPage }}
               size={'lg'}
               rightIcon={<RightArrowIcon />}
               variant={'ghost'}
@@ -252,8 +263,8 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
             </Heading>
             <Button
               as={ReactLink}
-              to={`/front/user/liked_questions/?userId=${otherUserId}`} 
-              state={{isOnOthersPage}}
+              to={`/front/user/liked_questions/?userId=${otherUserId}`}
+              state={{ isOnOthersPage }}
               size={'lg'}
               rightIcon={<RightArrowIcon />}
               variant={'ghost'}
@@ -288,8 +299,8 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
             </Heading>
             <Button
               as={ReactLink}
-              to={`/front/user/replied_questions/?userId=${otherUserId}`} 
-              state={{isOnOthersPage}}
+              to={`/front/user/replied_questions/?userId=${otherUserId}`}
+              state={{ isOnOthersPage }}
               size={'lg'}
               rightIcon={<RightArrowIcon />}
               variant={'ghost'}

@@ -95,6 +95,7 @@ const ActiveUsersPage = () => {
       </Flex>
       <Flex
         align={'start'}
+        alignContent={'flex-start'}
         wrap={'wrap'}
         position={'relative'}
         pb={5}
@@ -118,7 +119,7 @@ const ActiveUsersPage = () => {
           },
         }}
       >
-        {/* map所有問題的卡片 */}
+        {/* map所有使用者的卡片 */}
         {isLoading ? (
           <Spinner
             thickness="5px"
@@ -134,12 +135,13 @@ const ActiveUsersPage = () => {
           usersData.map((user: any) => 
             <ActiveUsersCard
             key={user.id}
+            id={user.id}
             avatar={user.avatar}
             userName={user.name}
             account={user.account}
             identity={user.role}
             statistic={user.followerCount || user.likedCount || user.replyCount}
-            discription="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque venenatis a mauris in ullamcorper. Sed pulvinar augue eget turpis iaculis, quis semper erat vestibulum. Curabitur fermentum vehicula risus ut auctor. Integer volutpat, neque id tempor aliquet, dolor odio fringilla enim, ut tincidunt lorem leo eget nibh. Suspendisse interdum lacus erat, eu tristique felis tristique sed. Curabitur in tellus eget neque vestibulum vestibulum. Maecenas porta orci quis felis sagittis, sed placerat erat eleifend."
+            discription={user.introduction}
             isFollowed={user.isFollowed}
             activeTab={activeTab}
           />

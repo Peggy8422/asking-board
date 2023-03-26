@@ -93,11 +93,11 @@ const UserQuestionsPage = () => {
         <GoBackIcon onClick={() => navigate(-1)} />
         <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
           {pathname === '/front/user/all_questions/' &&
-            (state.isOnOthersPage ? otherUserName : '你') + ' 的所有提問'}
+            (state.isOnOthersPage ? otherUserName : '你') + '的所有提問'}
           {pathname === '/front/user/liked_questions/' &&
-            (state.isOnOthersPage ? otherUserName : '你') + ' 收藏的提問'}
+            (state.isOnOthersPage ? otherUserName : '你') + '收藏的提問'}
           {pathname === '/front/user/replied_questions/' &&
-            (state.isOnOthersPage ? otherUserName : '你') + ' 回答過的提問'}
+            (state.isOnOthersPage ? otherUserName : '你') + '回答過的提問'}
         </Heading>
       </Flex>
       <Flex
