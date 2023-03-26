@@ -33,10 +33,12 @@ export const getUserFollowings = async (token: string, id: number) => {
 //追蹤特定使用者
 export const postFollowedUser = async (token: string, id: number) => {
   try {
-    const { status } = await axios.post(`${baseURL}/followships/${id}`, {
+    const { status } = await axios({
+      method: 'POST',
+      url: `${baseURL}/followships/${id}`,
       headers: {
-        Authorization: 'Bearer ' + token,
-      },
+        'Authorization': `Bearer ${token}`,
+      }
     });
     return status;
   } catch (error) {

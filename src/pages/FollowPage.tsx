@@ -19,7 +19,6 @@ import ActiveUsersCard from '../components/user/ActiveUsersCard';
 
 const FollowPage = () => {
   const { state } = useLocation();
-  console.log(state)
   const [activeTab, setActiveTab] = useState('追蹤者');
   const [usersData, setUsersData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -80,8 +79,8 @@ const FollowPage = () => {
       <Flex align={'baseline'} gap={3}>
         <GoBackIcon onClick={() => navigate(-1)} />
         <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
-          {(state.isOnOthersPage ? otherUserName : '你') +
-            (state.active === '追蹤者' ? '的追蹤者' : '的追蹤中')}
+          {(state.isOnOthersPage ? otherUserName : '你')}的
+          {activeTab}
         </Heading>
         <ButtonGroup
           size="sm"

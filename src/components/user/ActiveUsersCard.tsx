@@ -39,7 +39,12 @@ const ActiveUsersCard: React.FC<CardProps> = (props) => {
   const currentUserId = JSON.parse(localStorage.getItem('currentUser')!).id;
 
   //追蹤
-
+  const handleFollowedClick = async () => {
+    const status = await postFollowedUser(token, props.id);
+    if (status === 200) {
+      setIsFollowedLocal(true);
+    } else return;
+  }
   //取消追蹤
   const handleUnFollowedClick = async () => {
     const status = await deleteFollowedUser(token, props.id);
@@ -141,6 +146,7 @@ const ActiveUsersCard: React.FC<CardProps> = (props) => {
             borderColor={'brand.gray_3'}
             variant={'outline'}
             isDisabled={props.id === currentUserId}
+            onClick={handleFollowedClick}
           >
             追蹤
           </Button>
