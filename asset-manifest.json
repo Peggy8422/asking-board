@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/asking-board/static/css/main.c278396e.css",
-    "main.js": "/asking-board/static/js/main.83f38526.js",
+    "main.js": "/asking-board/static/js/main.e7bec12c.js",
     "static/js/787.596dbac0.chunk.js": "/asking-board/static/js/787.596dbac0.chunk.js",
     "static/media/illus-2.svg": "/asking-board/static/media/illus-2.cf88a227b7f70c52e4c5b50bc5badcfd.svg",
     "static/media/google-icon.svg": "/asking-board/static/media/google-icon.f8aa39456aea5d06847845a63d725be7.svg",
@@ -27,17 +27,17 @@
     "static/media/logout-icon.svg": "/asking-board/static/media/logout-icon.dc5605adce23e5b74957baba53a44dc3.svg",
     "static/media/goback-icon.svg": "/asking-board/static/media/goback-icon.531ff8750d35e552d90d46b734aa4449.svg",
     "static/media/add-icon.svg": "/asking-board/static/media/add-icon.19c0f461ad2b81912f75a1d0b32390a7.svg",
-    "index.html": "/asking-board/index.html",
     "static/media/heart-icon.svg": "/asking-board/static/media/heart-icon.4ec1fdc993fe5284de33cdd50cca9554.svg",
+    "index.html": "/asking-board/index.html",
     "static/media/arrow-down-icon.svg": "/asking-board/static/media/arrow-down-icon.d69da836d378e212d335865a1c33566d.svg",
     "static/media/arrow-up-icon.svg": "/asking-board/static/media/arrow-up-icon.52fc231bffb6aac2efdb36b4db15e7d3.svg",
     "static/media/right-arrow-icon.svg": "/asking-board/static/media/right-arrow-icon.fa29f7f1bb430367d9b72867b3bcd68d.svg",
     "main.c278396e.css.map": "/asking-board/static/css/main.c278396e.css.map",
-    "main.83f38526.js.map": "/asking-board/static/js/main.83f38526.js.map",
+    "main.e7bec12c.js.map": "/asking-board/static/js/main.e7bec12c.js.map",
     "787.596dbac0.chunk.js.map": "/asking-board/static/js/787.596dbac0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c278396e.css",
-    "static/js/main.83f38526.js"
+    "static/js/main.e7bec12c.js"
   ]
 }
