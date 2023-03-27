@@ -19,13 +19,13 @@ import AdminLoginPage from './pages/AdminLoginPage';
 import AdminPostsPage from './pages/AdminPostsPage';
 import AdminUsersPage from './pages/AdminUsersPage';
 
-
-//test
+//首頁根路由
+const basename = process.env.PUBLIC_URL;
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename={basename} >
         <Routes>
           <Route path='*' element={<LandingPage />} />
           <Route path='/login' element={<LoginPage />} />
