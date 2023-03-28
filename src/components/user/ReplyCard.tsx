@@ -54,7 +54,7 @@ const ReplyCard: React.FC<CardProps> = (props) => {
             to={
               props.userId === currentUserId
                 ? '/front/profile'
-                : `/front/profile_others/?userId=${props.id}`
+                : `/front/profile_others/?userId=${props.userId}`
             }
             name={props.userName}
             src={props.avatar}
