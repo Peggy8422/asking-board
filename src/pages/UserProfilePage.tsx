@@ -23,7 +23,6 @@ import {
   Flex,
   Avatar,
   Divider,
-  Image,
   useDisclosure,
 } from '@chakra-ui/react';
 import { RightArrowIcon, EditIcon } from '../assets/icons';
@@ -110,21 +109,10 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
 
   return (
     <Box w={'100%'}>
-      {/* 封面照 */}
-      <Image
-        m={-5}
-        mt={-8}
-        w={'108%'}
-        maxW={'unset'}
-        h={'30vh'}
-        src={'https://picsum.photos/2000/800'}
-        objectFit={'cover'}
-      />
       <Flex
         position={'relative'}
         align={'end'}
         gap={3}
-        transform={'translateY(-35%)'}
       >
         {/* 個人大頭貼 */}
         <Avatar
@@ -172,7 +160,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
           </ReactLink>
         </Badge>
       </Flex>
-      <Text m={3} mt={-3}>
+      <Text m={3}>
         {userInfo?.introduction || ''}
       </Text>
       {!isOnOthersPage && (
@@ -189,10 +177,9 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
           <EditProfileModal
             isOpen={isOpen}
             onClose={onClose}
-            currentUserAvatar={userInfo?.avatar}
-            currentUserCover={'123'}
-            currentUserName={userInfo?.name}
-            currentUserIntro={userInfo?.introduction}
+            currentUserAvatar={userInfo.avatar}
+            currentUserName={userInfo.name}
+            currentUserIntro={userInfo.introduction}
           />
         </Flex>
       )}
@@ -200,7 +187,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
       <Divider mt={3} borderColor={'brand.300'} />
       <Box
         position={'relative'}
-        h={isOnOthersPage ? '37vh' : '31vh'}
+        h={isOnOthersPage ? '56vh' : '50vh'}
         pb={5}
         mt={3}
         px={3}

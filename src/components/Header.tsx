@@ -51,6 +51,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({isAdmin}) => {
   const { user } = useSelector((state: any) => state.auth);
+  
   return (
     <Box 
       position={'fixed'}

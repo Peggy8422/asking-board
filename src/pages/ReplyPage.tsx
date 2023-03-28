@@ -6,6 +6,7 @@ import {
   getQuestionReplies,
   postQuestionReply,
 } from '../api/questionRelated';
+import { postLikedQuestion, deleteLikedQuestion } from '../api/questionRelated';
 import Swal from 'sweetalert2';
 
 //元件
@@ -54,6 +55,8 @@ const initQuestionData = {
 
 const ReplyPage = () => {
   const [questionData, setQuestionData] = useState(initQuestionData);
+  const [isLikedLocal, setIsLikedLocal] = useState(false);
+  const [likedCountLocal, setLikedCountLocal] = useState(0);
   const [repliesData, setRepliesData] = useState([]);
   const [reply, setReply] = useState({
     comment: '',
@@ -67,6 +70,25 @@ const ReplyPage = () => {
 
   const token = localStorage.getItem('token')!;
 
+  //收藏問題
+  const handleLikePost = async () => {
+    const status = await postLikedQuestion(token, questionData.id);
+    if (status === 200) {
+      setIsLikedLocal(true);
+      setLikedCountLocal(likedCountLocal + 1);
+    } else return;
+  }
+
+  //取消收藏問題
+  const handleLikeDelete = async () => {
+    const status = await deleteLikedQuestion(token, questionData.id);
+    if (status === 200) {
+      setIsLikedLocal(false);
+      setLikedCountLocal(likedCountLocal - 1);
+    } else return;
+  }
+
+  //送出回答
   const handleReplyPosted = async () => {
     const status = await postQuestionReply(token, questionId, reply);
     console.log(status);
@@ -93,6 +115,8 @@ const ReplyPage = () => {
       const data = await getQuestionDetail(token, questionId);
       const replies = await getQuestionReplies(token, questionId);
       setQuestionData(data);
+      setIsLikedLocal(data.isLiked);
+      setLikedCountLocal(data.likeCount);
       setRepliesData(replies);
       setIsLoading(false);
     };
@@ -138,11 +162,11 @@ const ReplyPage = () => {
             </Tag>
           </Flex>
           <Flex align={'center'} gap={2}>
-            <Text color={'brand.gray_3'}>{questionData.likeCount}個收藏</Text>
-            {questionData.isLiked ? (
-              <HeartIcon fill="#FF4752" />
+            <Text color={'brand.gray_3'}>{likedCountLocal}個收藏</Text>
+            {isLikedLocal ? (
+              <HeartIcon fill="#FF4752" onClick={handleLikeDelete}/>
             ) : (
-              <HeartOutlineIcon width={'30px'} />
+              <HeartOutlineIcon width={'30px'} onClick={handleLikePost} />
             )}
           </Flex>
         </Flex>
@@ -267,6 +291,7 @@ const ReplyPage = () => {
             <ReplyCard
               key={r.id}
               id={r.id}
+              userId={r.User.id}
               avatar={r.User.avatar}
               userName={r.User.name}
               account={r.User.account}
