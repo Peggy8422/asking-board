@@ -146,3 +146,28 @@ export const deleteLikedReply = async (token: string, id: number) => {
     console.log(error);
   }
 }
+
+//新增提問
+export interface QuestionFormData {
+  title: string;
+  description: string;
+  isAnonymous: boolean;
+  grade: string;
+  subject: string;
+  images: File[];
+}
+
+export const postNewQuestion = async (token: string, formData: QuestionFormData) => {
+  try {
+    const { status } = await axios.post(`${baseURL}/question`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+
+    return status;
+  } catch (error) {
+    console.log(error);
+  }
+}

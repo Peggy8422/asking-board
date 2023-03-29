@@ -44,7 +44,7 @@ const Layout = () => {
       <Container maxW={'container.xl'}>
         <Grid templateColumns={'repeat(5, 1fr)'} h={'100vh'}>
           <GridItem colSpan={1} position={'relative'}>
-            <Sidebar userName={currentUser?.name} isOnUserPages={true} />
+            <Sidebar userAvatar={currentUser?.avatar} userName={currentUser?.name} isOnUserPages={true} />
           </GridItem>
           <GridItem colSpan={3} pt={'30px'} px={5} mt={'92px'}>
             {/* 前台User相關頁面 */}

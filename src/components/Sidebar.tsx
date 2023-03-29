@@ -28,10 +28,15 @@ import AskingModal from './user/AskingModal';
 interface SidebarProps {
   isOnUserPages: boolean;
   userName: string;
+  userAvatar: string;
 }
 
+interface UserNavProps {
+  userName: string;
+  userAvatar: string;
+}
 //用戶頁面Nav
-const UserNavList = () => {
+const UserNavList: React.FC<UserNavProps> = ({userName, userAvatar}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Flex direction={'column'} align={'start'} gap={2} my={'5'}>
@@ -87,8 +92,8 @@ const UserNavList = () => {
       <AskingModal
         isOpen={isOpen}
         onClose={onClose}
-        currentUserAvatar={'your avatar'}
-        currentUserName={'your name'}
+        currentUserAvatar={userAvatar}
+        currentUserName={userName}
       />
     </Flex>
   );
@@ -149,7 +154,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
         >
           Hi, {props.userName}
         </Text>
-        {props.isOnUserPages ? <UserNavList /> : <AdminNavList />}
+        {props.isOnUserPages ? <UserNavList userAvatar={props.userAvatar} userName={props.userName} /> : <AdminNavList />}
         <Button
           as={ReactLink}
           to={props.isOnUserPages ? '/login' : '/admin_login'}

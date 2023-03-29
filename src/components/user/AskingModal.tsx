@@ -1,4 +1,8 @@
-import React from 'react';
+//工具
+import React, { useState } from 'react';
+import { postNewQuestion, QuestionFormData } from '../../api/questionRelated';
+
+//元件
 import {
   Text,
   Button,
@@ -25,18 +29,7 @@ import {
 } from '@chakra-ui/react';
 import { HandIcon, PhotosIcon } from '../../assets/icons';
 
-const subjects = [
-  {value: 'chinese', option: '國文'},
-  {value: 'english', option: '英文'},
-  {value: 'math', option: '數學'},
-  {value: 'biology', option: '生物'},
-  {value: 'science', option: '理化'},
-  {value: 'earth', option: '地科'},
-  {value: 'geography', option: '地理'},
-  {value: 'history', option: '歷史'},
-  {value: 'civics', option: '公民'},
-  {value: 'others', option: '其他'},
-]
+const subjects = ['國文', '英文', '數學', '生物', '理化', '地科', '地理', '歷史', '公民', '其他'];
 
 interface ModalProps {
   isOpen: boolean;
@@ -46,6 +39,17 @@ interface ModalProps {
 }
 
 const AskingModal: React.FC<ModalProps> = (props) => {
+  const [formData, setFormData] = useState<QuestionFormData>({
+    title: '',
+    description: '',
+    isAnonymous: false,
+    grade: '',
+    subject: '',
+    images: [],
+  });
+  const [tempImages, setTempImages] = useState([]);
+
+
   return (
     <Modal
       size={'3xl'}
@@ -82,13 +86,18 @@ const AskingModal: React.FC<ModalProps> = (props) => {
               標題：
             </FormLabel>
             <Input
+              isRequired
               type={'text'}
               borderBottomWidth={'2px'}
               borderBottomColor={'brand.500'}
               variant={'flushed'}
               placeholder={'此題目關於...'}
+              value={formData.title}
             />
-            <FormHelperText position={'absolute'} right={0} fontSize={'xs'}>0/50</FormHelperText>
+            <FormErrorMessage>題目不可超過50字!</FormErrorMessage>
+            <FormHelperText position={'absolute'} right={0} fontSize={'xs'}>
+              {formData.title.length}/50
+            </FormHelperText>
           </FormControl>
           <Flex mt={4} justify={'space-between'} gap={3}>
             {/* 分類選擇 */}
@@ -108,11 +117,12 @@ const AskingModal: React.FC<ModalProps> = (props) => {
                 borderRadius={'full'}
                 display={'inline'}
                 placeholder={'請選擇年級範圍'}
+                value={formData.grade}
               >
-                <option value='junior_first'>國中一年級</option>
-                <option value='junior_second'>國中二年級</option>
-                <option value='junior_third'>國中三年級</option>
-                <option value='others'>其他</option>
+                <option value="junior_first">國中一年級</option>
+                <option value="junior_second">國中二年級</option>
+                <option value="junior_third">國中三年級</option>
+                <option value="others">其他</option>
               </Select>
             </FormControl>
             <FormControl display={'flex'} alignItems={'center'} flex={2}>
@@ -131,8 +141,13 @@ const AskingModal: React.FC<ModalProps> = (props) => {
                 borderRadius={'full'}
                 display={'inline'}
                 placeholder={'請選擇相關科目'}
+                value={formData.subject}
               >
-                {subjects.map(item => <option key={item.value} value={item.value}>{item.option}</option>)}
+                {subjects.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
               </Select>
             </FormControl>
             <FormControl display={'flex'} alignItems={'center'} flex={1}>
@@ -140,30 +155,45 @@ const AskingModal: React.FC<ModalProps> = (props) => {
                 color={'brand.500'}
                 fontSize={'md'}
                 fontWeight={'semibold'}
-                htmlFor='isAnonymous'
+                htmlFor="isAnonymous"
               >
                 匿名提問：
               </FormLabel>
-              <Switch id='isAnonymous' colorScheme={'green'} />
+              <Switch id="isAnonymous" colorScheme={'green'} isChecked={formData.isAnonymous} />
             </FormControl>
           </Flex>
           <Flex mt={5} gap={2}>
-            <Avatar name={props.currentUserName} src={props.currentUserAvatar} /> 
-            <Textarea placeholder='我想問...' size={'lg'} border={'none'} resize={'none'} rows={10} />
+            <Avatar
+              name={props.currentUserName}
+              src={props.currentUserAvatar}
+            />
+            <Textarea
+              isRequired
+              placeholder="我想問..."
+              size={'lg'}
+              border={'none'}
+              resize={'none'}
+              rows={10}
+            />
           </Flex>
           <Divider my={5} borderColor={'brand.300'} />
-          <FormLabel display={'inline-flex'} alignItems={'center'} gap={2} htmlFor={'add-photos'} color={'brand.500'} cursor={'pointer'}>
+          <FormLabel
+            display={'inline-flex'}
+            alignItems={'center'}
+            gap={2}
+            htmlFor={'add-photos'}
+            color={'brand.500'}
+            cursor={'pointer'}
+          >
             <PhotosIcon />
-            <Text fontWeight={'semibold'}>新增</Text> 
+            <Text fontWeight={'semibold'}>新增</Text>
             <Input type={'file'} id={'add-photos'} display={'none'} />
           </FormLabel>
-          <Badge mt={-2} fontSize={'sm'} colorScheme={'green'}>可新增與問題相關照片(至多5張)</Badge>
+          <Badge mt={-2} fontSize={'sm'} colorScheme={'green'}>
+            可新增與問題相關照片(至多5張)
+          </Badge>
           <Flex wrap={'wrap'} gap={2} p={2}>
-            <Image src={''} fallbackSrc='https://via.placeholder.com/150x100' />
-            <Image src={''} fallbackSrc='https://via.placeholder.com/150x100' />
-            <Image src={''} fallbackSrc='https://via.placeholder.com/150x100' />
-            <Image src={''} fallbackSrc='https://via.placeholder.com/150x100' />
-            <Image src={''} fallbackSrc='https://via.placeholder.com/150x100' />
+            {tempImages.map(img => <Image boxSize={'150px'} src={img} fallbackSrc="https://via.placeholder.com/150x100" />)}
           </Flex>
         </ModalBody>
         <ModalFooter>

@@ -44,7 +44,7 @@ const AdminUsersPage = () => {
       <Container maxW={'container.xl'}>
         <Grid templateColumns={'repeat(5, 1fr)'} h={'100vh'}>
           <GridItem colSpan={1} position={'relative'}>
-            <Sidebar userName="管理員" isOnUserPages={false} />
+            <Sidebar userAvatar='' userName="管理員" isOnUserPages={false} />
           </GridItem>
           <GridItem colSpan={4} pt={'30px'} px={5} mt={'92px'}>
             <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
