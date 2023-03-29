@@ -105,7 +105,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
     };
 
     getUserQsRelated();
-  }, [token, location.pathname, currentUserId, otherUserId]);
+  }, [token, location.pathname, currentUserId, otherUserId, isOpen]);
 
   return (
     <Box w={'100%'}>

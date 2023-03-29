@@ -1,5 +1,7 @@
 //工具
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { toggleAvatarChanged } from '../../features/auth/authSlice';
 import { getUserProfile, putUserProfile, ProfileFormData } from '../../api/userRelated';
 import Swal from 'sweetalert2';
 
@@ -133,6 +135,8 @@ const EditProfileModal: React.FC<ModalProps> = (props) => {
   //上傳後預覽的頭貼
   const [tempAvatar, setTempAvatar] = useState(props.currentUserAvatar);
 
+  const dispatch = useDispatch();
+
   const token = localStorage.getItem('token')!;
   const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
 
@@ -148,6 +152,7 @@ const EditProfileModal: React.FC<ModalProps> = (props) => {
         showConfirmButton: false,
       });
       localStorage.setItem('currentUser', JSON.stringify({...currentUser, avatar: data.user.avatar}));
+      dispatch(toggleAvatarChanged());    
     } else return;
     props.onClose();
   };

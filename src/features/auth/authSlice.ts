@@ -8,6 +8,7 @@ export interface initStateType {
   isSuccess: boolean;
   isLoading: boolean;
   message: unknown;
+  isAvatarChanged: boolean;
 }
 
 //從localStorage取得存取的使用者資料&單獨email資料(為了註冊後導轉登入頁直接帶入email欄位)
@@ -21,6 +22,7 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: '',
+  isAvatarChanged: false,
 } as initStateType;
 
 export const authSlice = createSlice({
@@ -35,6 +37,9 @@ export const authSlice = createSlice({
     },
     clearEmail: (state) => {
       state.email = '';
+    },
+    toggleAvatarChanged: (state) => {
+      state.isAvatarChanged = true;
     }
   },
   extraReducers: (builder) => {
@@ -132,5 +137,5 @@ export const adminLogin = createAsyncThunk('auth/adminLogin', async (user: login
 })
 
 // 基本的action creator
-export const {reset, clearEmail} = authSlice.actions;
+export const {reset, clearEmail, toggleAvatarChanged} = authSlice.actions;
 export default authSlice.reducer;

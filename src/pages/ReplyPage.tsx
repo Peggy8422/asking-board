@@ -21,6 +21,7 @@ import {
   Button,
   Divider,
   SkeletonText,
+  Image,
 } from '@chakra-ui/react';
 import {
   GoBackIcon,
@@ -77,7 +78,7 @@ const ReplyPage = () => {
       setIsLikedLocal(true);
       setLikedCountLocal(likedCountLocal + 1);
     } else return;
-  }
+  };
 
   //取消收藏問題
   const handleLikeDelete = async () => {
@@ -86,7 +87,7 @@ const ReplyPage = () => {
       setIsLikedLocal(false);
       setLikedCountLocal(likedCountLocal - 1);
     } else return;
-  }
+  };
 
   //送出回答
   const handleReplyPosted = async () => {
@@ -105,7 +106,10 @@ const ReplyPage = () => {
         images: [],
       });
       setIsReplySubmmited(true);
-      setQuestionData({...questionData, replyCount: questionData.replyCount + 1});
+      setQuestionData({
+        ...questionData,
+        replyCount: questionData.replyCount + 1,
+      });
     }
   };
 
@@ -164,7 +168,7 @@ const ReplyPage = () => {
           <Flex align={'center'} gap={2}>
             <Text color={'brand.gray_3'}>{likedCountLocal}個收藏</Text>
             {isLikedLocal ? (
-              <HeartIcon fill="#FF4752" onClick={handleLikeDelete}/>
+              <HeartIcon fill="#FF4752" onClick={handleLikeDelete} />
             ) : (
               <HeartOutlineIcon width={'30px'} onClick={handleLikePost} />
             )}
@@ -247,6 +251,13 @@ const ReplyPage = () => {
             },
           }}
         >
+          <Flex p={5} wrap={'wrap'} gap={2}>
+            {questionData.Images.length > 0
+              ? questionData.Images.map((img: any) => (
+                  <Image key={img.id} src={img.url} alt={img.id} />
+                ))
+              : ''}
+          </Flex>
           <Text mx={5} mt={5}>
             {questionData.description}
           </Text>

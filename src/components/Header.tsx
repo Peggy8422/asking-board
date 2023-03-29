@@ -1,5 +1,5 @@
 //工具
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as ReactLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -50,8 +50,16 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({isAdmin}) => {
-  const { user } = useSelector((state: any) => state.auth);
+  const { user, isAvatarChanged } = useSelector((state: any) => state.auth);
+  const [userAvatar, setUserAvatar] = useState(user.avatar);
   
+  useEffect(() => {
+    if (isAvatarChanged) {
+      const currentAvatar = JSON.parse(localStorage.getItem('currentUser')!).avatar;
+      setUserAvatar(currentAvatar);
+    }
+  }, [user.avatar, isAvatarChanged])
+
   return (
     <Box 
       position={'fixed'}
@@ -89,7 +97,7 @@ const Header: React.FC<HeaderProps> = ({isAdmin}) => {
         </InputGroup>
         <Flex align={'center'} gap={3}>
           <BellIcon />
-          <Avatar as={ReactLink} to={isAdmin ? '' : '/front/profile'} name={'user name'} src={user?.avatar} cursor={isAdmin ? 'not-allowed' : 'pointer'}  />
+          <Avatar as={ReactLink} to={isAdmin ? '' : '/front/profile'} name={'user name'} src={userAvatar} cursor={isAdmin ? 'not-allowed' : 'pointer'}  />
         </Flex>
       </Container>
     </Box>
