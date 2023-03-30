@@ -24,3 +24,7 @@ html, body {
   border: 2px solid var(--chakra-colors-gray-100);
   background-color: var(--chakra-colors-gray-500);
 }
+
+.swal2-container {
+  z-index: 10000 !important;
+}

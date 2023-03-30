@@ -159,7 +159,7 @@ export interface QuestionFormData {
 
 export const postNewQuestion = async (token: string, formData: QuestionFormData) => {
   try {
-    const { status } = await axios.post(`${baseURL}/question`, formData, {
+    const { status } = await axios.post(`${baseURL}/questions`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: 'Bearer ' + token,

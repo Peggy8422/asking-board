@@ -44,7 +44,7 @@ const ChangePhotoPopover: React.FC<PopoverProps> = (props) => {
   //上傳頭貼照片
   const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileReader = new FileReader();
-    let file = e.target.files![0];
+    const file = e.target.files![0];
     const fileMaxSize = 1024;
     const fileSize = file.size / fileMaxSize;
 
@@ -60,8 +60,6 @@ const ChangePhotoPopover: React.FC<PopoverProps> = (props) => {
       return;
     }
 
-    //當onload時取出照片的base64資料，會生成一個暫時的URL可以預覽圖片
-    fileReader.readAsDataURL(file);
     //檔案讀取完成時就調用onload
     fileReader.onload = () => {
       if (typeof fileReader.result === 'string') {
@@ -71,6 +69,8 @@ const ChangePhotoPopover: React.FC<PopoverProps> = (props) => {
         console.log('失敗!')
       };
     };
+    //當onload時取出照片的base64資料，會生成一個暫時的URL可以預覽圖片
+    fileReader.readAsDataURL(file);
     if (file) {
       props.setAvatar(file);
     } else {
