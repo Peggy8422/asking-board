@@ -1,8 +1,8 @@
 //工具
 import React, { useState, useEffect } from 'react';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { userGetAllQuestions } from '../api/questionRelated';
+// import { userGetAllQuestions } from '../api/questionRelated';
 
 //元件
 import { 
@@ -26,27 +26,29 @@ import { Logo } from '../assets/images';
 import { SearchIcon, FilterIcon, BellIcon } from '../assets/icons';
 
 interface SearchProps {
+  isDisabled: boolean;
   filterOption: string | string[];
   setFilterOption: React.Dispatch<React.SetStateAction<string | string[]>>;
 }
-const SearchFilterMenu: React.FC<SearchProps> = ({filterOption, setFilterOption}) => {
+const SearchFilterMenu: React.FC<SearchProps> = ({isDisabled, filterOption, setFilterOption}) => {
 
   return (
-    <Menu closeOnSelect={false}>
+    <Menu closeOnSelect={true} >
       <MenuButton
         as={IconButton}
         aria-label='Options'
         icon={<FilterIcon />}
         variant='ghost'
         borderRadius={'xl'}
+        disabled={isDisabled}
       />
-      <MenuList>
+      {!isDisabled && <MenuList>
         <MenuOptionGroup value={filterOption} title={'搜尋範圍'} type={'radio'} onChange={(value) => {setFilterOption(value);}}>
-          <MenuItemOption value={'全部'}>全部</MenuItemOption>
+          <MenuItemOption value={''}>全部</MenuItemOption>
           <MenuItemOption value={'國中'}>國中</MenuItemOption>
           <MenuItemOption value={'其他'}>其他</MenuItemOption>
         </MenuOptionGroup>
-      </MenuList>
+      </MenuList>}
     </Menu>
   );
 };
@@ -58,10 +60,21 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({isAdmin}) => {
   const { user, isAvatarChanged } = useSelector((state: any) => state.auth);
   const [userAvatar, setUserAvatar] = useState(user.avatar);
-  const [filterOption, setFilterOption] = useState<string | string[]>('全部');
+  const [filterOption, setFilterOption] = useState<string | string[]>('');
   const [keyword, setKeyword] = useState('');
+  const navigate = useNavigate();
 
   //提交搜尋關鍵字
+  const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      navigate('/front/search_results', {
+        state: {
+          grade: filterOption,
+          keyword,
+        }
+      });
+    } else return;
+  }
   
   useEffect(() => {
     if (isAvatarChanged) {
@@ -93,7 +106,7 @@ const Header: React.FC<HeaderProps> = ({isAdmin}) => {
             pointerEvents={'none'}
             children={<SearchIcon />}
           />
-          <Input 
+          <Input isDisabled={isAdmin}
             type={'text'} 
             placeholder={'請輸入關鍵字'} 
             borderRadius={'20px'}
@@ -101,11 +114,12 @@ const Header: React.FC<HeaderProps> = ({isAdmin}) => {
             value={keyword}
             onChange={(e) => {setKeyword(e.target.value);}}
             // keyDown事件
+            onKeyDown={handleEnterKeyDown}
           />
           <InputRightElement
             cursor={'pointer'}
             mr={'5px'}
-            children={<SearchFilterMenu filterOption={filterOption} setFilterOption={setFilterOption} />}
+            children={<SearchFilterMenu isDisabled={isAdmin} filterOption={filterOption} setFilterOption={setFilterOption} />}
           />
         </InputGroup>
         <Flex align={'center'} gap={3}>
