@@ -14,6 +14,7 @@ import UserProfilePage from './pages/UserProfilePage';
 import ReplyPage from './pages/ReplyPage';
 import UserQuestionsPage from './pages/UserQuestionsPage';
 import FollowPage from './pages/FollowPage';
+import SearchResultPage from './pages/SearchResultPage';
 //Admin pages
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminPostsPage from './pages/AdminPostsPage';
@@ -45,6 +46,7 @@ const App: React.FC = () => {
             <Route path='user/liked_questions' element={<UserQuestionsPage />} />
             <Route path='user/replied_questions' element={<UserQuestionsPage />} />
             <Route path='user/follow' element={<FollowPage />} />
+            <Route path='search_results' element={<SearchResultPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

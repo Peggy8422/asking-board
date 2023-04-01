@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link as ReactLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { userGetAllQuestions } from '../api/questionRelated';
 
 //元件
 import { 
@@ -24,7 +25,12 @@ import {
 import { Logo } from '../assets/images';
 import { SearchIcon, FilterIcon, BellIcon } from '../assets/icons';
 
-const SearchFilterMenu = () => {
+interface SearchProps {
+  filterOption: string | string[];
+  setFilterOption: React.Dispatch<React.SetStateAction<string | string[]>>;
+}
+const SearchFilterMenu: React.FC<SearchProps> = ({filterOption, setFilterOption}) => {
+
   return (
     <Menu closeOnSelect={false}>
       <MenuButton
@@ -35,10 +41,10 @@ const SearchFilterMenu = () => {
         borderRadius={'xl'}
       />
       <MenuList>
-        <MenuOptionGroup defaultValue={'all'} title={'搜尋範圍'} type={'radio'}>
-          <MenuItemOption value={'all'}>全部</MenuItemOption>
-          <MenuItemOption value={'juniorHigh'}>國中</MenuItemOption>
-          <MenuItemOption value={'other'}>其他</MenuItemOption>
+        <MenuOptionGroup value={filterOption} title={'搜尋範圍'} type={'radio'} onChange={(value) => {setFilterOption(value);}}>
+          <MenuItemOption value={'全部'}>全部</MenuItemOption>
+          <MenuItemOption value={'國中'}>國中</MenuItemOption>
+          <MenuItemOption value={'其他'}>其他</MenuItemOption>
         </MenuOptionGroup>
       </MenuList>
     </Menu>
@@ -52,6 +58,10 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({isAdmin}) => {
   const { user, isAvatarChanged } = useSelector((state: any) => state.auth);
   const [userAvatar, setUserAvatar] = useState(user.avatar);
+  const [filterOption, setFilterOption] = useState<string | string[]>('全部');
+  const [keyword, setKeyword] = useState('');
+
+  //提交搜尋關鍵字
   
   useEffect(() => {
     if (isAvatarChanged) {
@@ -88,11 +98,14 @@ const Header: React.FC<HeaderProps> = ({isAdmin}) => {
             placeholder={'請輸入關鍵字'} 
             borderRadius={'20px'}
             bg={'gray.50'}
+            value={keyword}
+            onChange={(e) => {setKeyword(e.target.value);}}
+            // keyDown事件
           />
           <InputRightElement
             cursor={'pointer'}
             mr={'5px'}
-            children={<SearchFilterMenu />}
+            children={<SearchFilterMenu filterOption={filterOption} setFilterOption={setFilterOption} />}
           />
         </InputGroup>
         <Flex align={'center'} gap={3}>
