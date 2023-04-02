@@ -59,7 +59,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({isAdmin}) => {
   const { user, isAvatarChanged } = useSelector((state: any) => state.auth);
-  const [userAvatar, setUserAvatar] = useState(user.avatar);
+  const [userAvatar, setUserAvatar] = useState(user?.avatar);
   const [filterOption, setFilterOption] = useState<string | string[]>('');
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
@@ -81,7 +81,7 @@ const Header: React.FC<HeaderProps> = ({isAdmin}) => {
       const currentAvatar = JSON.parse(localStorage.getItem('currentUser')!).avatar;
       setUserAvatar(currentAvatar);
     }
-  }, [user.avatar, isAvatarChanged])
+  }, [user?.avatar, isAvatarChanged])
 
   return (
     <Box 
@@ -124,7 +124,7 @@ const Header: React.FC<HeaderProps> = ({isAdmin}) => {
         </InputGroup>
         <Flex align={'center'} gap={3}>
           <BellIcon />
-          <Avatar as={ReactLink} to={isAdmin ? '' : '/front/profile'} name={'user name'} src={userAvatar} cursor={isAdmin ? 'not-allowed' : 'pointer'}  />
+          <Avatar as={ReactLink} to={isAdmin ? '' : '/front/profile'} name={user?.name} src={userAvatar} cursor={isAdmin ? 'not-allowed' : 'pointer'}  />
         </Flex>
       </Container>
     </Box>

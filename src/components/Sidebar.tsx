@@ -10,6 +10,8 @@ import {
   Button,
   Text,
   Flex,
+  Hide,
+  Show,
   useDisclosure,
 } from '@chakra-ui/react';
 import {
@@ -22,13 +24,13 @@ import {
 } from '../assets/icons';
 import AskingModal from './user/AskingModal';
 
-interface SidebarProps {
+export interface SidebarProps {
   isOnUserPages: boolean;
   userName: string;
   userAvatar: string;
 }
 
-interface UserNavProps {
+export interface UserNavProps {
   userName: string;
   userAvatar: string;
 }
@@ -50,7 +52,7 @@ const UserNavList: React.FC<UserNavProps> = ({ userName, userAvatar }) => {
             colorScheme={'green'}
             variant={'ghost'}
           >
-            首頁
+            <Hide below={'md'}>首頁</Hide>
           </Button>
         )}
       </ReactNavLink>
@@ -64,7 +66,7 @@ const UserNavList: React.FC<UserNavProps> = ({ userName, userAvatar }) => {
             colorScheme={'green'}
             variant={'ghost'}
           >
-            熱門問題
+            <Hide below={'md'}>熱門問題</Hide>
           </Button>
         )}
       </ReactNavLink>
@@ -81,7 +83,7 @@ const UserNavList: React.FC<UserNavProps> = ({ userName, userAvatar }) => {
             colorScheme={'green'}
             variant={'ghost'}
           >
-            活躍用戶
+            <Hide below={'md'}>活躍用戶</Hide>
           </Button>
         )}
       </ReactNavLink>
@@ -98,7 +100,7 @@ const UserNavList: React.FC<UserNavProps> = ({ userName, userAvatar }) => {
             colorScheme={'green'}
             variant={'ghost'}
           >
-            帳戶設定
+            <Hide below={'md'}>帳戶設定</Hide>
           </Button>
         )}
       </ReactNavLink>
@@ -109,7 +111,7 @@ const UserNavList: React.FC<UserNavProps> = ({ userName, userAvatar }) => {
         colorScheme={'green'}
         onClick={onOpen}
       >
-        我要發問
+        <Hide below={'md'}>我要發問</Hide>
       </Button>
       {/* 發問的modal */}
       <AskingModal
@@ -139,7 +141,7 @@ const AdminNavList = () => {
             colorScheme={'green'}
             variant={'ghost'}
           >
-            問題列表
+            <Hide below={'md'}>問題列表</Hide>
           </Button>
         )}
       </ReactNavLink>
@@ -151,7 +153,7 @@ const AdminNavList = () => {
             colorScheme={'green'}
             variant={'ghost'}
           >
-            用戶列表
+            <Hide below={'md'}>用戶列表</Hide>
           </Button>
         )}
       </ReactNavLink>
@@ -166,7 +168,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   return (
     <Box
       w={'100%'}
-      minWidth={'200px'}
+      minWidth={{md:'200px'}}
       top={'0'}
       bottom={'0'}
       position={'absolute'}
@@ -183,7 +185,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
           fontWeight={'bold'}
           color={'brand.500'}
         >
-          Hi, {props.userName}
+          Hi<Show below={'md'}>!</Show><Hide below={'md'}>, {props.userName}</Hide>
         </Text>
         {props.isOnUserPages ? (
           <UserNavList
@@ -203,13 +205,14 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
           size={'lg'}
           position={'absolute'}
           bottom={'5%'}
+          right={{base: '5%', md: 'unset'}}
           onClick={() => {
             dispatch(logoutAct() as any);
             dispatch(reset());
             dispatch(clearEmail());
           }}
         >
-          登出
+          <Hide below={'md'}>登出</Hide>
         </Button>
       </Container>
     </Box>

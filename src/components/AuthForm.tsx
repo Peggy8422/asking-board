@@ -1,7 +1,12 @@
+//工具
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { reset } from '../features/auth/authSlice';
 import { Link as ReactLink } from 'react-router-dom';
+//googleAuth 測試
+import { googleAuthRequest } from '../api/auth';
+
+//元件
 import { 
   FormControl,
   FormErrorMessage, 
@@ -138,6 +143,7 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
           w={'100%'}
           variant={'outline'}
           leftIcon={<GoogleIcon />}
+          onClick={() => {googleAuthRequest();}}
         >以Google登入/註冊</Button>}
         <Flex justify={'flex-end'} gap={2} mt={2}>
           <Text 

@@ -3,6 +3,7 @@ import { registRequest, registParams, loginRequest, loginParams, logout } from "
 
 export interface initStateType {
   user: unknown;
+  isLocalAccount: boolean;
   email: string;
   isError: boolean;
   isSuccess: boolean;
@@ -17,6 +18,7 @@ const email = user?.email;
 
 const initialState = {
   user: user || null,
+  isLocalAccount: true,
   email: email || '',
   isError: false,
   isSuccess: false,

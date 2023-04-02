@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 //元件
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import MobileSidebar from '../components/MobileSidebar';
 import {
   Box,
   Flex,
@@ -14,6 +15,8 @@ import {
   Heading,
   Container,
   SkeletonText,
+  Show,
+  Hide,
 } from '@chakra-ui/react';
 
 //card元件
@@ -57,14 +60,21 @@ const AdminPostsPage = () => {
   }, [token, navigate]);
 
   return (
-    <Box width={'100%'} height={'100vh'} overflowX={'hidden'}>
+    <Box
+      width={'100%'}
+      height={'100vh'}
+      overflowX={'hidden'}
+      position={'relative'}
+    >
       <Header isAdmin={true} />
       <Container maxW={'container.xl'}>
         <Grid templateColumns={'repeat(5, 1fr)'} h={'100vh'}>
-          <GridItem colSpan={1} position={'relative'}>
-            <Sidebar userAvatar='' userName="管理員" isOnUserPages={false} />
-          </GridItem>
-          <GridItem colSpan={4} pt={'30px'} px={5} mt={'92px'}>
+          <Hide below={'sm'}>
+            <GridItem colSpan={[0, 1]} position={'relative'}>
+              <Sidebar userAvatar="" userName="管理員" isOnUserPages={false} />
+            </GridItem>
+          </Hide>
+          <GridItem colSpan={[5, 4]} pt={'30px'} px={5} mt={'92px'}>
             <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
               所有問題
             </Heading>
@@ -123,6 +133,9 @@ const AdminPostsPage = () => {
           </GridItem>
         </Grid>
       </Container>
+      <Show below="sm">
+        <MobileSidebar userAvatar="" userName="管理員" isOnUserPages={false} />
+      </Show>
     </Box>
   );
 };

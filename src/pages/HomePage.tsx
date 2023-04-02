@@ -104,7 +104,7 @@ const HomePage = () => {
           />
         )}
         <ButtonGroup
-          size="sm"
+          size={'sm'}
           isAttached
           variant="outline"
           color={'brand.gray_1'}
@@ -149,7 +149,7 @@ const HomePage = () => {
         mt={2}
         px={5}
         mr={-3}
-        left={-4}
+        left={{base: -5 ,md: -4}}
         h={activeCategory === '國中' ? '65vh' : '73vh'}
         direction={'column'}
         rowGap={5}

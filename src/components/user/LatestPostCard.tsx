@@ -30,7 +30,7 @@ const LatestPostCard: React.FC<CardProps> = (props) => {
       <Link to={`/front/reply/?reply_to=${props.id}`}>
         <CardBody p={4}>
           <Flex gap={1}>
-            <Avatar size={'sm'} name={props.userName} src={props.avatar} />
+            <Avatar size={'sm'} name={props.userName} src={props.avatar || ''} />
             <Box>
               <Flex align={'start'} gap={1}>
                 <Text

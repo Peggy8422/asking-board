@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 //元件
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import MobileSidebar from '../components/MobileSidebar';
 import {
   Box,
   Flex,
@@ -13,6 +14,8 @@ import {
   Heading,
   Container,
   Spinner,
+  Show,
+  Hide,
 } from '@chakra-ui/react';
 
 //card元件
@@ -43,10 +46,12 @@ const AdminUsersPage = () => {
       <Header isAdmin={true} />
       <Container maxW={'container.xl'}>
         <Grid templateColumns={'repeat(5, 1fr)'} h={'100vh'}>
-          <GridItem colSpan={1} position={'relative'}>
-            <Sidebar userAvatar='' userName="管理員" isOnUserPages={false} />
-          </GridItem>
-          <GridItem colSpan={4} pt={'30px'} px={5} mt={'92px'}>
+          <Hide below={'sm'}>
+            <GridItem colSpan={[0, 1]} position={'relative'}>
+              <Sidebar userAvatar="" userName="管理員" isOnUserPages={false} />
+            </GridItem>
+          </Hide>
+          <GridItem colSpan={[5, 4]} pt={'30px'} px={5} mt={'92px'}>
             <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
               所有用戶
             </Heading>
@@ -107,6 +112,9 @@ const AdminUsersPage = () => {
           </GridItem>
         </Grid>
       </Container>
+      <Show below="sm">
+        <MobileSidebar userAvatar="" userName="管理員" isOnUserPages={false} />
+      </Show>
     </Box>
   );
 };
