@@ -22,16 +22,19 @@ import {
   Divider,
   SkeletonText,
   Image,
+  useDisclosure,
 } from '@chakra-ui/react';
 import {
   GoBackIcon,
   HeartIcon,
   HeartOutlineIcon,
   CommentIcon,
+  EditIcon,
 } from '../assets/icons';
 
 //card元件
 import ReplyCard from '../components/user/ReplyCard';
+import AskingModal from '../components/user/AskingModal';
 
 const initQuestionData = {
   id: 0,
@@ -51,7 +54,7 @@ const initQuestionData = {
     role: '',
     account: '',
   },
-  Images: [],
+  Image: '',
 };
 
 const ReplyPage = () => {
@@ -65,11 +68,13 @@ const ReplyPage = () => {
   });
   const [isReplySubmmited, setIsReplySubmmited] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const questionId = Number(searchParams.get('reply_to'));
 
   const token = localStorage.getItem('token')!;
+  const currentUserId = JSON.parse(localStorage.getItem('currentUser')!).id;
 
   //收藏問題
   const handleLikePost = async () => {
@@ -113,6 +118,7 @@ const ReplyPage = () => {
     }
   };
 
+  //取得問題詳細內容
   useEffect(() => {
     setIsLoading(true);
     const getQuestion = async () => {
@@ -126,7 +132,7 @@ const ReplyPage = () => {
     };
     if (!token) return;
     getQuestion();
-  }, [token, questionId]);
+  }, [token, questionId, isOpen]);
 
   //成功送出回答後重新撈取所有回答內容
   useEffect(() => {
@@ -166,6 +172,32 @@ const ReplyPage = () => {
             </Tag>
           </Flex>
           <Flex align={'center'} gap={2}>
+            {questionData.User.id === currentUserId && (
+              <Button
+                size={'xs'}
+                leftIcon={<EditIcon width={'15px'} />}
+                bg={'brand.400'}
+                colorScheme={'green'}
+                onClick={onOpen}
+              >
+                編輯問題
+              </Button>
+            )}
+            {/* 編輯問題Modal */}
+            <AskingModal
+              isOpen={isOpen}
+              onClose={onClose}
+              currentUserAvatar={questionData.User.avatar}
+              currentUserName={questionData.User.name}
+              isOnEdit={true}
+              id={questionData.id}
+              title={questionData.title}
+              grade={questionData.grade}
+              subject={questionData.subject}
+              isAnonymous={questionData.isAnonymous}
+              description={questionData.description}
+              image={questionData.Image}
+            />
             <Text color={'brand.gray_3'}>{likedCountLocal}個收藏</Text>
             {isLikedLocal ? (
               <HeartIcon fill="#FF4752" onClick={handleLikeDelete} />
@@ -252,11 +284,7 @@ const ReplyPage = () => {
           }}
         >
           <Flex p={5} wrap={'wrap'} gap={2}>
-            {questionData.Images.length > 0
-              ? questionData.Images.map((img: any) => (
-                  <Image key={img.id} src={img.url} alt={img.id} />
-                ))
-              : ''}
+            {questionData.Image ? <Image src={questionData.Image} alt={''} /> : ''}
           </Flex>
           <Text mx={5} mt={5}>
             {questionData.description}

@@ -1,12 +1,19 @@
 //工具
-import React, { useState } from 'react';
-import { postNewQuestion, QuestionFormData } from '../../api/questionRelated';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import {
+  getQuestionDetail,
+  postNewQuestion,
+  editQuestion,
+  QuestionFormData,
+} from '../../api/questionRelated';
 import Swal from 'sweetalert2';
 
 //元件
 import {
   Text,
   Button,
+  IconButton,
   Badge,
   Box,
   Flex,
@@ -29,7 +36,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react';
-import { HandIcon, PhotosIcon } from '../../assets/icons';
+import { HandIcon, PhotosIcon, CrossIcon } from '../../assets/icons';
 
 const subjects = [
   '國文',
@@ -49,51 +56,77 @@ interface ModalProps {
   onClose: () => void;
   currentUserAvatar: string;
   currentUserName: string;
+  id?: number;
+  title?: string;
+  description?: string;
+  isAnonymous?: boolean;
+  grade?: string;
+  subject?: string;
+  image?: string;
+  isOnEdit: boolean;
 }
 
 const AskingModal: React.FC<ModalProps> = (props) => {
   const [formData, setFormData] = useState<QuestionFormData>({
-    title: '',
-    description: '',
-    isAnonymous: false,
-    grade: '',
-    subject: '',
-    images: [],
+    title: props.title || '',
+    description: props.description || '',
+    isAnonymous: props.isAnonymous || false,
+    grade: props.grade || '',
+    subject: props.subject || '',
+    image: '',
   });
-  const [tempImages, setTempImages] = useState<string[] | any[]>([]);
+  const [tempImage, setTempImage] = useState<string>(props.image || '');
   const [isError, setIsError] = useState(false);
+  const [searchParams] = useSearchParams();
+  const questionId = Number(searchParams.get('reply_to'));
 
   const token = localStorage.getItem('token')!;
 
   //上傳問題照片(們)
   const handlePicsUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files!;
-    const uploadList: any[] = [];
+    const fileReader = new FileReader();
+    const file = e.target.files![0];
 
-    //讀取每個blob物件用非同步處理
-    const readFileAsync = (file: File) =>
-      new Promise((resolve) => {
-        const fileReader = new FileReader();
-        fileReader.onload = (evt) => resolve(evt.target!.result);
-        fileReader.readAsDataURL(file);
-      });
+    //上傳單張照片
+    //檔案讀取完成時就調用onload
+    fileReader.onload = () => {
+      if (typeof fileReader.result === 'string') {
+        setTempImage(fileReader.result as string);
+        console.log('完成預覽圖設定')
+      } else {
+        console.log('失敗!')
+      };
+    };
+    //當onload時取出照片的base64資料，會生成一個暫時的URL可以預覽圖片
+    fileReader.readAsDataURL(file);
+    if (file) {
+      setFormData({...formData, image: file});
+    } else return;
 
-    for (let i = 0; i < files.length; i++) {
-      uploadList.push(await readFileAsync(files[i]));
-    }
-    //設定預覽圖
-    if (uploadList.length < 5) {
-      setTempImages([...tempImages, ...uploadList]);
-      //設定要上傳的圖檔
-      if (files) {
-        console.log(files);
-        setFormData((prevData) => ({
-          ...prevData,
-          images: [...prevData.images, ...files],
-        }));
-        console.log(formData.images);
-      }
-    }
+    //讀取多個file物件用非同步處理(暫不用)
+    // const readFileAsync = (file: File) =>
+    //   new Promise((resolve) => {
+    //     const fileReader = new FileReader();
+    //     fileReader.onload = (evt) => resolve(evt.target!.result);
+    //     fileReader.readAsDataURL(file);
+    //   });
+
+    // for (let i = 0; i < files.length; i++) {
+    //   uploadList.push(await readFileAsync(files[i]));
+    // }
+    //設定多張預覽圖(暫不用)
+    // if (tempImages.length < 5) {
+    //   setTempImages([...tempImages, ...uploadList]);
+    //   //設定要上傳的圖檔
+    //   if (files) {
+    //     console.log(files);
+    //     setFormData((prevData) => ({
+    //       ...prevData,
+    //       images: [...prevData.images, ...files],
+    //     }));
+    //     console.log(formData.images);
+    //   }
+    // }
   };
 
   //提交新增問題
@@ -123,12 +156,17 @@ const AskingModal: React.FC<ModalProps> = (props) => {
       });
       return;
     }
+    let status;
+    if (props.isOnEdit) {
+      status = await editQuestion(token, props.id!, formData);
+    } else {
+      status = await postNewQuestion(token, formData);
+    }
 
-    const status = await postNewQuestion(token, formData);
     if (status === 200) {
       Swal.fire({
         position: 'top',
-        title: '送出提問成功！',
+        title: props.isOnEdit ? '修改問題成功!' : '送出提問成功！',
         timer: 1000,
         icon: 'success',
         showConfirmButton: false,
@@ -137,13 +175,33 @@ const AskingModal: React.FC<ModalProps> = (props) => {
     } else {
       Swal.fire({
         position: 'top',
-        title: '提問失敗！',
+        title: props.isOnEdit ? '修改失敗!' : '提問失敗！',
         timer: 1000,
         icon: 'error',
         showConfirmButton: false,
       });
     }
   };
+
+  //載入原本問題的資料
+  useEffect(() => {
+    const getQuestion = async () => {
+      const data = await getQuestionDetail(token, questionId);
+      setFormData({
+        title: data.title,
+        description: data.description,
+        isAnonymous: data.isAnonymous,
+        grade: data.grade,
+        subject: data.subject,
+        image: data.Image,
+      });
+      setTempImage(data.Image);
+    };
+
+    if (questionId) {
+      getQuestion();
+    } else return;
+  }, [token, questionId]);
 
   return (
     <Modal
@@ -164,7 +222,7 @@ const AskingModal: React.FC<ModalProps> = (props) => {
           borderBottomColor={'brand.gray_1'}
         >
           <HandIcon fill={'#137547'} width={'20px'} />
-          提問
+          {props.isOnEdit && '修改'}提問
         </ModalHeader>
         <ModalCloseButton
           color={'brand.gray_3'}
@@ -175,9 +233,9 @@ const AskingModal: React.FC<ModalProps> = (props) => {
               isAnonymous: false,
               grade: '',
               subject: '',
-              images: [],
+              image: '',
             });
-            setTempImages([]);
+            setTempImage('');
           }}
         />
         <ModalBody>
@@ -350,14 +408,30 @@ const AskingModal: React.FC<ModalProps> = (props) => {
             可新增與問題相關照片(至多5張)
           </Badge>
           <Flex wrap={'wrap'} gap={2} p={2}>
-            {tempImages.map((img, idx) => (
-              <Image
-                key={idx}
-                boxSize={'150px'}
-                src={img}
-                fallbackSrc="https://via.placeholder.com/150x100"
-              />
-            ))}
+            {tempImage && tempImage !== '' ? (
+              <Box position={'relative'}>
+                <Image
+                  boxSize={'150px'}
+                  src={tempImage}
+                  fallbackSrc="https://via.placeholder.com/150x100"
+                />
+                <IconButton
+                  position={'absolute'}
+                  right={-1}
+                  top={-1}
+                  size={'sm'}
+                  colorScheme={'gray'}
+                  aria-label="delete tempImg"
+                  icon={<CrossIcon />}
+                  onClick={() => {
+                    setTempImage('');
+                    setFormData({ ...formData, image: '' });
+                  }}
+                />
+              </Box>
+            ) : (
+              ''
+            )}
           </Flex>
         </ModalBody>
         <ModalFooter>
@@ -366,7 +440,7 @@ const AskingModal: React.FC<ModalProps> = (props) => {
             colorScheme="green"
             onClick={handleNewQuestionSubmit}
           >
-            回覆
+            {props.isOnEdit ? '儲存修改' : '新增提問'}
           </Button>
         </ModalFooter>
       </ModalContent>

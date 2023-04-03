@@ -154,7 +154,7 @@ export interface QuestionFormData {
   isAnonymous: boolean;
   grade: string;
   subject: string;
-  images: File[];
+  image: File | string;
 }
 
 export const postNewQuestion = async (token: string, formData: QuestionFormData) => {
@@ -162,6 +162,37 @@ export const postNewQuestion = async (token: string, formData: QuestionFormData)
     const { status } = await axios.post(`${baseURL}/questions`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+
+    return status;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//編輯提問
+export const editQuestion = async (token: string, id: number, formData: QuestionFormData) => {
+  try {
+    const { status } = await axios.put(`${baseURL}/questions/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+
+    return status;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//刪除自己的回答
+export const deleteUserReply = async (token: string, id: number) => {
+  try {
+    const { status } = await axios.delete(`${baseURL}/replies/${id}`, {
+      headers: {
         Authorization: 'Bearer ' + token,
       },
     });

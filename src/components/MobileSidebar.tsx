@@ -99,6 +99,7 @@ const UserMobileNavList: React.FC<UserNavProps> = (props) => {
         onClose={onClose}
         currentUserAvatar={props.userAvatar}
         currentUserName={props.userName}
+        isOnEdit={false}
       />
     </>
   );

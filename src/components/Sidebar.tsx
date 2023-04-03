@@ -119,6 +119,7 @@ const UserNavList: React.FC<UserNavProps> = ({ userName, userAvatar }) => {
         onClose={onClose}
         currentUserAvatar={userAvatar}
         currentUserName={userName}
+        isOnEdit={false}
       />
     </Flex>
   );
