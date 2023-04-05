@@ -1,10 +1,12 @@
 //工具
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { reset } from '../features/auth/authSlice';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link as ReactLink, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 //googleAuth 測試
 // import { googleAuthRequest } from '../api/auth';
+import { googleLogin } from '../features/auth/authSlice';
 
 //元件
 import { 
@@ -19,6 +21,7 @@ import {
   Select
 } from '@chakra-ui/react';
 import { Logo } from '../assets/images';
+import { GoogleIcon } from '../assets/icons';
 
 interface AuthFormProps {
   isUser: boolean;
@@ -91,7 +94,44 @@ export const AuthSelect: React.FC<InputProps> = (props) => {
 
 
 const AuthForm: React.FC<AuthFormProps> = (props) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { isGoogleLoading, isError, isSuccess } = useSelector(
+    (state: any) => state.auth
+  );
+
+  const token = localStorage.getItem('token')!;
+
+  //google驗證登入狀態
+  useEffect(() => {
+    if (isError) {
+      Swal.fire({
+        position: 'top',
+        title: '登入失敗',
+        timer: 1000,
+        icon: 'error',
+        showConfirmButton: false,
+      });
+    }
+
+    if (isSuccess) {
+      Swal.fire({
+        position: 'top',
+        title: '登入成功',
+        timer: 1000,
+        icon: 'success',
+        showConfirmButton: false,
+      });
+      dispatch(reset());
+      navigate('/front/home');
+    }
+
+    if (token) {
+      navigate('/front/home');
+    }
+
+  }, [isError, isSuccess, navigate, dispatch, token])
 
   return (
     <Box
@@ -134,7 +174,7 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
           my={3}
           onClick={props.isOnRegist? props.onClickRegist : props.onClickLogin}
         >{props.isOnRegist ? '註冊' : '登入'}</Button>
-        {/* {props.isUser && <Button
+        {props.isUser && <Button
           bg={'white'}
           color={'brand.500'}
           colorScheme={'green'}
@@ -142,10 +182,11 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
           w={'100%'}
           variant={'outline'}
           leftIcon={<GoogleIcon />}
-          onClick={() => {googleAuthRequest();}}
+          onClick={() => {dispatch(googleLogin() as any);}}
           disabled
-        >以Google登入/註冊</Button>} */}
-        {props.isUser && <div id="googleAuth" style={{width: '100%'}}></div> }
+          isLoading={isGoogleLoading}
+        >以Google登入/註冊</Button>}
+        {/* {props.isUser && <div id="googleAuth" style={{width: '100%'}}></div> } */}
         <Flex justify={'flex-end'} gap={2} mt={2}>
           <Text 
             color={'brand.300'}
