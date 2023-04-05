@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseURL = process.env.REACT_APP_API_BASEURL;
+// const baseURL = process.env.REACT_APP_API_BASEURL;
+const baseURL = 'https://t7gnwvvq9h.execute-api.ap-northeast-1.amazonaws.com/api/v1';
 
 //修改個人資料相關
 //修改當前使用者帳戶資訊
