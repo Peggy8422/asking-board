@@ -81,6 +81,29 @@ const SettingsPage = () => {
       <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
         帳戶設定
       </Heading>
+      <Box
+        w={'100%'}
+        position={'relative'}
+        pb={5}
+        mt={2}
+        px={5}
+        mr={-3}
+        left={{base: -5 ,md: -4}}
+        h={{base: '60vh', sm: '100vh'}}
+        overflowY={'scroll'}
+        sx={{
+          '::-webkit-scrollbar': {
+            width: '6px',
+            backgroundColor: 'transparent',
+          },
+          '::-webkit-scrollbar-thumb': {
+            width: '6px',
+            border: 'none',
+            borderRadius: '3px',
+            backgroundColor: 'var(--chakra-colors-brand-300)',
+          },
+        }}
+      >
       <FormControl w={'80%'} position={'relative'}>
         <AuthInput
           label="Email(帳號)"
@@ -151,6 +174,7 @@ const SettingsPage = () => {
           儲存
         </Button>
       </FormControl>
+      </Box>
     </Box>
   );
 };

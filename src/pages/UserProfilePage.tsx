@@ -112,9 +112,13 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
       <Flex
         position={'relative'}
         align={'end'}
+        justify={'space-between'}
         gap={3}
+        wrap={{base: 'wrap', md: 'nowrap'}}
       >
         {/* 個人大頭貼 */}
+        <Flex align={'end'} gap={3}
+        wrap={{base: 'wrap', md: 'nowrap'}}>
         <Avatar
           size={'2xl'}
           name={'Temp'}
@@ -138,9 +142,10 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
           </Flex>
           <Text color={'brand.gray_3'}>@{userInfo?.account || ''}</Text>
         </Box>
+        </Flex>
         <Badge
-          position={'absolute'}
-          right={0}
+          // position={'absolute'}
+          // right={0}
           fontSize={'md'}
           bg={'transparent'}
           color={'brand.500'}
@@ -196,13 +201,13 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
         sx={{
           '::-webkit-scrollbar': {
             width: '6px',
-            'background-color': 'transparent',
+            backgroundColor: 'transparent',
           },
           '::-webkit-scrollbar-thumb': {
             width: '6px',
             border: 'none',
-            'border-radius': '3px',
-            'background-color': 'var(--chakra-colors-brand-300)',
+            borderRadius: '3px',
+            backgroundColor: 'var(--chakra-colors-brand-300)',
           },
         }}
       >
@@ -225,7 +230,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               查看更多
             </Button>
           </Flex>
-          <Flex gap={2}>
+          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', md: 'nowrap'}}>
             {/* 排版用 */}
             {userAllQs.map((q: any) => (
               <LatestPostCard
@@ -261,7 +266,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               查看更多
             </Button>
           </Flex>
-          <Flex gap={2}>
+          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', md: 'nowrap'}}>
             {/* 排版用 */}
             {userLikedQs.map((q: any) => (
               <LatestPostCard
@@ -297,7 +302,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               查看更多
             </Button>
           </Flex>
-          <Flex gap={2}>
+          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', md: 'nowrap'}}>
             {/* 排版用 */}
             {userRepliedQs.map((q: any) => (
               <LatestPostCard

@@ -5,11 +5,11 @@ import { useSelector } from 'react-redux';
 // import { userGetAllQuestions } from '../api/questionRelated';
 
 //元件
-import { 
-  Box, 
-  Container, 
+import {
+  Box,
+  Container,
   Heading,
-  Tag, 
+  Tag,
   Input,
   InputGroup,
   InputLeftElement,
@@ -21,7 +21,8 @@ import {
   MenuList,
   MenuItemOption,
   MenuOptionGroup,
-  IconButton
+  IconButton,
+  Hide,
 } from '@chakra-ui/react';
 import { Logo } from '../assets/images';
 import { SearchIcon, FilterIcon, BellIcon } from '../assets/icons';
@@ -31,25 +32,37 @@ interface SearchProps {
   filterOption: string | string[];
   setFilterOption: React.Dispatch<React.SetStateAction<string | string[]>>;
 }
-const SearchFilterMenu: React.FC<SearchProps> = ({isDisabled, filterOption, setFilterOption}) => {
-
+const SearchFilterMenu: React.FC<SearchProps> = ({
+  isDisabled,
+  filterOption,
+  setFilterOption,
+}) => {
   return (
-    <Menu closeOnSelect={true} >
+    <Menu closeOnSelect={true}>
       <MenuButton
         as={IconButton}
-        aria-label='Options'
+        aria-label="Options"
         icon={<FilterIcon />}
-        variant='ghost'
+        variant="ghost"
         borderRadius={'xl'}
         disabled={isDisabled}
       />
-      {!isDisabled && <MenuList>
-        <MenuOptionGroup value={filterOption} title={'搜尋範圍'} type={'radio'} onChange={(value) => {setFilterOption(value);}}>
-          <MenuItemOption value={''}>全部</MenuItemOption>
-          <MenuItemOption value={'國中'}>國中</MenuItemOption>
-          <MenuItemOption value={'其他'}>其他</MenuItemOption>
-        </MenuOptionGroup>
-      </MenuList>}
+      {!isDisabled && (
+        <MenuList>
+          <MenuOptionGroup
+            value={filterOption}
+            title={'搜尋範圍'}
+            type={'radio'}
+            onChange={(value) => {
+              setFilterOption(value);
+            }}
+          >
+            <MenuItemOption value={''}>全部</MenuItemOption>
+            <MenuItemOption value={'國中'}>國中</MenuItemOption>
+            <MenuItemOption value={'其他'}>其他</MenuItemOption>
+          </MenuOptionGroup>
+        </MenuList>
+      )}
     </Menu>
   );
 };
@@ -58,7 +71,7 @@ interface HeaderProps {
   isAdmin: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({isAdmin}) => {
+const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
   const { user, isAvatarChanged } = useSelector((state: any) => state.auth);
   const [userAvatar, setUserAvatar] = useState(user?.avatar);
   const [filterOption, setFilterOption] = useState<string | string[]>('');
@@ -72,34 +85,41 @@ const Header: React.FC<HeaderProps> = ({isAdmin}) => {
         state: {
           grade: filterOption,
           keyword,
-        }
+        },
       });
     } else return;
-  }
-  
+  };
+
   useEffect(() => {
     if (isAvatarChanged) {
-      const currentAvatar = JSON.parse(localStorage.getItem('currentUser')!).avatar;
+      const currentAvatar = JSON.parse(
+        localStorage.getItem('currentUser')!,
+      ).avatar;
       setUserAvatar(currentAvatar);
     }
-  }, [user?.avatar, isAvatarChanged])
+  }, [user?.avatar, isAvatarChanged]);
 
   return (
-    <Box 
+    <Box
       position={'fixed'}
       width={'100%'}
       boxShadow={'md'}
-      bg={'white'} 
+      bg={'white'}
       zIndex={2}
     >
-      <Container maxW={'container.xl'} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+      <Container
+        maxW={'container.xl'}
+        display={'flex'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+      >
         <Flex align={'center'} gap={2}>
           <Logo width={'40px'} />
-          <Heading 
-            as={'h5'}
-            size={'lg'}
-            color={'brand.500'}
-          >Asking Board</Heading>
+          <Hide below="md">
+            <Heading as={'h5'} size={'lg'} color={'brand.500'}>
+              Asking Board
+            </Heading>
+          </Hide>
         </Flex>
         <InputGroup width={'50%'}>
           <InputLeftElement
@@ -107,27 +127,45 @@ const Header: React.FC<HeaderProps> = ({isAdmin}) => {
             pointerEvents={'none'}
             children={<SearchIcon />}
           />
-          <Input isDisabled={isAdmin}
-            type={'text'} 
-            placeholder={'請輸入關鍵字'} 
+          <Input
+            isDisabled={isAdmin}
+            type={'text'}
+            placeholder={'請輸入關鍵字'}
             borderRadius={'20px'}
             bg={'gray.50'}
             value={keyword}
-            onChange={(e) => {setKeyword(e.target.value);}}
+            onChange={(e) => {
+              setKeyword(e.target.value);
+            }}
             // keyDown事件
             onKeyDown={handleEnterKeyDown}
           />
-          <Tag size={'sm'} position={'absolute'} right={'40px'} top={'25%'}>{filterOption === '' ? '全部' : filterOption}</Tag>
+          <Tag size={'sm'} position={'absolute'} right={'40px'} top={'25%'}>
+            {filterOption === '' ? '全部' : filterOption}
+          </Tag>
           <InputRightElement
             cursor={'pointer'}
             mr={'5px'}
-            children={<>
-            <SearchFilterMenu isDisabled={isAdmin} filterOption={filterOption} setFilterOption={setFilterOption} /></>}
+            children={
+              <>
+                <SearchFilterMenu
+                  isDisabled={isAdmin}
+                  filterOption={filterOption}
+                  setFilterOption={setFilterOption}
+                />
+              </>
+            }
           />
         </InputGroup>
         <Flex align={'center'} gap={3}>
           <BellIcon />
-          <Avatar as={ReactLink} to={isAdmin ? '' : '/front/profile'} name={user?.name} src={userAvatar} cursor={isAdmin ? 'not-allowed' : 'pointer'}  />
+          <Avatar
+            as={ReactLink}
+            to={isAdmin ? '' : '/front/profile'}
+            name={user?.name}
+            src={userAvatar}
+            cursor={isAdmin ? 'not-allowed' : 'pointer'}
+          />
         </Flex>
       </Container>
     </Box>
@@ -135,5 +173,3 @@ const Header: React.FC<HeaderProps> = ({isAdmin}) => {
 };
 
 export default Header;
-
-

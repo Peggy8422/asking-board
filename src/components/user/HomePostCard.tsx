@@ -72,6 +72,7 @@ const HomePostCard: React.FC<CardProps> = (props) => {
                   ? '/front/profile'
                   : `/front/profile_others/?userId=${props.userId}`
               }
+              style={{pointerEvents: props.userName === '匿名' ? 'none' : 'unset'}}
             >
               <Avatar name={props.userName} src={props.avatar} />
             </Link>
