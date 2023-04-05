@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { reset } from '../features/auth/authSlice';
 import { Link as ReactLink } from 'react-router-dom';
 //googleAuth 測試
-import { googleAuthRequest } from '../api/auth';
+// import { googleAuthRequest } from '../api/auth';
 
 //元件
 import { 
@@ -19,7 +19,6 @@ import {
   Select
 } from '@chakra-ui/react';
 import { Logo } from '../assets/images';
-import { GoogleIcon } from '../assets/icons';
 
 interface AuthFormProps {
   isUser: boolean;
@@ -135,7 +134,7 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
           my={3}
           onClick={props.isOnRegist? props.onClickRegist : props.onClickLogin}
         >{props.isOnRegist ? '註冊' : '登入'}</Button>
-        {props.isUser && <Button
+        {/* {props.isUser && <Button
           bg={'white'}
           color={'brand.500'}
           colorScheme={'green'}
@@ -144,7 +143,9 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
           variant={'outline'}
           leftIcon={<GoogleIcon />}
           onClick={() => {googleAuthRequest();}}
-        >以Google登入/註冊</Button>}
+          disabled
+        >以Google登入/註冊</Button>} */}
+        {props.isUser && <div id="googleAuth" style={{width: '100%'}}></div> }
         <Flex justify={'flex-end'} gap={2} mt={2}>
           <Text 
             color={'brand.300'}

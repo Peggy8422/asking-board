@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as ReactLink, NavLink as ReactNavLink } from 'react-router-dom';
 import { logoutAct, reset, clearEmail } from '../features/auth/authSlice';
 import { SidebarProps, UserNavProps } from './Sidebar';
+import { ModalOpenContext } from '../App';
 
 //元件
 import { Box, Flex, IconButton, useDisclosure } from '@chakra-ui/react';
@@ -19,6 +20,7 @@ import AskingModal from './user/AskingModal';
 //使用者
 const UserMobileNavList: React.FC<UserNavProps> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { setIsModalClosed } = useContext(ModalOpenContext);
   return (
     <>
       <ReactNavLink to="/front/home">
@@ -89,14 +91,20 @@ const UserMobileNavList: React.FC<UserNavProps> = (props) => {
         bg={'brand.500'}
         colorScheme={'green'}
         boxShadow={'md'}
-        onClick={onOpen}
+        onClick={() => {
+          onOpen();
+          setIsModalClosed(false);
+        }}
         aria-label="ask question"
         icon={<HandIcon width={'20px'} />}
       />
       {/* 發問的modal */}
       <AskingModal
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={() => {
+          onClose();
+          setIsModalClosed(true);
+        }}
         currentUserAvatar={props.userAvatar}
         currentUserName={props.userName}
         isOnEdit={false}

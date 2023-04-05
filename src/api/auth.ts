@@ -81,11 +81,7 @@ export const logout = () => {
 //發取得google登入選擇帳戶頁面的請求
 export const googleAuthRequest = async () => {
   try {
-    await axios.get(`${baseURL}/auth/google`, {
-      headers: {
-        'GOOGLE_CLIENT_ID': '466752325291-b392ku9m21cjdte2v2vtoppt2qk8f42m.apps.googleusercontent.com',
-      }
-    });
+    await axios.get(`${baseURL}/auth/google`);
   } catch (error) {
     console.log(error);
   }

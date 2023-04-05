@@ -1,5 +1,5 @@
 //工具
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { getHotIssues } from '../api/questionRelated';
 
 //元件
@@ -29,7 +29,6 @@ const HotIssuePage = () => {
       setQuestionsData(data);
       setIsLoading(false);
     };
-
     getQuestions();
   }, [token]);
 
@@ -119,7 +118,7 @@ const HotIssuePage = () => {
               identity={q.User.role}
               category={q.grade + q.subject}
               title={q.title}
-              image={q.Images.url}
+              image={q.image}
               content={q.description}
               createdAt={q.createdAt}
               likedCount={q.likeCount}

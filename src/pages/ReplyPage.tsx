@@ -54,7 +54,7 @@ const initQuestionData = {
     role: '',
     account: '',
   },
-  Image: '',
+  image: '',
 };
 
 const ReplyPage = () => {
@@ -97,7 +97,6 @@ const ReplyPage = () => {
   //送出回答
   const handleReplyPosted = async () => {
     const status = await postQuestionReply(token, questionId, reply);
-    console.log(status);
     if (status === 'success') {
       Swal.fire({
         position: 'top',
@@ -196,7 +195,7 @@ const ReplyPage = () => {
               subject={questionData.subject}
               isAnonymous={questionData.isAnonymous}
               description={questionData.description}
-              image={questionData.Image}
+              image={questionData.image}
             />
             <Text color={'brand.gray_3'}>{likedCountLocal}個收藏</Text>
             {isLikedLocal ? (
@@ -284,7 +283,7 @@ const ReplyPage = () => {
           }}
         >
           <Flex p={5} wrap={'wrap'} gap={2}>
-            {questionData.Image ? <Image src={questionData.Image} alt={''} /> : ''}
+            {questionData.image ? <Image src={questionData.image} alt={''} /> : ''}
           </Flex>
           <Text mx={5} mt={5}>
             {questionData.description}

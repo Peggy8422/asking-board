@@ -68,11 +68,11 @@ interface ModalProps {
 
 const AskingModal: React.FC<ModalProps> = (props) => {
   const [formData, setFormData] = useState<QuestionFormData>({
-    title: props.title || '',
-    description: props.description || '',
-    isAnonymous: props.isAnonymous || false,
-    grade: props.grade || '',
-    subject: props.subject || '',
+    title: '',
+    description: '',
+    isAnonymous: false,
+    grade: '',
+    subject: '',
     image: '',
   });
   const [tempImage, setTempImage] = useState<string>(props.image || '');
@@ -84,8 +84,10 @@ const AskingModal: React.FC<ModalProps> = (props) => {
 
   //上傳問題照片(們)
   const handlePicsUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('點擊!')
     const fileReader = new FileReader();
     const file = e.target.files![0];
+    console.log(file);
 
     //上傳單張照片
     //檔案讀取完成時就調用onload
@@ -101,6 +103,7 @@ const AskingModal: React.FC<ModalProps> = (props) => {
     fileReader.readAsDataURL(file);
     if (file) {
       setFormData({...formData, image: file});
+      e.target.value = '';
     } else return;
 
     //讀取多個file物件用非同步處理(暫不用)
@@ -193,15 +196,15 @@ const AskingModal: React.FC<ModalProps> = (props) => {
         isAnonymous: data.isAnonymous,
         grade: data.grade,
         subject: data.subject,
-        image: data.Image,
+        image: data.image,
       });
-      setTempImage(data.Image);
+      setTempImage(data.image);
     };
 
-    if (questionId) {
+    if (questionId && props.isOpen && props.isOnEdit) {
       getQuestion();
     } else return;
-  }, [token, questionId]);
+  }, [token, questionId, props.isOpen, props.isOnEdit]);
 
   return (
     <Modal
@@ -400,12 +403,11 @@ const AskingModal: React.FC<ModalProps> = (props) => {
               type={'file'}
               id={'add-photos'}
               display={'none'}
-              multiple
               onChange={handlePicsUpload}
             />
           </FormLabel>
           <Badge mt={-2} fontSize={'sm'} colorScheme={'green'}>
-            可新增與問題相關照片(至多5張)
+            可新增與問題相關照片
           </Badge>
           <Flex wrap={'wrap'} gap={2} p={2}>
             {tempImage && tempImage !== '' ? (

@@ -167,9 +167,10 @@ const EditProfileModal: React.FC<ModalProps> = (props) => {
       });
       setTempAvatar(userData.avatar);
     }
-
-    getUserInfo();
-  }, [token])
+    if (props.isOpen) {
+      getUserInfo();
+    } else return;
+  }, [token, props.isOpen])
 
   return (
     <Modal

@@ -1,7 +1,8 @@
 //工具
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userGetAllQuestions } from '../api/questionRelated';
+import { ModalOpenContext } from '../App';
 
 //元件
 import {
@@ -24,6 +25,7 @@ const HomePage = () => {
   const [activeGrade, setActiveGrade] = useState('國中全年級');
   const [isLoading, setIsLoading] = useState(false);
   const [questions, setQuestions] = useState([]); //科目有選擇時要用filter改
+  const {isModalClosed} = useContext(ModalOpenContext);
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token')!;
@@ -38,9 +40,9 @@ const HomePage = () => {
     if (!token) {
       navigate('/login');
     }
-
+    
     getAllQuestions();
-  }, [token, navigate]);
+  }, [token, navigate, isModalClosed]);
 
   const handleSubjectClicked = async (subject: string) => {
     setIsLoading(true);
@@ -196,7 +198,7 @@ const HomePage = () => {
                 identity={q.User.role}
                 category={q.grade + q.subject}
                 title={q.title}
-                image={q.Images.url}
+                image={q.image}
                 content={q.description}
                 createdAt={q.createdAt}
                 likedCount={q.likeCount}

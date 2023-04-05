@@ -48,7 +48,7 @@ const AdminUsersPage = () => {
         <Grid templateColumns={'repeat(5, 1fr)'} h={'100vh'}>
           <Hide below={'sm'}>
             <GridItem colSpan={[0, 1]} position={'relative'}>
-              <Sidebar userAvatar="" userName="管理員" isOnUserPages={false} />
+              <Sidebar userAvatar="" userName="管理員" isOnUserPages={false}  />
             </GridItem>
           </Hide>
           <GridItem colSpan={[5, 4]} pt={'30px'} px={5} mt={'92px'}>

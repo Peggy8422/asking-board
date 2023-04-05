@@ -8,7 +8,8 @@ import { useSelector } from 'react-redux';
 import { 
   Box, 
   Container, 
-  Heading, 
+  Heading,
+  Tag, 
   Input,
   InputGroup,
   InputLeftElement,
@@ -116,10 +117,12 @@ const Header: React.FC<HeaderProps> = ({isAdmin}) => {
             // keyDown事件
             onKeyDown={handleEnterKeyDown}
           />
+          <Tag size={'sm'} position={'absolute'} right={'40px'} top={'25%'}>{filterOption === '' ? '全部' : filterOption}</Tag>
           <InputRightElement
             cursor={'pointer'}
             mr={'5px'}
-            children={<SearchFilterMenu isDisabled={isAdmin} filterOption={filterOption} setFilterOption={setFilterOption} />}
+            children={<>
+            <SearchFilterMenu isDisabled={isAdmin} filterOption={filterOption} setFilterOption={setFilterOption} /></>}
           />
         </InputGroup>
         <Flex align={'center'} gap={3}>

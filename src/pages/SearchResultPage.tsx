@@ -86,7 +86,7 @@ const SearchResultPage = () => {
                 identity={q.User.role}
                 category={q.grade + q.subject}
                 title={q.title}
-                image={q.Images.url}
+                image={q.Image}
                 content={q.description}
                 createdAt={q.createdAt}
                 likedCount={q.likeCount}
