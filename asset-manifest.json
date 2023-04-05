@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/asking-board/static/css/main.cce2e099.css",
-    "main.js": "/asking-board/static/js/main.da343942.js",
+    "main.js": "/asking-board/static/js/main.118f7270.js",
     "static/js/787.596dbac0.chunk.js": "/asking-board/static/js/787.596dbac0.chunk.js",
     "static/media/illus-2.svg": "/asking-board/static/media/illus-2.9226b112aa5beadaab9b6edd61eb7905.svg",
     "static/media/google-icon.svg": "/asking-board/static/media/google-icon.63a4eb6f38250eedb6f9e89dc780c655.svg",
@@ -22,9 +22,9 @@
     "static/media/admin-icon.svg": "/asking-board/static/media/admin-icon.6c3e7696086a2c280f4ba1c3e2254632.svg",
     "static/media/hand-icon.svg": "/asking-board/static/media/hand-icon.8a278cf977c488d71ac972f62b6ccaaa.svg",
     "static/media/hot-icon.svg": "/asking-board/static/media/hot-icon.d84b9d59eeacdbf951c96c7c0c0c3edb.svg",
+    "index.html": "/asking-board/index.html",
     "static/media/checked-icon.svg": "/asking-board/static/media/checked-icon.6a0a915675467e9aabb5d6fa4a77c571.svg",
     "static/media/heart-outline-icon.svg": "/asking-board/static/media/heart-outline-icon.5eb59a9dae3143cc3aa403b7ff7688d6.svg",
-    "index.html": "/asking-board/index.html",
     "static/media/logout-icon.svg": "/asking-board/static/media/logout-icon.adec49a644d396475257390bb657c2e5.svg",
     "static/media/goback-icon.svg": "/asking-board/static/media/goback-icon.6e5338f5efdae50be193277389ee7f6d.svg",
     "static/media/add-icon.svg": "/asking-board/static/media/add-icon.db913e72beefa45e9f67a844533fa21d.svg",
@@ -33,11 +33,11 @@
     "static/media/arrow-up-icon.svg": "/asking-board/static/media/arrow-up-icon.0dd16a7417379b4fae9d33bcce5c70be.svg",
     "static/media/right-arrow-icon.svg": "/asking-board/static/media/right-arrow-icon.373a1b17af6702e189f5d146f9cd36c9.svg",
     "main.cce2e099.css.map": "/asking-board/static/css/main.cce2e099.css.map",
-    "main.da343942.js.map": "/asking-board/static/js/main.da343942.js.map",
+    "main.118f7270.js.map": "/asking-board/static/js/main.118f7270.js.map",
     "787.596dbac0.chunk.js.map": "/asking-board/static/js/787.596dbac0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.cce2e099.css",
-    "static/js/main.da343942.js"
+    "static/js/main.118f7270.js"
   ]
 }
