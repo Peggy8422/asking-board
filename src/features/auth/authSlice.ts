@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { registRequest, registParams, loginRequest, loginParams, logout, googleAuthRequest } from "../../api/auth";
+import { registRequest, registParams, loginRequest, loginParams, logout } from "../../api/auth";
 
 export interface initStateType {
   user: unknown;
@@ -98,20 +98,6 @@ export const authSlice = createSlice({
       .addCase(logoutAct.fulfilled, (state) => {
         state.user = null;
       })
-      .addCase(googleLogin.pending, (state) => {
-        state.isGoogleLoading = true;
-      })
-      .addCase(googleLogin.fulfilled, (state, action) => {
-        state.isGoogleLoading = false;
-        state.isSuccess = true;
-        state.user = action.payload;
-      })
-      .addCase(googleLogin.rejected, (state) => {
-        state.isGoogleLoading = false;
-        state.isError = true;
-        state.user = null;
-        state.email = '';
-      })
   }
 })
  
@@ -154,16 +140,6 @@ export const adminLogin = createAsyncThunk('auth/adminLogin', async (user: login
   return thunkAPI.rejectWithValue(data); //errormessage
 })
 
-//非同步處理：使用google登入
-export const googleLogin = createAsyncThunk('auth/googleLogin', async () => {
-  const data = await googleAuthRequest();
-  if (data.status === 'success') {
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('currentUser', JSON.stringify(data.user));
-    return data.user;
-  }
-
-})
 
 // 基本的action creator
 export const {reset, clearEmail, toggleAvatarChanged} = authSlice.actions;

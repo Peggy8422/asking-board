@@ -82,7 +82,9 @@ export const logout = () => {
 //發取得google登入選擇帳戶頁面的請求
 export const googleAuthRequest = async () => {
   try {
-    const {status, data} = await axios.get(`${baseURL}/auth/google`);
+    const {status, data} = await axios.get(`${baseURL}/auth/google/callback`, {
+      timeout: 10000,
+    });
 
     if (status === 200) {
       console.log(data);
@@ -97,3 +99,5 @@ export const googleAuthRequest = async () => {
     throw new Error('different error than axios');
   }
 }
+
+export const aTagUrlForGoogle = `${baseURL}/auth/google`;

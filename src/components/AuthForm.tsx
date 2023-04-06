@@ -5,8 +5,7 @@ import { reset } from '../features/auth/authSlice';
 import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 //googleAuth 測試
-// import { googleAuthRequest } from '../api/auth';
-import { googleLogin } from '../features/auth/authSlice';
+import { aTagUrlForGoogle } from '../api/auth';
 
 //元件
 import { 
@@ -40,6 +39,7 @@ interface InputProps {
   onChange: (e?: {target: {value: string}}) => void;
   isError?: boolean;
   errorMsg?: string;
+  isDisabled?: boolean;
 }
 
 export const AuthInput: React.FC<InputProps> = (props) => {
@@ -59,6 +59,7 @@ export const AuthInput: React.FC<InputProps> = (props) => {
         variant={'flushed'} 
         placeholder={props.placeholder}
         _placeholder={{fontSize: 'sm'}}
+        isDisabled={props.isDisabled!}
       />
       <FormErrorMessage>{props.errorMsg}</FormErrorMessage>
     </FormControl>
@@ -97,7 +98,7 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isGoogleLoading, isError, isSuccess } = useSelector(
+  const { isError, isSuccess } = useSelector(
     (state: any) => state.auth
   );
 
@@ -175,6 +176,8 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
           onClick={props.isOnRegist? props.onClickRegist : props.onClickLogin}
         >{props.isOnRegist ? '註冊' : '登入'}</Button>
         {props.isUser && <Button
+          as={ReactLink}
+          to={aTagUrlForGoogle}
           bg={'white'}
           color={'brand.500'}
           colorScheme={'green'}
@@ -182,11 +185,7 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
           w={'100%'}
           variant={'outline'}
           leftIcon={<GoogleIcon />}
-          onClick={() => {dispatch(googleLogin() as any);}}
-          disabled
-          isLoading={isGoogleLoading}
         >以Google登入/註冊</Button>}
-        {/* {props.isUser && <div id="googleAuth" style={{width: '100%'}}></div> } */}
         <Flex justify={'flex-end'} gap={2} mt={2}>
           <Text 
             color={'brand.300'}

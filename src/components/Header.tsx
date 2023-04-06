@@ -78,6 +78,9 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
 
+  //沒經過redux的dispatch action所以第一次要先自己抓
+  const googleUserAvatar = JSON.parse(localStorage.getItem('currentUser')!).avatar;
+
   //提交搜尋關鍵字
   const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -91,13 +94,17 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
   };
 
   useEffect(() => {
+    if (googleUserAvatar) {
+      setUserAvatar(googleUserAvatar);
+    }
+
     if (isAvatarChanged) {
       const currentAvatar = JSON.parse(
         localStorage.getItem('currentUser')!,
       ).avatar;
       setUserAvatar(currentAvatar);
     }
-  }, [user?.avatar, isAvatarChanged]);
+  }, [user?.avatar, isAvatarChanged, googleUserAvatar]);
 
   return (
     <Box
