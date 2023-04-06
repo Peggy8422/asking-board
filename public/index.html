@@ -9,6 +9,9 @@
       name="description"
       content="Web site created using create-react-app"
     />
+    <meta property="og:title" content="Asking Board_線上家教問答平台" />
+    <meta property="og:image" content="https://imgur.com/R72MLN7" />
+    <meta property="og:description" content="線上問答社群論壇可以發問學科問題與他人交流互動" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -26,20 +29,26 @@
     -->
     <title>Asking Board</title>
 
-      <!-- Start Single Page Apps for GitHub Pages -->
-      <script type="text/javascript">
-        (function(l) {
-          if (l.search[1] === '/' ) {
-            var decoded = l.search.slice(1).split('&').map(function(s) { 
-              return s.replace(/~and~/g, '&')
-            }).join('?');
-            window.history.replaceState(null, null,
-                l.pathname.slice(0, -1) + decoded + l.hash
-            );
-          }
-        }(window.location))
-      </script>
-      <!-- End Single Page Apps for GitHub Pages -->
+    <!-- Start Single Page Apps for GitHub Pages -->
+    <script type="text/javascript">
+      (function (l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search
+            .slice(1)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&');
+            })
+            .join('?');
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash,
+          );
+        }
+      })(window.location);
+    </script>
+    <!-- End Single Page Apps for GitHub Pages -->
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
