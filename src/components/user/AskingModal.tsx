@@ -174,6 +174,15 @@ const AskingModal: React.FC<ModalProps> = (props) => {
         icon: 'success',
         showConfirmButton: false,
       });
+      setFormData({
+        title: '',
+        description: '',
+        isAnonymous: false,
+        grade: '',
+        subject: '',
+        image: '',
+      });
+      setTempImage('');
       props.onClose();
     } else {
       Swal.fire({
