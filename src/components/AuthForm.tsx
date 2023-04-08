@@ -137,7 +137,7 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
   return (
     <Box
       position={'relative'}
-      w={'50%'}
+      w={{base: '95%', md:'50%'}}
       maxW={'500px'}
       borderRadius={'xl'}
       bg={'white'}

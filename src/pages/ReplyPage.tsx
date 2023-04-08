@@ -154,13 +154,18 @@ const ReplyPage = () => {
       {/* 標頭資訊們 */}
       <Box bg={'white'}>
         <Flex align={'start'} justify={'space-between'}>
-          <Flex align={'baseline'} gap={3}>
+          <Flex align={'start'} gap={3} wrap={{ base: 'wrap', md: 'nowrap' }}>
             <GoBackIcon onClick={() => navigate(-1)} />
-            <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
+            <Heading
+              as={'h1'}
+              size={{ base: 'sm', md: 'lg' }}
+              color={'brand.500'}
+              mb={5}
+            >
               {questionData.title}
             </Heading>
             <Tag
-              size={'md'}
+              size={{ base: 'sm', md: 'md' }}
               variant={'outline'}
               color={'brand.500'}
               colorScheme={'green'}
@@ -170,7 +175,13 @@ const ReplyPage = () => {
               {questionData.grade + questionData.subject}
             </Tag>
           </Flex>
-          <Flex align={'center'} gap={2}>
+          <Flex
+            align={'center'}
+            justify={'end'}
+            gap={2}
+            position={'relative'}
+            flexBasis={{ base: '150px', md: 'unset' }}
+          >
             {questionData.User.id === currentUserId && (
               <Button
                 size={'xs'}
@@ -178,6 +189,8 @@ const ReplyPage = () => {
                 bg={'brand.400'}
                 colorScheme={'green'}
                 onClick={onOpen}
+                position={{ base: 'absolute', md: 'unset' }}
+                top={-6}
               >
                 編輯問題
               </Button>
@@ -197,7 +210,9 @@ const ReplyPage = () => {
               description={questionData.description}
               image={questionData.image}
             />
-            <Text color={'brand.gray_3'}>{likedCountLocal}個收藏</Text>
+            <Text fontSize={{ base: 'xs', md: 'unset' }} color={'brand.gray_3'}>
+              {likedCountLocal}個收藏
+            </Text>
             {isLikedLocal ? (
               <HeartIcon fill="#FF4752" onClick={handleLikeDelete} />
             ) : (
@@ -266,7 +281,7 @@ const ReplyPage = () => {
           pb={5}
           mt={2}
           mx={-5}
-          h={'70vh'}
+          h={{base: '60vh', md: '70vh'}}
           overflowY={'scroll'}
           overflowX={'hidden'}
           sx={{
@@ -283,7 +298,11 @@ const ReplyPage = () => {
           }}
         >
           <Flex p={5} wrap={'wrap'} gap={2}>
-            {questionData.image ? <Image src={questionData.image} alt={''} /> : ''}
+            {questionData.image ? (
+              <Image src={questionData.image} alt={''} />
+            ) : (
+              ''
+            )}
           </Flex>
           <Text mx={5} mt={5}>
             {questionData.description}

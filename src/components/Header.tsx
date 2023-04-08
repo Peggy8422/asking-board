@@ -120,7 +120,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <Flex align={'center'} gap={2}>
+        <Flex as={ReactLink} to={'/front/home'} align={'center'} gap={2}>
           <Logo width={'40px'} />
           <Hide below="md">
             <Heading as={'h5'} size={'lg'} color={'brand.500'}>

@@ -104,7 +104,7 @@ const SettingsPage = () => {
           },
         }}
       >
-      <FormControl w={'80%'} position={'relative'}>
+      <FormControl w={{base: '100%', md: '80%'}} position={'relative'}>
         <AuthInput
           label="Email(帳號)"
           type="email"

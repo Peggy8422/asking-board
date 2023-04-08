@@ -174,7 +174,7 @@ const EditProfileModal: React.FC<ModalProps> = (props) => {
 
   return (
     <Modal
-      size={'3xl'}
+      size={{base: 'full', md: '3xl'}}
       closeOnOverlayClick={false}
       scrollBehavior={'inside'}
       isOpen={props.isOpen}

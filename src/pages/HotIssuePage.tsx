@@ -7,6 +7,7 @@ import {
   Box,
   Flex,
   Heading,
+  Text,
   Button,
   ButtonGroup,
   SkeletonText,
@@ -36,7 +37,7 @@ const HotIssuePage = () => {
     <Box w={'100%'}>
       <Flex align={'start'} justify={'space-between'} bg={'white'}>
         <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
-          熱門問題：{activeCategory}
+          熱門問題：<Text display={'inline-block'} fontSize={{base: 'md', md: '2xl'}}>{activeCategory}</Text>
         </Heading>
         <ButtonGroup
           size="sm"

@@ -217,7 +217,7 @@ const AskingModal: React.FC<ModalProps> = (props) => {
 
   return (
     <Modal
-      size={'3xl'}
+      size={{base: 'full', md: '3xl'}}
       closeOnOverlayClick={false}
       scrollBehavior={'inside'}
       isOpen={props.isOpen}
@@ -289,9 +289,9 @@ const AskingModal: React.FC<ModalProps> = (props) => {
               {formData.title.length}/50
             </FormHelperText>
           </FormControl>
-          <Flex mt={4} justify={'space-between'} gap={3}>
+          <Flex mt={4} justify={'space-between'} gap={3} wrap={{base: 'wrap', md: 'nowrap'}}>
             {/* 分類選擇 */}
-            <FormControl display={'flex'} alignItems={'center'} flex={2}>
+            <FormControl display={'flex'} alignItems={'center'} flex={2} flexBasis={{base: '100%', md: 'unset'}}>
               <FormLabel
                 color={'brand.500'}
                 fontSize={'md'}
@@ -318,7 +318,7 @@ const AskingModal: React.FC<ModalProps> = (props) => {
                 <option value="其他">其他</option>
               </Select>
             </FormControl>
-            <FormControl display={'flex'} alignItems={'center'} flex={2}>
+            <FormControl display={'flex'} alignItems={'center'} flex={2} flexBasis={{base: '100%', md: 'unset'}}> 
               <FormLabel
                 color={'brand.500'}
                 fontSize={'md'}
