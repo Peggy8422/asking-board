@@ -114,13 +114,13 @@ const UserQuestionsPage = () => {
         sx={{
           '::-webkit-scrollbar': {
             width: '6px',
-            'background-color': 'transparent',
+            backgroundColor: 'transparent',
           },
           '::-webkit-scrollbar-thumb': {
             width: '6px',
             border: 'none',
-            'border-radius': '3px',
-            'background-color': 'var(--chakra-colors-brand-300)',
+            borderRadius: '3px',
+            backgroundColor: 'var(--chakra-colors-brand-300)',
           },
         }}
       >

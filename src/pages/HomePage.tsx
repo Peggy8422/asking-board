@@ -1,7 +1,8 @@
 //工具
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userGetAllQuestions } from '../api/questionRelated';
+import { ModalOpenContext } from '../App';
 
 //元件
 import {
@@ -24,6 +25,7 @@ const HomePage = () => {
   const [activeGrade, setActiveGrade] = useState('國中全年級');
   const [isLoading, setIsLoading] = useState(false);
   const [questions, setQuestions] = useState([]); //科目有選擇時要用filter改
+  const {isModalClosed} = useContext(ModalOpenContext);
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token')!;
@@ -40,7 +42,7 @@ const HomePage = () => {
     }
 
     getAllQuestions();
-  }, [token, navigate]);
+  }, [token, navigate, isModalClosed]);
 
   const handleSubjectClicked = async (subject: string) => {
     setIsLoading(true);
@@ -58,7 +60,7 @@ const HomePage = () => {
 
   return (
     <Box w={'100%'}>
-      <Flex align={'start'} justify={'space-between'} bg={'white'}>
+      <Flex align={'start'} justify={'space-between'} bg={'white'} position={'relative'}>
         <Box>
           <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
             {activeCategory === '全部' && '所有問題'}
@@ -104,7 +106,7 @@ const HomePage = () => {
           />
         )}
         <ButtonGroup
-          size="sm"
+          size={'sm'}
           isAttached
           variant="outline"
           color={'brand.gray_1'}
@@ -146,24 +148,24 @@ const HomePage = () => {
       <Flex
         position={'relative'}
         pb={5}
-        mt={2}
-        px={5}
-        mr={-3}
-        left={-4}
-        h={activeCategory === '國中' ? '65vh' : '73vh'}
+        mt={{base: activeCategory === '國中' ? '90px' : 2, md: 2}}
+        px={{base: 2, md: 5}}
+        mr={{base: 0, md: -3}}
+        left={{base: 0 ,md: -4}}
+        h={{base: activeCategory === '國中' ? '50vh' : '60vh', sm: activeCategory === '國中' ? '65vh' : '73vh'}}
         direction={'column'}
         rowGap={5}
         overflowY={'scroll'}
         sx={{
           '::-webkit-scrollbar': {
             width: '6px',
-            'background-color': 'transparent',
+            backgroundColor: 'transparent',
           },
           '::-webkit-scrollbar-thumb': {
             width: '6px',
             border: 'none',
-            'border-radius': '3px',
-            'background-color': 'var(--chakra-colors-brand-300)',
+            borderRadius: '3px',
+            backgroundColor: 'var(--chakra-colors-brand-300)',
           },
         }}
       >
@@ -196,7 +198,7 @@ const HomePage = () => {
                 identity={q.User.role}
                 category={q.grade + q.subject}
                 title={q.title}
-                image={q.Images.url}
+                image={q.image}
                 content={q.description}
                 createdAt={q.createdAt}
                 likedCount={q.likeCount}

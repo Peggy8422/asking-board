@@ -1,7 +1,13 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+//工具
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { reset } from '../features/auth/authSlice';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link as ReactLink, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+//googleAuth 測試
+import { aTagUrlForGoogle } from '../api/auth';
+
+//元件
 import { 
   FormControl,
   FormErrorMessage, 
@@ -33,6 +39,7 @@ interface InputProps {
   onChange: (e?: {target: {value: string}}) => void;
   isError?: boolean;
   errorMsg?: string;
+  isDisabled?: boolean;
 }
 
 export const AuthInput: React.FC<InputProps> = (props) => {
@@ -52,6 +59,7 @@ export const AuthInput: React.FC<InputProps> = (props) => {
         variant={'flushed'} 
         placeholder={props.placeholder}
         _placeholder={{fontSize: 'sm'}}
+        isDisabled={props.isDisabled!}
       />
       <FormErrorMessage>{props.errorMsg}</FormErrorMessage>
     </FormControl>
@@ -87,12 +95,49 @@ export const AuthSelect: React.FC<InputProps> = (props) => {
 
 
 const AuthForm: React.FC<AuthFormProps> = (props) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { isError, isSuccess } = useSelector(
+    (state: any) => state.auth
+  );
+
+  const token = localStorage.getItem('token')!;
+
+  //google驗證登入狀態
+  useEffect(() => {
+    if (isError) {
+      Swal.fire({
+        position: 'top',
+        title: '登入失敗',
+        timer: 1000,
+        icon: 'error',
+        showConfirmButton: false,
+      });
+    }
+
+    if (isSuccess) {
+      Swal.fire({
+        position: 'top',
+        title: '登入成功',
+        timer: 1000,
+        icon: 'success',
+        showConfirmButton: false,
+      });
+      dispatch(reset());
+      navigate('/front/home');
+    }
+
+    if (token) {
+      navigate('/front/home');
+    }
+
+  }, [isError, isSuccess, navigate, dispatch, token])
 
   return (
     <Box
       position={'relative'}
-      w={'50%'}
+      w={{base: '95%', md:'50%'}}
       maxW={'500px'}
       borderRadius={'xl'}
       bg={'white'}
@@ -131,6 +176,8 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
           onClick={props.isOnRegist? props.onClickRegist : props.onClickLogin}
         >{props.isOnRegist ? '註冊' : '登入'}</Button>
         {props.isUser && <Button
+          as={ReactLink}
+          to={aTagUrlForGoogle}
           bg={'white'}
           color={'brand.500'}
           colorScheme={'green'}

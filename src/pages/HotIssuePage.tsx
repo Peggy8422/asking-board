@@ -1,5 +1,5 @@
 //工具
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { getHotIssues } from '../api/questionRelated';
 
 //元件
@@ -7,6 +7,7 @@ import {
   Box,
   Flex,
   Heading,
+  Text,
   Button,
   ButtonGroup,
   SkeletonText,
@@ -29,7 +30,6 @@ const HotIssuePage = () => {
       setQuestionsData(data);
       setIsLoading(false);
     };
-
     getQuestions();
   }, [token]);
 
@@ -37,7 +37,7 @@ const HotIssuePage = () => {
     <Box w={'100%'}>
       <Flex align={'start'} justify={'space-between'} bg={'white'}>
         <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
-          熱門問題：{activeCategory}
+          熱門問題：<Text display={'inline-block'} fontSize={{base: 'md', md: '2xl'}}>{activeCategory}</Text>
         </Heading>
         <ButtonGroup
           size="sm"
@@ -76,9 +76,9 @@ const HotIssuePage = () => {
         position={'relative'}
         pb={5}
         mt={2}
-        px={5}
-        mr={-3}
-        left={-4}
+        px={{base: 2, md: 5}}
+        mr={{base: 0, md: -3}}
+        left={{base: 0 ,md: -4}}
         h={'73vh'}
         direction={'column'}
         rowGap={5}
@@ -86,13 +86,13 @@ const HotIssuePage = () => {
         sx={{
           '::-webkit-scrollbar': {
             width: '6px',
-            'background-color': 'transparent',
+            backgroundColor: 'transparent',
           },
           '::-webkit-scrollbar-thumb': {
             width: '6px',
             border: 'none',
-            'border-radius': '3px',
-            'background-color': 'var(--chakra-colors-brand-300)',
+            borderRadius: '3px',
+            backgroundColor: 'var(--chakra-colors-brand-300)',
           },
         }}
       >
@@ -119,7 +119,7 @@ const HotIssuePage = () => {
               identity={q.User.role}
               category={q.grade + q.subject}
               title={q.title}
-              image={q.Images.url}
+              image={q.image}
               content={q.description}
               createdAt={q.createdAt}
               likedCount={q.likeCount}

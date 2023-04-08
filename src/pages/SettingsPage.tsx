@@ -81,7 +81,30 @@ const SettingsPage = () => {
       <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
         帳戶設定
       </Heading>
-      <FormControl w={'80%'} position={'relative'}>
+      <Box
+        w={'100%'}
+        position={'relative'}
+        pb={5}
+        mt={2}
+        px={5}
+        mr={-3}
+        left={{base: -5 ,md: -4}}
+        h={{base: '60vh', sm: '80vh'}}
+        overflowY={'scroll'}
+        sx={{
+          '::-webkit-scrollbar': {
+            width: '6px',
+            backgroundColor: 'transparent',
+          },
+          '::-webkit-scrollbar-thumb': {
+            width: '6px',
+            border: 'none',
+            borderRadius: '3px',
+            backgroundColor: 'var(--chakra-colors-brand-300)',
+          },
+        }}
+      >
+      <FormControl w={{base: '100%', md: '80%'}} position={'relative'}>
         <AuthInput
           label="Email(帳號)"
           type="email"
@@ -92,6 +115,7 @@ const SettingsPage = () => {
           placeholder="請輸入Email"
           isError={(typeof errorData.message !== 'string' && errorData.message.email)? errorData.status : false}
           errorMsg={(typeof errorData.message !== 'string' && errorData.message.email) || ''}
+          isDisabled={userData.isLocalAccount !== undefined && !userData.isLocalAccount}
         />
         {/* 身分select */}
         <AuthSelect
@@ -115,6 +139,7 @@ const SettingsPage = () => {
           placeholder="請輸入舊密碼"
           isError={(typeof errorData.message !== 'string' && errorData.message.password)? errorData.status : false}
           errorMsg={(typeof errorData.message !== 'string' && errorData.message.password) || ''}
+          isDisabled={userData.isLocalAccount !== undefined && !userData.isLocalAccount}
         />
         <AuthInput
           label="新密碼設定"
@@ -126,6 +151,7 @@ const SettingsPage = () => {
           placeholder="請設定新密碼"
           isError={(typeof errorData.message !== 'string' && errorData.message.newPassword)? errorData.status : false}
           errorMsg={(typeof errorData.message !== 'string' && errorData.message.newPassword) || ''}
+          isDisabled={userData.isLocalAccount !== undefined && !userData.isLocalAccount}
         />
         <AuthInput
           label="確認新密碼"
@@ -137,6 +163,7 @@ const SettingsPage = () => {
           placeholder="請再次確認新密碼"
           isError={(typeof errorData.message !== 'string' && errorData.message.confirmPassword)? errorData.status : false}
           errorMsg={(typeof errorData.message !== 'string' && errorData.message.confirmPassword) || ''}
+          isDisabled={userData.isLocalAccount !== undefined && !userData.isLocalAccount}
         />
         <Button
           size={'sm'}
@@ -151,6 +178,7 @@ const SettingsPage = () => {
           儲存
         </Button>
       </FormControl>
+      </Box>
     </Box>
   );
 };

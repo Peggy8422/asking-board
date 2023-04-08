@@ -6,6 +6,7 @@ import {
   getQuestionReplies,
   postQuestionReply,
 } from '../api/questionRelated';
+import { postLikedQuestion, deleteLikedQuestion } from '../api/questionRelated';
 import Swal from 'sweetalert2';
 
 //元件
@@ -20,16 +21,20 @@ import {
   Button,
   Divider,
   SkeletonText,
+  Image,
+  useDisclosure,
 } from '@chakra-ui/react';
 import {
   GoBackIcon,
   HeartIcon,
   HeartOutlineIcon,
   CommentIcon,
+  EditIcon,
 } from '../assets/icons';
 
 //card元件
 import ReplyCard from '../components/user/ReplyCard';
+import AskingModal from '../components/user/AskingModal';
 
 const initQuestionData = {
   id: 0,
@@ -49,11 +54,13 @@ const initQuestionData = {
     role: '',
     account: '',
   },
-  Images: [],
+  image: '',
 };
 
 const ReplyPage = () => {
   const [questionData, setQuestionData] = useState(initQuestionData);
+  const [isLikedLocal, setIsLikedLocal] = useState(false);
+  const [likedCountLocal, setLikedCountLocal] = useState(0);
   const [repliesData, setRepliesData] = useState([]);
   const [reply, setReply] = useState({
     comment: '',
@@ -61,15 +68,35 @@ const ReplyPage = () => {
   });
   const [isReplySubmmited, setIsReplySubmmited] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const questionId = Number(searchParams.get('reply_to'));
 
   const token = localStorage.getItem('token')!;
+  const currentUserId = JSON.parse(localStorage.getItem('currentUser')!).id;
 
+  //收藏問題
+  const handleLikePost = async () => {
+    const status = await postLikedQuestion(token, questionData.id);
+    if (status === 200) {
+      setIsLikedLocal(true);
+      setLikedCountLocal(likedCountLocal + 1);
+    } else return;
+  };
+
+  //取消收藏問題
+  const handleLikeDelete = async () => {
+    const status = await deleteLikedQuestion(token, questionData.id);
+    if (status === 200) {
+      setIsLikedLocal(false);
+      setLikedCountLocal(likedCountLocal - 1);
+    } else return;
+  };
+
+  //送出回答
   const handleReplyPosted = async () => {
     const status = await postQuestionReply(token, questionId, reply);
-    console.log(status);
     if (status === 'success') {
       Swal.fire({
         position: 'top',
@@ -83,22 +110,28 @@ const ReplyPage = () => {
         images: [],
       });
       setIsReplySubmmited(true);
-      setQuestionData({...questionData, replyCount: questionData.replyCount + 1});
+      setQuestionData({
+        ...questionData,
+        replyCount: questionData.replyCount + 1,
+      });
     }
   };
 
+  //取得問題詳細內容
   useEffect(() => {
     setIsLoading(true);
     const getQuestion = async () => {
       const data = await getQuestionDetail(token, questionId);
       const replies = await getQuestionReplies(token, questionId);
       setQuestionData(data);
+      setIsLikedLocal(data.isLiked);
+      setLikedCountLocal(data.likeCount);
       setRepliesData(replies);
       setIsLoading(false);
     };
     if (!token) return;
     getQuestion();
-  }, [token, questionId]);
+  }, [token, questionId, isOpen]);
 
   //成功送出回答後重新撈取所有回答內容
   useEffect(() => {
@@ -121,13 +154,18 @@ const ReplyPage = () => {
       {/* 標頭資訊們 */}
       <Box bg={'white'}>
         <Flex align={'start'} justify={'space-between'}>
-          <Flex align={'baseline'} gap={3}>
+          <Flex align={'start'} gap={3} wrap={{ base: 'wrap', md: 'nowrap' }}>
             <GoBackIcon onClick={() => navigate(-1)} />
-            <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
+            <Heading
+              as={'h1'}
+              size={{ base: 'sm', md: 'lg' }}
+              color={'brand.500'}
+              mb={5}
+            >
               {questionData.title}
             </Heading>
             <Tag
-              size={'md'}
+              size={{ base: 'sm', md: 'md' }}
               variant={'outline'}
               color={'brand.500'}
               colorScheme={'green'}
@@ -137,12 +175,48 @@ const ReplyPage = () => {
               {questionData.grade + questionData.subject}
             </Tag>
           </Flex>
-          <Flex align={'center'} gap={2}>
-            <Text color={'brand.gray_3'}>{questionData.likeCount}個收藏</Text>
-            {questionData.isLiked ? (
-              <HeartIcon fill="#FF4752" />
+          <Flex
+            align={'center'}
+            justify={'end'}
+            gap={2}
+            position={'relative'}
+            flexBasis={{ base: '150px', md: 'unset' }}
+          >
+            {questionData.User.id === currentUserId && (
+              <Button
+                size={'xs'}
+                leftIcon={<EditIcon width={'15px'} />}
+                bg={'brand.400'}
+                colorScheme={'green'}
+                onClick={onOpen}
+                position={{ base: 'absolute', md: 'unset' }}
+                top={-6}
+              >
+                編輯問題
+              </Button>
+            )}
+            {/* 編輯問題Modal */}
+            <AskingModal
+              isOpen={isOpen}
+              onClose={onClose}
+              currentUserAvatar={questionData.User.avatar}
+              currentUserName={questionData.User.name}
+              isOnEdit={true}
+              id={questionData.id}
+              title={questionData.title}
+              grade={questionData.grade}
+              subject={questionData.subject}
+              isAnonymous={questionData.isAnonymous}
+              description={questionData.description}
+              image={questionData.image}
+            />
+            <Text fontSize={{ base: 'xs', md: 'unset' }} color={'brand.gray_3'}>
+              {likedCountLocal}個收藏
+            </Text>
+            {isLikedLocal ? (
+              <HeartIcon fill="#FF4752" onClick={handleLikeDelete} />
             ) : (
-              <HeartOutlineIcon width={'30px'} />
+              <HeartOutlineIcon width={'30px'} onClick={handleLikePost} />
             )}
           </Flex>
         </Flex>
@@ -207,22 +281,29 @@ const ReplyPage = () => {
           pb={5}
           mt={2}
           mx={-5}
-          h={'70vh'}
+          h={{base: '60vh', md: '70vh'}}
           overflowY={'scroll'}
           overflowX={'hidden'}
           sx={{
             '::-webkit-scrollbar': {
               width: '6px',
-              'background-color': 'transparent',
+              backgroundColor: 'transparent',
             },
             '::-webkit-scrollbar-thumb': {
               width: '6px',
               border: 'none',
-              'border-radius': '3px',
-              'background-color': 'var(--chakra-colors-brand-300)',
+              borderRadius: '3px',
+              backgroundColor: 'var(--chakra-colors-brand-300)',
             },
           }}
         >
+          <Flex p={5} wrap={'wrap'} gap={2}>
+            {questionData.image ? (
+              <Image src={questionData.image} alt={''} />
+            ) : (
+              ''
+            )}
+          </Flex>
           <Text mx={5} mt={5}>
             {questionData.description}
           </Text>
@@ -267,6 +348,7 @@ const ReplyPage = () => {
             <ReplyCard
               key={r.id}
               id={r.id}
+              userId={r.User.id}
               avatar={r.User.avatar}
               userName={r.User.name}
               account={r.User.account}

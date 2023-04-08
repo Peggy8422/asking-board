@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseURL = process.env.REACT_APP_API_BASEURL;
+// const baseURL = process.env.REACT_APP_API_BASEURL;
+const baseURL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_BASEURL : 'https://t7gnwvvq9h.execute-api.ap-northeast-1.amazonaws.com/api/v1';
 
 //首頁取得所有問題
 export const userGetAllQuestions = async (
@@ -141,6 +142,62 @@ export const deleteLikedReply = async (token: string, id: number) => {
         'Authorization': `Bearer ${token}`,
       }
     });
+    return status;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//新增提問
+export interface QuestionFormData {
+  title: string;
+  description: string;
+  isAnonymous: boolean;
+  grade: string;
+  subject: string;
+  image: File | string;
+}
+
+export const postNewQuestion = async (token: string, formData: QuestionFormData) => {
+  try {
+    const { status } = await axios.post(`${baseURL}/questions`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+
+    return status;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//編輯提問
+export const editQuestion = async (token: string, id: number, formData: QuestionFormData) => {
+  try {
+    const { status } = await axios.put(`${baseURL}/questions/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+
+    return status;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//刪除自己的回答
+export const deleteUserReply = async (token: string, id: number) => {
+  try {
+    const { status } = await axios.delete(`${baseURL}/replies/${id}`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+
     return status;
   } catch (error) {
     console.log(error);

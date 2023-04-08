@@ -9,7 +9,7 @@ const LandingPanel = () => {
     <Box zIndex={2}>
       <Flex align={'center'} gap={3}>
         <Logo width={'50px'} />
-        <Text color={'brand.500'} fontSize={'5xl'} fontWeight={'bold'} >Asking Board</Text>
+        <Text color={'brand.500'} fontSize={{base: '3xl', md: '5xl'}} fontWeight={'bold'} >Asking Board</Text>
       </Flex>
       <Text color={'brand.500'} fontSize={'medium'} fontWeight={'semibold'}>學科問答、線上解惑，知識分享交流的最佳平台</Text>
       <Flex mt={'10'} mb={'3'} gap={3}>

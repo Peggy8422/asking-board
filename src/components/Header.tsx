@@ -1,13 +1,15 @@
 //工具
-import React from 'react';
-import { Link as ReactLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+// import { userGetAllQuestions } from '../api/questionRelated';
 
 //元件
-import { 
-  Box, 
-  Container, 
-  Heading, 
+import {
+  Box,
+  Container,
+  Heading,
+  Tag,
   Input,
   InputGroup,
   InputLeftElement,
@@ -19,28 +21,48 @@ import {
   MenuList,
   MenuItemOption,
   MenuOptionGroup,
-  IconButton
+  IconButton,
+  Hide,
 } from '@chakra-ui/react';
 import { Logo } from '../assets/images';
 import { SearchIcon, FilterIcon, BellIcon } from '../assets/icons';
 
-const SearchFilterMenu = () => {
+interface SearchProps {
+  isDisabled: boolean;
+  filterOption: string | string[];
+  setFilterOption: React.Dispatch<React.SetStateAction<string | string[]>>;
+}
+const SearchFilterMenu: React.FC<SearchProps> = ({
+  isDisabled,
+  filterOption,
+  setFilterOption,
+}) => {
   return (
-    <Menu closeOnSelect={false}>
+    <Menu closeOnSelect={true}>
       <MenuButton
         as={IconButton}
-        aria-label='Options'
+        aria-label="Options"
         icon={<FilterIcon />}
-        variant='ghost'
+        variant="ghost"
         borderRadius={'xl'}
+        disabled={isDisabled}
       />
-      <MenuList>
-        <MenuOptionGroup defaultValue={'all'} title={'搜尋範圍'} type={'radio'}>
-          <MenuItemOption value={'all'}>全部</MenuItemOption>
-          <MenuItemOption value={'juniorHigh'}>國中</MenuItemOption>
-          <MenuItemOption value={'other'}>其他</MenuItemOption>
-        </MenuOptionGroup>
-      </MenuList>
+      {!isDisabled && (
+        <MenuList>
+          <MenuOptionGroup
+            value={filterOption}
+            title={'搜尋範圍'}
+            type={'radio'}
+            onChange={(value) => {
+              setFilterOption(value);
+            }}
+          >
+            <MenuItemOption value={''}>全部</MenuItemOption>
+            <MenuItemOption value={'國中'}>國中</MenuItemOption>
+            <MenuItemOption value={'其他'}>其他</MenuItemOption>
+          </MenuOptionGroup>
+        </MenuList>
+      )}
     </Menu>
   );
 };
@@ -49,24 +71,62 @@ interface HeaderProps {
   isAdmin: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({isAdmin}) => {
-  const { user } = useSelector((state: any) => state.auth);
+const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
+  const { user, isAvatarChanged } = useSelector((state: any) => state.auth);
+  const [userAvatar, setUserAvatar] = useState(user?.avatar);
+  const [filterOption, setFilterOption] = useState<string | string[]>('');
+  const [keyword, setKeyword] = useState('');
+  const navigate = useNavigate();
+
+  //沒經過redux的dispatch action所以第一次要先自己抓
+  const googleUserAvatar = JSON.parse(localStorage.getItem('currentUser')!).avatar;
+
+  //提交搜尋關鍵字
+  const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      navigate('/front/search_results', {
+        state: {
+          grade: filterOption,
+          keyword,
+        },
+      });
+    } else return;
+  };
+
+  useEffect(() => {
+    if (googleUserAvatar) {
+      setUserAvatar(googleUserAvatar);
+    }
+
+    if (isAvatarChanged) {
+      const currentAvatar = JSON.parse(
+        localStorage.getItem('currentUser')!,
+      ).avatar;
+      setUserAvatar(currentAvatar);
+    }
+  }, [user?.avatar, isAvatarChanged, googleUserAvatar]);
+
   return (
-    <Box 
+    <Box
       position={'fixed'}
       width={'100%'}
       boxShadow={'md'}
-      bg={'white'} 
+      bg={'white'}
       zIndex={2}
     >
-      <Container maxW={'container.xl'} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-        <Flex align={'center'} gap={2}>
+      <Container
+        maxW={'container.xl'}
+        display={'flex'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+      >
+        <Flex as={ReactLink} to={'/front/home'} align={'center'} gap={2}>
           <Logo width={'40px'} />
-          <Heading 
-            as={'h5'}
-            size={'lg'}
-            color={'brand.500'}
-          >Asking Board</Heading>
+          <Hide below="md">
+            <Heading as={'h5'} size={'lg'} color={'brand.500'}>
+              Asking Board
+            </Heading>
+          </Hide>
         </Flex>
         <InputGroup width={'50%'}>
           <InputLeftElement
@@ -74,21 +134,45 @@ const Header: React.FC<HeaderProps> = ({isAdmin}) => {
             pointerEvents={'none'}
             children={<SearchIcon />}
           />
-          <Input 
-            type={'text'} 
-            placeholder={'請輸入關鍵字'} 
+          <Input
+            isDisabled={isAdmin}
+            type={'text'}
+            placeholder={'請輸入關鍵字'}
             borderRadius={'20px'}
             bg={'gray.50'}
+            value={keyword}
+            onChange={(e) => {
+              setKeyword(e.target.value);
+            }}
+            // keyDown事件
+            onKeyDown={handleEnterKeyDown}
           />
+          <Tag size={'sm'} position={'absolute'} right={'40px'} top={'25%'}>
+            {filterOption === '' ? '全部' : filterOption}
+          </Tag>
           <InputRightElement
             cursor={'pointer'}
             mr={'5px'}
-            children={<SearchFilterMenu />}
+            children={
+              <>
+                <SearchFilterMenu
+                  isDisabled={isAdmin}
+                  filterOption={filterOption}
+                  setFilterOption={setFilterOption}
+                />
+              </>
+            }
           />
         </InputGroup>
         <Flex align={'center'} gap={3}>
           <BellIcon />
-          <Avatar as={ReactLink} to={isAdmin ? '' : '/front/profile'} name={'user name'} src={user?.avatar} cursor={isAdmin ? 'not-allowed' : 'pointer'}  />
+          <Avatar
+            as={ReactLink}
+            to={isAdmin ? '' : '/front/profile'}
+            name={user?.name}
+            src={userAvatar}
+            cursor={isAdmin ? 'not-allowed' : 'pointer'}
+          />
         </Flex>
       </Container>
     </Box>
@@ -96,5 +180,3 @@ const Header: React.FC<HeaderProps> = ({isAdmin}) => {
 };
 
 export default Header;
-
-

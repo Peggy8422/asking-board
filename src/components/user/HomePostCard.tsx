@@ -1,6 +1,9 @@
 //工具
 import React, { useState } from 'react';
-import { postLikedQuestion, deleteLikedQuestion } from '../../api/questionRelated';
+import {
+  postLikedQuestion,
+  deleteLikedQuestion,
+} from '../../api/questionRelated';
 
 //元件
 import { Link } from 'react-router-dom';
@@ -40,7 +43,6 @@ const HomePostCard: React.FC<CardProps> = (props) => {
   const token = localStorage.getItem('token')!;
   const currentUserId = JSON.parse(localStorage.getItem('currentUser')!).id;
 
-
   //按收藏
   const handleLikePost = async () => {
     const status = await postLikedQuestion(token, props.id);
@@ -48,7 +50,7 @@ const HomePostCard: React.FC<CardProps> = (props) => {
       setIsLikedLocal(true);
       setLikedCountLocal(likedCountLocal + 1);
     } else return;
-  }
+  };
 
   //取消收藏
   const handleLikeDelete = async () => {
@@ -57,20 +59,26 @@ const HomePostCard: React.FC<CardProps> = (props) => {
       setIsLikedLocal(false);
       setLikedCountLocal(likedCountLocal - 1);
     } else return;
-  }
+  };
 
   return (
     <Card h={'40vh'} boxShadow={'lg'} borderRadius={'2xl'} p={2}>
       <CardBody overflow={'hidden'}>
         <Flex align={'start'} justify={'space-between'}>
           <Flex gap={3}>
-            <Link to={props.userId === currentUserId ? '/front/profile' : `/front/profile_others/?userId=${props.userId}`}>
+            <Link
+              to={
+                props.userId === currentUserId
+                  ? '/front/profile'
+                  : `/front/profile_others/?userId=${props.userId}`
+              }
+              style={{pointerEvents: props.userName === '匿名' ? 'none' : 'unset'}}
+            >
               <Avatar name={props.userName} src={props.avatar} />
             </Link>
             <Box>
               <Flex gap={3}>
                 <Text
-                  // w={'200px'}
                   color={'brand.500'}
                   fontSize={'lg'}
                   fontWeight={'semibold'}
@@ -113,29 +121,33 @@ const HomePostCard: React.FC<CardProps> = (props) => {
             </Box>
             <Box cursor={'pointer'}>
               {isLikedLocal ? (
-                <HeartIcon fill="#FF4752" width={'37px'} onClick={handleLikeDelete} />
+                <HeartIcon
+                  fill="#FF4752"
+                  width={'37px'}
+                  onClick={handleLikeDelete}
+                />
               ) : (
                 <HeartOutlineIcon onClick={handleLikePost} />
               )}
             </Box>
           </Flex>
         </Flex>
-        <Flex justify={'space-between'} mt={5}>
-          <Heading as={'h2'} fontSize={'2xl'} color={'brand.500'}>
-            {props.title}
-          </Heading>
-          <Tag
-            size={'md'}
-            variant={'outline'}
-            color={'brand.500'}
-            colorScheme={'green'}
-            bg={'white'}
-            borderColor={'brand.400'}
-          >
-            {props.category}
-          </Tag>
-        </Flex>
         <Link to={`/front/reply/?reply_to=${props.id}`}>
+          <Flex justify={'space-between'} mt={5}>
+            <Heading as={'h2'} fontSize={'2xl'} color={'brand.500'}>
+              {props.title}
+            </Heading>
+            <Tag
+              size={'md'}
+              variant={'outline'}
+              color={'brand.500'}
+              colorScheme={'green'}
+              bg={'white'}
+              borderColor={'brand.400'}
+            >
+              {props.category}
+            </Tag>
+          </Flex>
           {props.image && <Image mt={3} src={props.image} />}
           <Text mt={3} noOfLines={3}>
             {props.content}

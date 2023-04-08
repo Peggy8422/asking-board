@@ -1,9 +1,10 @@
 //工具
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link as ReactLink, useNavigate } from 'react-router-dom';
+import { Link as ReactLink, useNavigate, useSearchParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { login, reset } from '../features/auth/authSlice';
+
 //元件
 import AuthForm, { AuthInput } from '../components/AuthForm';
 import { Box, Tooltip, Circle } from '@chakra-ui/react';
@@ -16,12 +17,30 @@ const LoginPage = () => {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const currentUser = searchParams.get('user')!;
 
   const { email, isLoading, isError, isSuccess, message } = useSelector(
     (state: any) => state.auth
   );
 
-  const token = localStorage.getItem('token')!;
+  const token = localStorage.getItem('token')! || searchParams.get('token')!;
+
+  //處理google登入
+  useEffect(() => {
+    if (currentUser && token) {
+      localStorage.setItem('currentUser', currentUser);
+      localStorage.setItem('token', token);
+      Swal.fire({
+        position: 'top',
+        title: '登入成功',
+        timer: 1000,
+        icon: 'success',
+        showConfirmButton: false,
+      });
+      navigate('/front/home');
+    } 
+  }, [currentUser, token, navigate])
 
   useEffect(() => {
     if (isError) {

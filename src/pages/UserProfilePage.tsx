@@ -1,5 +1,5 @@
 //工具
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
   Link as ReactLink,
   useLocation,
@@ -11,6 +11,7 @@ import {
   getUserLikedQuestions,
   getUserAllReplies,
 } from '../api/userRelated';
+import { ModalOpenContext } from '../App';
 
 //元件
 import {
@@ -23,7 +24,6 @@ import {
   Flex,
   Avatar,
   Divider,
-  Image,
   useDisclosure,
 } from '@chakra-ui/react';
 import { RightArrowIcon, EditIcon } from '../assets/icons';
@@ -58,6 +58,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchParams] = useSearchParams();
   let location = useLocation();
+  const {isModalClosed} = useContext(ModalOpenContext);
 
   const token = localStorage.getItem('token')!;
   //使用者id
@@ -106,27 +107,20 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
     };
 
     getUserQsRelated();
-  }, [token, location.pathname, currentUserId, otherUserId]);
+  }, [token, location.pathname, currentUserId, otherUserId, isOpen, isModalClosed]);
 
   return (
     <Box w={'100%'}>
-      {/* 封面照 */}
-      <Image
-        m={-5}
-        mt={-8}
-        w={'108%'}
-        maxW={'unset'}
-        h={'30vh'}
-        src={'https://picsum.photos/2000/800'}
-        objectFit={'cover'}
-      />
       <Flex
         position={'relative'}
         align={'end'}
+        justify={'space-between'}
         gap={3}
-        transform={'translateY(-35%)'}
+        wrap={{base: 'wrap', md: 'nowrap'}}
       >
         {/* 個人大頭貼 */}
+        <Flex align={'end'} gap={3}
+        wrap={{base: 'wrap', md: 'nowrap'}}>
         <Avatar
           size={'2xl'}
           name={'Temp'}
@@ -150,9 +144,10 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
           </Flex>
           <Text color={'brand.gray_3'}>@{userInfo?.account || ''}</Text>
         </Box>
+        </Flex>
         <Badge
-          position={'absolute'}
-          right={0}
+          // position={'absolute'}
+          // right={0}
           fontSize={'md'}
           bg={'transparent'}
           color={'brand.500'}
@@ -172,7 +167,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
           </ReactLink>
         </Badge>
       </Flex>
-      <Text m={3} mt={-3}>
+      <Text m={3}>
         {userInfo?.introduction || ''}
       </Text>
       {!isOnOthersPage && (
@@ -189,10 +184,9 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
           <EditProfileModal
             isOpen={isOpen}
             onClose={onClose}
-            currentUserAvatar={userInfo?.avatar}
-            currentUserCover={'123'}
-            currentUserName={userInfo?.name}
-            currentUserIntro={userInfo?.introduction}
+            currentUserAvatar={userInfo.avatar}
+            currentUserName={userInfo.name}
+            currentUserIntro={userInfo.introduction}
           />
         </Flex>
       )}
@@ -200,7 +194,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
       <Divider mt={3} borderColor={'brand.300'} />
       <Box
         position={'relative'}
-        h={isOnOthersPage ? '37vh' : '31vh'}
+        h={isOnOthersPage ? '56vh' : '50vh'}
         pb={5}
         mt={3}
         px={3}
@@ -209,13 +203,13 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
         sx={{
           '::-webkit-scrollbar': {
             width: '6px',
-            'background-color': 'transparent',
+            backgroundColor: 'transparent',
           },
           '::-webkit-scrollbar-thumb': {
             width: '6px',
             border: 'none',
-            'border-radius': '3px',
-            'background-color': 'var(--chakra-colors-brand-300)',
+            borderRadius: '3px',
+            backgroundColor: 'var(--chakra-colors-brand-300)',
           },
         }}
       >
@@ -238,7 +232,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               查看更多
             </Button>
           </Flex>
-          <Flex gap={2}>
+          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', md: 'nowrap'}}>
             {/* 排版用 */}
             {userAllQs.map((q: any) => (
               <LatestPostCard
@@ -274,7 +268,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               查看更多
             </Button>
           </Flex>
-          <Flex gap={2}>
+          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', md: 'nowrap'}}>
             {/* 排版用 */}
             {userLikedQs.map((q: any) => (
               <LatestPostCard
@@ -310,7 +304,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               查看更多
             </Button>
           </Flex>
-          <Flex gap={2}>
+          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', md: 'nowrap'}}>
             {/* 排版用 */}
             {userRepliedQs.map((q: any) => (
               <LatestPostCard

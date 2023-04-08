@@ -26,11 +26,11 @@ interface CardProps {
 
 const LatestPostCard: React.FC<CardProps> = (props) => {
   return (
-    <Card borderRadius={'xl'} boxShadow={'lg'} cursor={'pointer'} flexBasis={'20vw'}>
+    <Card borderRadius={'xl'} boxShadow={'lg'} cursor={'pointer'} minW={'200px'} flexBasis={'20vw'}>
       <Link to={`/front/reply/?reply_to=${props.id}`}>
         <CardBody p={4}>
           <Flex gap={1}>
-            <Avatar size={'sm'} name={props.userName} src={props.avatar} />
+            <Avatar size={'sm'} name={props.userName} src={props.avatar || ''} />
             <Box>
               <Flex align={'start'} gap={1}>
                 <Text

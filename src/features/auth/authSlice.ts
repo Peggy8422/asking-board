@@ -3,11 +3,14 @@ import { registRequest, registParams, loginRequest, loginParams, logout } from "
 
 export interface initStateType {
   user: unknown;
+  isLocalAccount: boolean;
   email: string;
   isError: boolean;
   isSuccess: boolean;
   isLoading: boolean;
+  isGoogleLoading: boolean;
   message: unknown;
+  isAvatarChanged: boolean;
 }
 
 //從localStorage取得存取的使用者資料&單獨email資料(為了註冊後導轉登入頁直接帶入email欄位)
@@ -16,11 +19,14 @@ const email = user?.email;
 
 const initialState = {
   user: user || null,
+  isLocalAccount: true,
   email: email || '',
   isError: false,
   isSuccess: false,
   isLoading: false,
+  isGoogleLoading: false,
   message: '',
+  isAvatarChanged: false,
 } as initStateType;
 
 export const authSlice = createSlice({
@@ -35,6 +41,9 @@ export const authSlice = createSlice({
     },
     clearEmail: (state) => {
       state.email = '';
+    },
+    toggleAvatarChanged: (state) => {
+      state.isAvatarChanged = true;
     }
   },
   extraReducers: (builder) => {
@@ -131,6 +140,7 @@ export const adminLogin = createAsyncThunk('auth/adminLogin', async (user: login
   return thunkAPI.rejectWithValue(data); //errormessage
 })
 
+
 // 基本的action creator
-export const {reset, clearEmail} = authSlice.actions;
+export const {reset, clearEmail, toggleAvatarChanged} = authSlice.actions;
 export default authSlice.reducer;

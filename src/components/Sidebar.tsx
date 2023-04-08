@@ -1,11 +1,9 @@
 //工具
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  Link as ReactLink,
-  NavLink as ReactNavLink,
-} from 'react-router-dom';
+import { Link as ReactLink, NavLink as ReactNavLink } from 'react-router-dom';
 import { logoutAct, reset, clearEmail } from '../features/auth/authSlice';
+import { ModalOpenContext } from '../App';
 //元件
 import {
   Box,
@@ -13,6 +11,8 @@ import {
   Button,
   Text,
   Flex,
+  Hide,
+  Show,
   useDisclosure,
 } from '@chakra-ui/react';
 import {
@@ -25,70 +25,110 @@ import {
 } from '../assets/icons';
 import AskingModal from './user/AskingModal';
 
-interface SidebarProps {
+export interface SidebarProps {
   isOnUserPages: boolean;
   userName: string;
+  userAvatar: string;
 }
 
+export interface UserNavProps {
+  userName: string;
+  userAvatar: string;
+}
 //用戶頁面Nav
-const UserNavList = () => {
+const UserNavList: React.FC<UserNavProps> = ({ userName, userAvatar }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { setIsModalClosed } = useContext(ModalOpenContext);
+
   return (
     <Flex direction={'column'} align={'start'} gap={2} my={'5'}>
-      <Button
-        as={ReactNavLink}
-        to={'/front/home'}
-        leftIcon={<HomeIcon width={'20px'} fill={'#137547'} />}
-        color={'brand.500'}
-        colorScheme={'green'}
-        variant={'ghost'}
-      >
-        首頁
-      </Button>
-      <Button
-        as={ReactNavLink}
-        to={'/front/hot_issue'}
-        leftIcon={<HotIcon width={'20px'} />}
-        color={'brand.gray_1'}
-        colorScheme={'green'}
-        variant={'ghost'}
-      >
-        熱門問題
-      </Button>
-      <Button
-        as={ReactNavLink}
-        to={'/front/active_users'}
-        leftIcon={<UsersIcon width={'20px'} />}
-        color={'brand.gray_1'}
-        colorScheme={'green'}
-        variant={'ghost'}
-      >
-        活躍用戶
-      </Button>
-      <Button
-        as={ReactNavLink}
-        to={'/front/settings'}
-        leftIcon={<SettingIcon width={'20px'} />}
-        color={'brand.gray_1'}
-        colorScheme={'green'}
-        variant={'ghost'}
-      >
-        帳戶設定
-      </Button>
+      <ReactNavLink to={'/front/home'}>
+        {({ isActive }) => (
+          <Button
+            leftIcon={
+              <HomeIcon
+                width={'20px'}
+                fill={isActive ? '#137547' : '#C4C4C4'}
+              />
+            }
+            color={isActive ? 'brand.500' : 'brand.gray_1'}
+            colorScheme={'green'}
+            variant={'ghost'}
+          >
+            <Hide below={'md'}>首頁</Hide>
+          </Button>
+        )}
+      </ReactNavLink>
+      <ReactNavLink to={'/front/hot_issue'}>
+        {({ isActive }) => (
+          <Button
+            leftIcon={
+              <HotIcon width={'20px'} fill={isActive ? '#137547' : '#C4C4C4'} />
+            }
+            color={isActive ? 'brand.500' : 'brand.gray_1'}
+            colorScheme={'green'}
+            variant={'ghost'}
+          >
+            <Hide below={'md'}>熱門問題</Hide>
+          </Button>
+        )}
+      </ReactNavLink>
+      <ReactNavLink to={'/front/active_users'}>
+        {({ isActive }) => (
+          <Button
+            leftIcon={
+              <UsersIcon
+                width={'20px'}
+                fill={isActive ? '#137547' : '#C4C4C4'}
+              />
+            }
+            color={isActive ? 'brand.500' : 'brand.gray_1'}
+            colorScheme={'green'}
+            variant={'ghost'}
+          >
+            <Hide below={'md'}>活躍用戶</Hide>
+          </Button>
+        )}
+      </ReactNavLink>
+      <ReactNavLink to={'/front/settings'}>
+        {({ isActive }) => (
+          <Button
+            leftIcon={
+              <SettingIcon
+                width={'20px'}
+                fill={isActive ? '#137547' : '#C4C4C4'}
+              />
+            }
+            color={isActive ? 'brand.500' : 'brand.gray_1'}
+            colorScheme={'green'}
+            variant={'ghost'}
+          >
+            <Hide below={'md'}>帳戶設定</Hide>
+          </Button>
+        )}
+      </ReactNavLink>
+
       <Button
         leftIcon={<HandIcon width={'20px'} />}
         bg={'brand.500'}
         colorScheme={'green'}
-        onClick={onOpen}
+        onClick={() => {
+          onOpen();
+          setIsModalClosed(false);
+        }}
       >
-        我要發問
+        <Hide below={'md'}>我要發問</Hide>
       </Button>
       {/* 發問的modal */}
       <AskingModal
         isOpen={isOpen}
-        onClose={onClose}
-        currentUserAvatar={'your avatar'}
-        currentUserName={'your name'}
+        onClose={() => {
+          onClose();
+          setIsModalClosed(true); 
+        }}
+        currentUserAvatar={userAvatar}
+        currentUserName={userName}
+        isOnEdit={false}
       />
     </Flex>
   );
@@ -98,27 +138,35 @@ const UserNavList = () => {
 const AdminNavList = () => {
   return (
     <Flex direction={'column'} align={'start'} gap={2} my={'5'}>
-      <Button
-        as={ReactNavLink}
-        // style={}
-        to={'/admin_home'}
-        leftIcon={<HomeIcon width={'20px'} fill={'#137547'} />}
-        color={'brand.500'}
-        colorScheme={'green'}
-        variant={'ghost'}
-      >
-        問題列表
-      </Button>
-      <Button
-        as={ReactNavLink}
-        to={'/admin_users'}
-        leftIcon={<UsersIcon width={'20px'} />}
-        color={'brand.gray_1'}
-        colorScheme={'green'}
-        variant={'ghost'}
-      >
-        用戶列表
-      </Button>
+      <ReactNavLink to={'/admin_home'}>
+        {({ isActive }) => (
+          <Button
+            leftIcon={
+              <HomeIcon
+                width={'20px'}
+                fill={isActive ? '#137547' : '#C4C4C4'}
+              />
+            }
+            color={isActive ? 'brand.500' : 'brand.gray_1'}
+            colorScheme={'green'}
+            variant={'ghost'}
+          >
+            <Hide below={'md'}>問題列表</Hide>
+          </Button>
+        )}
+      </ReactNavLink>
+      <ReactNavLink to={'/admin_users'}>
+        {({ isActive }) => (
+          <Button
+            leftIcon={<UsersIcon width={'20px'} fill={isActive ? '#137547' : '#C4C4C4'} />}
+            color={isActive ? 'brand.500' : 'brand.gray_1'}
+            colorScheme={'green'}
+            variant={'ghost'}
+          >
+            <Hide below={'md'}>用戶列表</Hide>
+          </Button>
+        )}
+      </ReactNavLink>
     </Flex>
   );
 };
@@ -130,7 +178,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   return (
     <Box
       w={'100%'}
-      minWidth={'200px'}
+      minWidth={{md:'200px'}}
       top={'0'}
       bottom={'0'}
       position={'absolute'}
@@ -147,9 +195,16 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
           fontWeight={'bold'}
           color={'brand.500'}
         >
-          Hi, {props.userName}
+          Hi<Show below={'md'}>!</Show><Hide below={'md'}>, {props.userName}</Hide>
         </Text>
-        {props.isOnUserPages ? <UserNavList /> : <AdminNavList />}
+        {props.isOnUserPages ? (
+          <UserNavList
+            userAvatar={props.userAvatar}
+            userName={props.userName}
+          />
+        ) : (
+          <AdminNavList />
+        )}
         <Button
           as={ReactLink}
           to={props.isOnUserPages ? '/login' : '/admin_login'}
@@ -160,13 +215,14 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
           size={'lg'}
           position={'absolute'}
           bottom={'5%'}
+          right={{base: '5%', md: 'unset'}}
           onClick={() => {
             dispatch(logoutAct() as any);
             dispatch(reset());
             dispatch(clearEmail());
           }}
         >
-          登出
+          <Hide below={'md'}>登出</Hide>
         </Button>
       </Container>
     </Box>
