@@ -17,7 +17,7 @@
 ## 專案畫面成果
 
 ### 前台首頁畫面
-![image](%PUBLIC_URL%/asking-board-ta.jpg)
+![image](./public/asking-board-ta.jpg)
 
 ## 專案功能
 
