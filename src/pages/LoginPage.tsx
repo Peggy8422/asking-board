@@ -11,18 +11,17 @@ import { Box, Tooltip, Circle } from '@chakra-ui/react';
 import { AdminIcon } from '../assets/icons';
 
 const LoginPage = () => {
+  const { email, isLoading, isError, isSuccess, message } = useSelector(
+    (state: any) => state.auth
+  );
   const [formData, setFormData] = useState({
-    email: '',
+    email: email || '',
     password: '',
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const currentUser = searchParams.get('user')!;
-
-  const { email, isLoading, isError, isSuccess, message } = useSelector(
-    (state: any) => state.auth
-  );
 
   const token = localStorage.getItem('token')! || searchParams.get('token')!;
 

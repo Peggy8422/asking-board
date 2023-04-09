@@ -57,7 +57,6 @@ export const registRequest = async ({
       role
     });
     if (status === 200) {
-      console.log(data);
       return data;
     }
 
