@@ -57,7 +57,7 @@ const ActiveUsersCard: React.FC<CardProps> = (props) => {
   }
 
   return (
-    <Card borderRadius={'2xl'} w={'45%'} boxShadow={'lg'}>
+    <Card borderRadius={'2xl'} w={{base: '100%', md: '45%'}} boxShadow={'lg'}>
       <CardBody>
         <Flex w={'100%'} wrap={'nowrap'} gap={2}>
           <Avatar
@@ -67,7 +67,7 @@ const ActiveUsersCard: React.FC<CardProps> = (props) => {
                 ? '/front/profile'
                 : `/front/profile_others/?userId=${props.id}`
             }
-            size={'lg'}
+            size={{base: 'md', md: 'lg'}}
             name={props.userName}
             src={props.avatar}
           />

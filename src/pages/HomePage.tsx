@@ -152,7 +152,7 @@ const HomePage = () => {
         px={{base: 2, md: 5}}
         mr={{base: 0, md: -3}}
         left={{base: 0 ,md: -4}}
-        h={{base: activeCategory === '國中' ? '50vh' : '60vh', sm: activeCategory === '國中' ? '65vh' : '73vh'}}
+        h={{base: activeCategory === '國中' ? '50vh' : '63vh', sm: activeCategory === '國中' ? '65vh' : '73vh'}}
         direction={'column'}
         rowGap={5}
         overflowY={'scroll'}

@@ -107,7 +107,7 @@ const UserQuestionsPage = () => {
         px={5}
         mr={-3}
         left={-4}
-        h={'73vh'}
+        h={'65vh'}
         direction={'column'}
         rowGap={5}
         overflowY={'scroll'}

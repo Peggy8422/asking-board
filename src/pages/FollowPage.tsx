@@ -76,14 +76,14 @@ const FollowPage = () => {
 
   return (
     <Box w={'100%'}>
-      <Flex align={'baseline'} gap={3}>
+      <Flex align={'start'} gap={3}>
         <GoBackIcon onClick={() => navigate(-1)} />
         <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
           {(state.isOnOthersPage ? otherUserName : '你')}的
           {activeTab}
         </Heading>
         <ButtonGroup
-          size="sm"
+          size={{base: 'xs', md:'sm'}}
           variant="outline"
           color={'brand.400'}
           colorScheme={'green'}
@@ -114,7 +114,7 @@ const FollowPage = () => {
         px={5}
         mr={-3}
         left={-4}
-        h={'73vh'}
+        h={'65vh'}
         gap={5}
         overflowY={'scroll'}
         sx={{

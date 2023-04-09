@@ -153,8 +153,8 @@ const ReplyPage = () => {
     <Box w={'100%'}>
       {/* 標頭資訊們 */}
       <Box bg={'white'}>
-        <Flex align={'start'} justify={'space-between'}>
-          <Flex align={'start'} gap={3} wrap={{ base: 'wrap', md: 'nowrap' }}>
+        <Flex align={'start'} justify={'space-between'} pb={2}>
+          <Flex align={'start'} rowGap={0} columnGap={3} wrap={{ base: 'wrap', md: 'nowrap' }}>
             <GoBackIcon onClick={() => navigate(-1)} />
             <Heading
               as={'h1'}
@@ -190,7 +190,7 @@ const ReplyPage = () => {
                 colorScheme={'green'}
                 onClick={onOpen}
                 position={{ base: 'absolute', md: 'unset' }}
-                top={-6}
+                top={8}
               >
                 編輯問題
               </Button>
@@ -220,7 +220,7 @@ const ReplyPage = () => {
             )}
           </Flex>
         </Flex>
-        <Flex align={'start'} justify={'space-between'}>
+        <Flex align={'start'} justify={'space-between'} wrap={{base: 'wrap', md: 'unset'}}>
           <Flex gap={2}>
             <Text color={'brand.500'} fontSize={'lg'} fontWeight={'bold'}>
               提問者：
@@ -270,7 +270,7 @@ const ReplyPage = () => {
               </Text>
             </Box>
           </Flex>
-          <Text color={'brand.500'}>發佈於：{questionData.createdAt}</Text>
+          <Text color={'brand.500'} fontSize={{base: 'sm', md: 'md'}}>發佈於：{questionData.createdAt}</Text>
         </Flex>
       </Box>
       {isLoading ? (
@@ -281,7 +281,7 @@ const ReplyPage = () => {
           pb={5}
           mt={2}
           mx={-5}
-          h={{base: '60vh', md: '70vh'}}
+          h={{base: '58vh', md: '70vh'}}
           overflowY={'scroll'}
           overflowX={'hidden'}
           sx={{

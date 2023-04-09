@@ -79,7 +79,7 @@ const HotIssuePage = () => {
         px={{base: 2, md: 5}}
         mr={{base: 0, md: -3}}
         left={{base: 0 ,md: -4}}
-        h={'73vh'}
+        h={'63vh'}
         direction={'column'}
         rowGap={5}
         overflowY={'scroll'}

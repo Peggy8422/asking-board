@@ -119,10 +119,10 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
         wrap={{base: 'wrap', md: 'nowrap'}}
       >
         {/* 個人大頭貼 */}
-        <Flex align={'end'} gap={3}
+        <Flex align={'end'} gap={{base: 1, md: 3}}
         wrap={{base: 'wrap', md: 'nowrap'}}>
         <Avatar
-          size={'2xl'}
+          size={{base: 'xl', md: '2xl'}}
           name={'Temp'}
           src={userInfo?.avatar || ''}
           border={'4px'}
@@ -130,7 +130,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
         />
         <Box>
           <Flex align={'center'} gap={2}>
-            <Heading as={'h2'} size={'lg'} color={'brand.500'}>
+            <Heading as={'h2'} size={{base: 'md', md: 'lg'}} color={'brand.500'}>
               {userInfo?.name || ''}
             </Heading>
             <Tag
@@ -146,8 +146,6 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
         </Box>
         </Flex>
         <Badge
-          // position={'absolute'}
-          // right={0}
           fontSize={'md'}
           bg={'transparent'}
           color={'brand.500'}
@@ -167,7 +165,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
           </ReactLink>
         </Badge>
       </Flex>
-      <Text m={3}>
+      <Text m={3} position={'relative'} left={{base: -2, sm: 'unset'}}>
         {userInfo?.introduction || ''}
       </Text>
       {!isOnOthersPage && (
@@ -214,7 +212,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
         }}
       >
         {/* 區塊1：所有提問 */}
-        <Box mb={6}>
+        <Box mb={6} w={'100%'}>
           <Flex align={'center'} justify={'space-between'}>
             <Heading as={'h3'} size={'md'} color={'brand.500'}>
               所有提問：{userInfo?.questionCount || 0}則
@@ -223,7 +221,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               as={ReactLink}
               to={`/front/user/all_questions/?userId=${otherUserId}`}
               state={{ isOnOthersPage }}
-              size={'lg'}
+              size={{base: 'md', sm: 'lg'}}
               rightIcon={<RightArrowIcon />}
               variant={'ghost'}
               colorScheme={'green'}
@@ -232,7 +230,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               查看更多
             </Button>
           </Flex>
-          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', md: 'nowrap'}}>
+          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', lg: 'nowrap'}}>
             {/* 排版用 */}
             {userAllQs.map((q: any) => (
               <LatestPostCard
@@ -259,7 +257,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               as={ReactLink}
               to={`/front/user/liked_questions/?userId=${otherUserId}`}
               state={{ isOnOthersPage }}
-              size={'lg'}
+              size={{base: 'md', sm: 'lg'}}
               rightIcon={<RightArrowIcon />}
               variant={'ghost'}
               colorScheme={'green'}
@@ -268,7 +266,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               查看更多
             </Button>
           </Flex>
-          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', md: 'nowrap'}}>
+          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', lg: 'nowrap'}}>
             {/* 排版用 */}
             {userLikedQs.map((q: any) => (
               <LatestPostCard
@@ -295,7 +293,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               as={ReactLink}
               to={`/front/user/replied_questions/?userId=${otherUserId}`}
               state={{ isOnOthersPage }}
-              size={'lg'}
+              size={{base: 'md', sm: 'lg'}}
               rightIcon={<RightArrowIcon />}
               variant={'ghost'}
               colorScheme={'green'}
@@ -304,7 +302,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               查看更多
             </Button>
           </Flex>
-          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', md: 'nowrap'}}>
+          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', lg: 'nowrap'}}>
             {/* 排版用 */}
             {userRepliedQs.map((q: any) => (
               <LatestPostCard

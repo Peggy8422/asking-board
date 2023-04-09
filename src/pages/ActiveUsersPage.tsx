@@ -39,15 +39,18 @@ const ActiveUsersPage = () => {
 
   return (
     <Box w={'100%'}>
-      <Flex align={'start'} bg={'white'} gap={3}>
+      <Flex align={'start'} bg={'white'} gap={3} justify={'space-between'}>
         <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
           活躍用戶
         </Heading>
         <ButtonGroup
-          size="sm"
+          size={{base: 'xs', md: 'sm'}}
           variant="outline"
           color={'brand.400'}
           colorScheme={'green'}
+          alignItems={{base: 'end', md: 'unset'}}
+          flexDirection={{base: 'column', sm: 'row'}}
+          rowGap={2}
         >
           {['最多追蹤者', '最常回答', '回答讚數最多'].map((item, index) => {
             return (
@@ -100,10 +103,10 @@ const ActiveUsersPage = () => {
         position={'relative'}
         pb={5}
         mt={2}
-        px={5}
-        mr={-3}
-        left={-4}
-        h={'73vh'}
+        px={{base: 2, md: 5}}
+        mr={{base: 0, md: -3}}
+        left={{base: 0 ,md: -4}}
+        h={'60vh'}
         gap={5}
         overflowY={'scroll'}
         sx={{

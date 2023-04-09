@@ -64,7 +64,7 @@ const HomePostCard: React.FC<CardProps> = (props) => {
   return (
     <Card h={'40vh'} boxShadow={'lg'} borderRadius={'2xl'} p={2}>
       <CardBody overflow={'hidden'}>
-        <Flex align={'start'} justify={'space-between'}>
+        <Flex align={'start'} justify={'space-between'} wrap={{base: 'wrap', md: 'unset'}}>
           <Flex gap={3}>
             <Link
               to={
@@ -77,7 +77,7 @@ const HomePostCard: React.FC<CardProps> = (props) => {
               <Avatar name={props.userName} src={props.avatar} />
             </Link>
             <Box>
-              <Flex gap={3}>
+              <Flex gap={3} align={'start'}>
                 <Text
                   color={'brand.500'}
                   fontSize={'lg'}
@@ -98,7 +98,7 @@ const HomePostCard: React.FC<CardProps> = (props) => {
                 </Tag>
               </Flex>
               <Text
-                fontSize={'md'}
+                fontSize={{base: 'sm', sm: 'md'}}
                 fontWeight={'medium'}
                 color={'brand.gray_3'}
               >
@@ -108,7 +108,7 @@ const HomePostCard: React.FC<CardProps> = (props) => {
           </Flex>
           <Flex gap={2}>
             <Box textAlign={'right'}>
-              <Text color={'brand.500'} fontWeight={'medium'}>
+              <Text color={'brand.500'} fontSize={{base: 'sm', md: 'unset'}} fontWeight={'medium'}>
                 發佈於：{props.createdAt}
               </Text>
               <Text

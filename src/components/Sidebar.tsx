@@ -178,7 +178,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   return (
     <Box
       w={'100%'}
-      minWidth={{md:'200px'}}
+      minWidth={{lg:'200px'}}
       top={'0'}
       bottom={'0'}
       position={'absolute'}
