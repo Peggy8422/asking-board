@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const baseURL = process.env.REACT_APP_API_BASEURL;
-const baseURL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_BASEURL : 'https://t7gnwvvq9h.execute-api.ap-northeast-1.amazonaws.com/api/v1';
+const baseURL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_BASEURL : 'https://asking-board.fly.dev/api/v1';
 
 //API請求的函式(跟使用者動作的函式不同)
 //登入：使用者/管理者登入
