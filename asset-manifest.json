@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/asking-board/static/css/main.cce2e099.css",
-    "main.js": "/asking-board/static/js/main.acd25d72.js",
+    "main.js": "/asking-board/static/js/main.c4f2ce85.js",
     "static/js/787.596dbac0.chunk.js": "/asking-board/static/js/787.596dbac0.chunk.js",
     "static/media/illus-2.svg": "/asking-board/static/media/illus-2.9226b112aa5beadaab9b6edd61eb7905.svg",
     "static/media/google-icon.svg": "/asking-board/static/media/google-icon.63a4eb6f38250eedb6f9e89dc780c655.svg",
@@ -33,11 +33,11 @@
     "static/media/arrow-up-icon.svg": "/asking-board/static/media/arrow-up-icon.0dd16a7417379b4fae9d33bcce5c70be.svg",
     "static/media/right-arrow-icon.svg": "/asking-board/static/media/right-arrow-icon.373a1b17af6702e189f5d146f9cd36c9.svg",
     "main.cce2e099.css.map": "/asking-board/static/css/main.cce2e099.css.map",
-    "main.acd25d72.js.map": "/asking-board/static/js/main.acd25d72.js.map",
+    "main.c4f2ce85.js.map": "/asking-board/static/js/main.c4f2ce85.js.map",
     "787.596dbac0.chunk.js.map": "/asking-board/static/js/787.596dbac0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.cce2e099.css",
-    "static/js/main.acd25d72.js"
+    "static/js/main.c4f2ce85.js"
   ]
 }
