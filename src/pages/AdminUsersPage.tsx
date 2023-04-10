@@ -62,7 +62,7 @@ const AdminUsersPage = () => {
               px={5}
               mr={-3}
               left={-4}
-              h={'73vh'}
+              h={{base: '70vh', md: '73vh'}}
               gap={5}
               wrap={'wrap'}
               overflowY={'scroll'}

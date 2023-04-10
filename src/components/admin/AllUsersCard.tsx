@@ -17,7 +17,7 @@ interface CardProps {
 
 const AllUsersCard: React.FC<CardProps> = (props) => {
   return (
-    <Card w={'30%'} minW={'350px'} overflow={'hidden'} borderRadius={'2xl'} boxShadow={'lg'}>
+    <Card w={'30%'} minW={{base: '100%', md: '350px'}} overflow={'hidden'} borderRadius={'2xl'} boxShadow={'lg'}>
       <CardBody>
         <Flex align={'start'} justify={'center'} gap={3}>
           <Avatar size={'lg'} name={props.userName} src={props.avatar} />

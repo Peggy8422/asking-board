@@ -17,16 +17,16 @@ interface CardProps {
 
 const AllPostsCard: React.FC<CardProps> = (props) => {
   return (
-    <Flex borderRadius={'lg'} boxShadow={'md'} p={5} pt={8} pr={6} gap={2} position={'relative'}>
-      <Image boxSize={'200px'} h={'150px'} objectFit={'cover'} src={props.firstImg} alt={''} />
-      <Box ml={5} w={'full'}>
-        <Flex justify={'space-between'}>
-          <Heading as={'h6'} size={'lg'} color={'brand.500'}>{props.title}</Heading>
+    <Flex borderRadius={'lg'} boxShadow={'md'} p={5} pt={8} pr={6} gap={2} position={'relative'} wrap={{base: 'wrap', md: 'nowrap'}}>
+      <Image boxSize={{base: '150px', md: '200px'}} h={{base: '113px', md: '150px'}} objectFit={'cover'} src={props.firstImg} alt={''} />
+      <Box ml={{base: 0, md: 5}} w={'full'}>
+        <Flex justify={'space-between'} wrap={{base: 'wrap', md: 'nowrap'}}>
+          <Heading as={'h6'} size={{base: 'md', md: 'lg'}} color={'brand.500'}>{props.title}</Heading>
           <Flex direction={'column'} justify={'end'}>
             <Flex gap={2}>
               <Avatar size={'sm'} name={props.account} src={props.avatar} />
               <Text color={'brand.gray_3'} fontWeight={'medium'}>@{props.account}</Text>
-              <Text color={'brand.500'} >發佈於：{props.createdAt}</Text>
+              <Text color={'brand.500'} fontSize={{base: 'sm', md: 'md'}}>發佈於：{props.createdAt}</Text>
             </Flex>
             <Badge 
               display={'flex'} 
@@ -41,7 +41,7 @@ const AllPostsCard: React.FC<CardProps> = (props) => {
             </Badge>
           </Flex>
         </Flex>
-        <Text>{props.content}</Text>
+        <Text fontSize={{base: 'sm', md: 'md'}}>{props.content}</Text>
       </Box>
       <Box position={'absolute'} right={'0px'} top={'5px'} cursor={'pointer'} onClick={() => props.onDelete?.(props.Q_Id)}>
         <CrossIcon width={'50px'}/>

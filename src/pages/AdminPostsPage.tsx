@@ -85,7 +85,7 @@ const AdminPostsPage = () => {
               px={5}
               mr={-3}
               left={-4}
-              h={'73vh'}
+              h={{base: '70vh', md: '73vh'}}
               direction={'column'}
               rowGap={5}
               overflowY={'scroll'}
