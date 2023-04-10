@@ -24,22 +24,24 @@ import AllUsersCard from '../components/admin/AllUsersCard';
 const AdminUsersPage = () => {
   const [usersData, setUsersData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const token = localStorage.getItem('token');
   const navigate = useNavigate();
+
+  const token = localStorage.getItem('token')!;
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
 
   useEffect(() => {
     setIsLoading(true);
     const getUsers = async () => {
-      const data = await getAllUsers(token!);
+      const data = await getAllUsers(token);
       setUsersData(data);
       setIsLoading(false);
     };
-    if (!token) {
+    if (!token || currentUser.role !== 'admin') {
       navigate('/admin_login');
       return;
     }
     getUsers();
-  }, [token, navigate]);
+  }, [token, navigate, currentUser.role]);
 
   return (
     <Box width={'100%'} height={'100vh'} overflowX={'hidden'}>
@@ -92,7 +94,7 @@ const AdminUsersPage = () => {
                   left={'50%'}
                 />
               ) : (
-                usersData.map((user: any) => (
+                usersData?.map((user: any) => (
                   <AllUsersCard
                     key={user.id}
                     avatar={user.avatar}

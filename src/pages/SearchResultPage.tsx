@@ -18,13 +18,13 @@ const SearchResultPage = () => {
   useEffect(() => {
     setIsLoading(true);
     const getSearchResults = async () => {
-      const data = await userGetAllQuestions(token, state.grade, '', state.keyword);
+      const data = await userGetAllQuestions(token, state?.grade, '', state?.keyword);
       setSearchResults(data);
       setIsLoading(false);
     }
 
     getSearchResults();
-  }, [token, state.grade, state.keyword]);
+  }, [token, state?.grade, state?.keyword]);
 
   return (
     <Box w={'100%'}>

@@ -25,8 +25,10 @@ import AllPostsCard from '../components/admin/AllPostsCard';
 const AdminPostsPage = () => {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const token = localStorage.getItem('token')!;
   const navigate = useNavigate();
+
+  const token = localStorage.getItem('token')!;
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
 
   //刪除特定問題
   const handleQuestionDeleted = async (id: number) => {
@@ -52,12 +54,12 @@ const AdminPostsPage = () => {
       setQuestions(data);
       setIsLoading(false);
     };
-    if (!token) {
+    if (!token || currentUser.role !== 'admin') {
       navigate('/admin_login');
       return;
     }
     getQuestions();
-  }, [token, navigate]);
+  }, [token, navigate, currentUser.role]);
 
   return (
     <Box

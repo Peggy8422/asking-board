@@ -30,7 +30,7 @@ const UserQuestionsPage = () => {
 
   //取得其他使用者的名稱
   useEffect(() => {
-    if (state.isOnOthersPage) {
+    if (state?.isOnOthersPage) {
       const getOtherUsersName = async () => {
         const data = await getOtherUsersInfo(token, otherUserId);
         setOtherUserName(data.name);
@@ -47,7 +47,7 @@ const UserQuestionsPage = () => {
     const getQuestionsData = async () => {
       switch (pathname) {
         case '/front/user/all_questions/': {
-          if (state.isOnOthersPage) {
+          if (state?.isOnOthersPage) {
             data = await getUserAllQuestions(token, otherUserId);
           } else {
             data = await getUserAllQuestions(token, currentUserId);
@@ -57,7 +57,7 @@ const UserQuestionsPage = () => {
           break;
         }
         case '/front/user/liked_questions/': {
-          if (state.isOnOthersPage) {
+          if (state?.isOnOthersPage) {
             data = await getUserLikedQuestions(token, otherUserId);
           } else {
             data = await getUserLikedQuestions(token, currentUserId);
@@ -67,7 +67,7 @@ const UserQuestionsPage = () => {
           break;
         }
         case '/front/user/replied_questions/': {
-          if (state.isOnOthersPage) {
+          if (state?.isOnOthersPage) {
             data = await getUserAllReplies(token, otherUserId);
           } else {
             data = await getUserAllReplies(token, currentUserId);
@@ -85,7 +85,7 @@ const UserQuestionsPage = () => {
     }
 
     getQuestionsData();
-  }, [pathname, state.isOnOthersPage, currentUserId, otherUserId, token])
+  }, [pathname, state?.isOnOthersPage, currentUserId, otherUserId, token])
 
   return (
     <Box w={'100%'}>
@@ -93,11 +93,11 @@ const UserQuestionsPage = () => {
         <GoBackIcon onClick={() => navigate(-1)} />
         <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
           {pathname === '/front/user/all_questions/' &&
-            (state.isOnOthersPage ? otherUserName : '你') + '的所有提問'}
+            (state?.isOnOthersPage ? otherUserName : '你') + '的所有提問'}
           {pathname === '/front/user/liked_questions/' &&
-            (state.isOnOthersPage ? otherUserName : '你') + '收藏的提問'}
+            (state?.isOnOthersPage ? otherUserName : '你') + '收藏的提問'}
           {pathname === '/front/user/replied_questions/' &&
-            (state.isOnOthersPage ? otherUserName : '你') + '回答過的提問'}
+            (state?.isOnOthersPage ? otherUserName : '你') + '回答過的提問'}
         </Heading>
       </Flex>
       <Flex

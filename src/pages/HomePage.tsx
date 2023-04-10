@@ -1,7 +1,9 @@
 //工具
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { userGetAllQuestions } from '../api/questionRelated';
+import { clearEmail } from '../features/auth/authSlice';
 import { ModalOpenContext } from '../App';
 
 //元件
@@ -27,8 +29,10 @@ const HomePage = () => {
   const [questions, setQuestions] = useState([]); //科目有選擇時要用filter改
   const {isModalClosed} = useContext(ModalOpenContext);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const token = localStorage.getItem('token')!;
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
 
   useEffect(() => {
     setIsLoading(true);
@@ -37,12 +41,13 @@ const HomePage = () => {
       setQuestions(data);
       setIsLoading(false);
     };
-    if (!token) {
+    if (!token || currentUser.role === 'admin') {
+      dispatch(clearEmail());
       navigate('/login');
     }
 
     getAllQuestions();
-  }, [token, navigate, isModalClosed]);
+  }, [token, navigate, isModalClosed, currentUser.role, dispatch]);
 
   const handleSubjectClicked = async (subject: string) => {
     setIsLoading(true);

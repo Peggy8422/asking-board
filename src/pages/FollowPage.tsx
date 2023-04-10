@@ -32,16 +32,16 @@ const FollowPage = () => {
   const token = localStorage.getItem('token')!;
 
   //他人的名字和id
-  const otherUserName = state.userName;
+  const otherUserName = state?.userName;
   const otherUserId = Number(searchParams.get('userId'));
   //你的id
   const currentUserId = JSON.parse(localStorage.getItem('currentUser')!).id;
 
   useEffect(() => {
-    if (state.active === '追蹤中') {
+    if (state?.active === '追蹤中') {
       setActiveTab('追蹤中');
     } else return;
-  }, [state.active]);
+  }, [state?.active]);
 
   //切換追蹤者/追蹤中的Tab
   const handleActiveTabClick = (activeTab: string) => {
@@ -52,7 +52,7 @@ const FollowPage = () => {
   const getUserFollowData = useCallback(async (condition: boolean) => {
     setIsLoading(true);
     let data;
-    if (state.isOnOthersPage) {
+    if (state?.isOnOthersPage) {
       if (condition) {
         data = await getUserFollowers(token, otherUserId);
       } else {
@@ -68,18 +68,18 @@ const FollowPage = () => {
     }
     setUsersData(data);
     setIsLoading(false);
-  }, [state.isOnOthersPage, token, currentUserId, otherUserId])
+  }, [state?.isOnOthersPage, token, currentUserId, otherUserId])
 
   useEffect(() => {    
-    getUserFollowData(state.active === '追蹤者');
-  }, [getUserFollowData, state.active]);
+    getUserFollowData(state?.active === '追蹤者');
+  }, [getUserFollowData, state?.active]);
 
   return (
     <Box w={'100%'}>
       <Flex align={'start'} gap={3}>
         <GoBackIcon onClick={() => navigate(-1)} />
         <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
-          {(state.isOnOthersPage ? otherUserName : '你')}的
+          {(state?.isOnOthersPage ? otherUserName : '你')}的
           {activeTab}
         </Heading>
         <ButtonGroup

@@ -11,7 +11,7 @@ import { Box, Tooltip, Circle } from '@chakra-ui/react';
 import { AdminIcon } from '../assets/icons';
 
 const LoginPage = () => {
-  const { email, isLoading, isError, isSuccess, message } = useSelector(
+  const { user, email, isLoading, isError, isSuccess, message } = useSelector(
     (state: any) => state.auth
   );
   const [formData, setFormData] = useState({
@@ -24,6 +24,7 @@ const LoginPage = () => {
   const currentUser = searchParams.get('user')!;
 
   const token = localStorage.getItem('token')! || searchParams.get('token')!;
+  const isUser = user?.role !== 'admin';
 
   //處理google登入
   useEffect(() => {
@@ -64,11 +65,11 @@ const LoginPage = () => {
       navigate('/front/home');
     }
 
-    if (token) {
+    if (token && isUser) {
       navigate('/front/home');
     }
 
-  }, [isError, isSuccess, navigate, dispatch, token])
+  }, [isError, isSuccess, navigate, dispatch, token, isUser])
 
   const handleLoginClicked = () => {
     dispatch(login(formData) as any); //發送登入請求

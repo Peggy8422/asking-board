@@ -1,5 +1,7 @@
 //工具
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { clearEmail } from '../features/auth/authSlice';
 import { userGetAllQuestions } from '../api/questionRelated';
 
 //元件
@@ -27,9 +29,11 @@ const Layout = () => {
   const token = localStorage.getItem('token')!;
   const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (token === undefined || currentUser === undefined) {
+    if (!token || !currentUser || currentUser.role === 'admin') {
+      dispatch(clearEmail());
       navigate('/login');
       return;
     }
@@ -39,7 +43,7 @@ const Layout = () => {
     };
 
     getLatestQuestions();
-  }, [token, navigate, currentUser]);
+  }, [token, navigate, currentUser, dispatch]);
 
   return (
     <Box

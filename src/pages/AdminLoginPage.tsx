@@ -17,9 +17,11 @@ const AdminLoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoading, isError, isSuccess, message } = useSelector(
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state: any) => state.auth
   );
+
+  const token = localStorage.getItem('token')!
 
   useEffect(() => {
     if (isError) {
@@ -44,7 +46,11 @@ const AdminLoginPage = () => {
       navigate('/admin_home');
     }
 
-  }, [isError, isSuccess, dispatch, navigate])
+    if (token && user?.role === 'admin') {
+      navigate('/admin_home');
+    }
+
+  }, [isError, isSuccess, dispatch, navigate, user?.role, token])
 
   const handleAdminLoginClicked = () => {
     dispatch(adminLogin(formData) as any); //發送登入請求
