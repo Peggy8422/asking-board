@@ -1,9 +1,8 @@
 //工具
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { reset } from '../features/auth/authSlice';
-import { Link as ReactLink, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { Link as ReactLink } from 'react-router-dom';
 //googleAuth 測試
 import { aTagUrlForGoogle } from '../api/auth';
 
@@ -95,44 +94,7 @@ export const AuthSelect: React.FC<InputProps> = (props) => {
 
 
 const AuthForm: React.FC<AuthFormProps> = (props) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { isError, isSuccess } = useSelector(
-    (state: any) => state.auth
-  );
-
-  const token = localStorage.getItem('token')!;
-
-  //google驗證登入狀態
-  useEffect(() => {
-    if (isError) {
-      Swal.fire({
-        position: 'top',
-        title: '登入失敗',
-        timer: 1000,
-        icon: 'error',
-        showConfirmButton: false,
-      });
-    }
-
-    if (isSuccess) {
-      Swal.fire({
-        position: 'top',
-        title: '登入成功',
-        timer: 1000,
-        icon: 'success',
-        showConfirmButton: false,
-      });
-      dispatch(reset());
-      navigate('/front/home');
-    }
-
-    if (token) {
-      navigate('/front/home');
-    }
-
-  }, [isError, isSuccess, navigate, dispatch, token])
 
   return (
     <Box

@@ -117,7 +117,7 @@ const AdminPostsPage = () => {
                   <AllPostsCard
                     key={q.id}
                     Q_Id={q.id}
-                    firstImg={q.Images.url}
+                    firstImg={q.image}
                     title={q.title}
                     content={q.description}
                     avatar={q.User.avatar}
