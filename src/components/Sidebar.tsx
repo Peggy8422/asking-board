@@ -14,6 +14,7 @@ import {
   Hide,
   Show,
   useDisclosure,
+  useColorModeValue
 } from '@chakra-ui/react';
 import {
   HomeIcon,
@@ -111,6 +112,7 @@ const UserNavList: React.FC<UserNavProps> = ({ userName, userAvatar }) => {
       <Button
         leftIcon={<HandIcon width={'20px'} />}
         bg={'brand.500'}
+        color={'white'}
         colorScheme={'green'}
         onClick={() => {
           onOpen();
@@ -174,6 +176,8 @@ const AdminNavList = () => {
 const Sidebar: React.FC<SidebarProps> = (props) => {
   // const naviagte = useNavigate();
   const dispatch = useDispatch();
+  //邊線顏色切換
+  const borderColor = useColorModeValue('brand.gray_2', 'gray.700');
 
   return (
     <Box
@@ -185,8 +189,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       pt={'50px'}
       mt={'92px'}
       borderRight={'4px'}
-      borderRightColor={'brand.gray_2'}
-      bg={'white'}
+      borderRightColor={borderColor}
     >
       <Container width={'80%'}>
         <Text

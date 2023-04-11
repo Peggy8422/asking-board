@@ -17,7 +17,6 @@ html, body {
 
 ::-webkit-scrollbar {
   width: 8px;
-  background-color: var(--chakra-colors-gray-100);
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;

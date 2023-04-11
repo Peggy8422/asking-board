@@ -7,7 +7,7 @@ import { Link as ReactLink } from 'react-router-dom';
 import { regist, reset } from '../features/auth/authSlice';
 //元件
 import AuthForm, { AuthInput, AuthSelect } from '../components/AuthForm';
-import { Box, Tooltip, Circle } from '@chakra-ui/react';
+import { Box, Tooltip, Circle, useColorModeValue } from '@chakra-ui/react';
 import { AdminIcon } from '../assets/icons';
 
 const RegistPage = () => {
@@ -20,6 +20,10 @@ const RegistPage = () => {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  //樣式顏色
+  //背景色切換
+  const bgColor = useColorModeValue('brand.400', 'gray.700')
 
   const { isLoading, isError, isSuccess, message } = useSelector(
     (state: any) => state.auth
@@ -66,7 +70,7 @@ const RegistPage = () => {
   };
 
   return (
-    <Box w={'100%'} h={'140vh'} bg={'brand.400'}>
+    <Box w={'100%'} h={'140vh'} bg={bgColor}>
       <AuthForm
         isOnRegist={true}
         isUser={true}

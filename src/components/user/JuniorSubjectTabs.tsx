@@ -9,7 +9,7 @@ interface TabsProps {
 
 const JuniorSubjectTabs: React.FC<TabsProps> = (props) => {
   return (
-    <Flex position={{base: 'absolute', md: 'relative'}} wrap={'wrap'} w={{base: '100%', md: '60%'}} gap={2} left={{base: '0', md: '10px'}} top={{base: '100%', md: 'unset'}} bg={'white'} zIndex={{base: 'overlay', md: 'unset'}} py={2}>
+    <Flex position={{base: 'absolute', md: 'relative'}} wrap={'wrap'} w={{base: '100%', md: '60%'}} gap={2} left={{base: '0', md: '10px'}} top={{base: '100%', md: 'unset'}} zIndex={{base: 'overlay', md: 'unset'}} py={2}>
       {[
         '全部',
         '國文',

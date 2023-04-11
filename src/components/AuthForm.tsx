@@ -16,7 +16,8 @@ import {
   Button,
   Link,
   Flex,
-  Select
+  Select,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { Logo } from '../assets/images';
 import { GoogleIcon } from '../assets/icons';
@@ -96,13 +97,17 @@ export const AuthSelect: React.FC<InputProps> = (props) => {
 const AuthForm: React.FC<AuthFormProps> = (props) => {
   const dispatch = useDispatch();
 
+  //樣式顏色
+  //背景色切換
+  const bgColor = useColorModeValue('white', 'gray.900')
+
   return (
     <Box
       position={'relative'}
       w={{base: '95%', md:'50%'}}
       maxW={'500px'}
       borderRadius={'xl'}
-      bg={'white'}
+      bg={bgColor}
       mx={'auto'}
       py={'10'}
       top={'10vh'}

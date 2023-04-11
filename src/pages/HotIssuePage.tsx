@@ -35,7 +35,7 @@ const HotIssuePage = () => {
 
   return (
     <Box w={'100%'}>
-      <Flex align={'start'} justify={'space-between'} bg={'white'}>
+      <Flex align={'start'} justify={'space-between'}>
         <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
           熱門問題：<Text display={'inline-block'} fontSize={{base: 'md', md: '2xl'}}>{activeCategory}</Text>
         </Heading>
@@ -100,7 +100,7 @@ const HotIssuePage = () => {
 
         {questionsData.map((q: any) =>
           isLoading ? (
-            <Box key={q.id} padding="6" boxShadow="lg" bg="white">
+            <Box key={q.id} padding="6" boxShadow="lg">
               <SkeletonText
                 mt="4"
                 noOfLines={4}

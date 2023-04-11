@@ -23,6 +23,8 @@ import { ReactComponent as CameraIcon } from './camera-icon.svg';
 import { ReactComponent as GoBackIcon } from './goback-icon.svg';
 import { ReactComponent as ArrowUpIcon } from './arrow-up-icon.svg';
 import { ReactComponent as ArrowDownIcon } from './arrow-down-icon.svg';
+import { ReactComponent as MoonIcon } from './moon-icon.svg';
+import { ReactComponent as SunIcon } from './sun-icon.svg';
 
 export {
   AdminIcon,
@@ -49,5 +51,7 @@ export {
   CameraIcon,
   GoBackIcon,
   ArrowUpIcon,
-  ArrowDownIcon
+  ArrowDownIcon,
+  MoonIcon,
+  SunIcon
 };

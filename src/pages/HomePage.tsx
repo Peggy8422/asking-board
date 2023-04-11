@@ -65,7 +65,7 @@ const HomePage = () => {
 
   return (
     <Box w={'100%'}>
-      <Flex align={'start'} justify={'space-between'} bg={'white'} position={'relative'}>
+      <Flex align={'start'} justify={'space-between'} position={'relative'}>
         <Box>
           <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
             {activeCategory === '全部' && '所有問題'}
@@ -184,7 +184,7 @@ const HomePage = () => {
           :
           questions.map((q: any) =>
             isLoading ? (
-              <Box key={q.id} padding="6" boxShadow="lg" bg="white">
+              <Box key={q.id} padding="6" boxShadow="lg">
                 <SkeletonText
                   mt="4"
                   noOfLines={4}

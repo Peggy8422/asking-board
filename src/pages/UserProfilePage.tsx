@@ -11,6 +11,7 @@ import {
   getUserLikedQuestions,
   getUserAllReplies,
 } from '../api/userRelated';
+import { postFollowedUser, deleteFollowedUser } from '../api/followRelated';
 import { ModalOpenContext } from '../App';
 
 //元件
@@ -26,7 +27,7 @@ import {
   Divider,
   useDisclosure,
 } from '@chakra-ui/react';
-import { RightArrowIcon, EditIcon } from '../assets/icons';
+import { RightArrowIcon, EditIcon, CheckedIcon, AddIcon } from '../assets/icons';
 //card元件
 import LatestPostCard from '../components/user/LatestPostCard';
 import EditProfileModal from '../components/user/EditProfileModal';
@@ -37,6 +38,7 @@ const initUserInfo = {
   role: '',
   avatar: '',
   introduction: '',
+  isFollowed: 0,
   questionCount: 0,
   replyCount: 0,
   likeQuestionCount: 0,
@@ -51,6 +53,7 @@ interface ProfileProps {
 
 const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
   const [userInfo, setUserInfo] = useState(initUserInfo);
+  const [isFollowedLocal, setIsFollowedLocal] = useState(userInfo.isFollowed);
   //使用者的問題相關資料
   const [userAllQs, setUserAllQs] = useState([]);
   const [userLikedQs, setUserLikedQs] = useState([]);
@@ -58,13 +61,29 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchParams] = useSearchParams();
   let location = useLocation();
-  const {isModalClosed} = useContext(ModalOpenContext);
+  const { isModalClosed } = useContext(ModalOpenContext);
 
   const token = localStorage.getItem('token')!;
   //使用者id
   const currentUserId = JSON.parse(localStorage.getItem('currentUser')!).id;
   const otherUserId = Number(searchParams.get('userId'));
 
+  //追蹤
+  const handleFollowedClick = async () => {
+    const status = await postFollowedUser(token, otherUserId);
+    if (status === 200) {
+      setIsFollowedLocal(1);
+    } else return;
+  };
+  //取消追蹤
+  const handleUnFollowedClick = async () => {
+    const status = await deleteFollowedUser(token, otherUserId);
+    if (status === 200) {
+      setIsFollowedLocal(0);
+    } else return;
+  };
+
+  //上半部使用者個人資料
   useEffect(() => {
     let data;
     const getUserInfo = async () => {
@@ -74,6 +93,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
       } else if (location.pathname === '/front/profile_others/') {
         data = await getOtherUsersInfo(token, otherUserId);
         setUserInfo(data);
+        setIsFollowedLocal(data.isFollowed);
       } else return;
     };
 
@@ -107,7 +127,14 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
     };
 
     getUserQsRelated();
-  }, [token, location.pathname, currentUserId, otherUserId, isOpen, isModalClosed]);
+  }, [
+    token,
+    location.pathname,
+    currentUserId,
+    otherUserId,
+    isOpen,
+    isModalClosed,
+  ]);
 
   return (
     <Box w={'100%'}>
@@ -116,56 +143,93 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
         align={'end'}
         justify={'space-between'}
         gap={3}
-        wrap={{base: 'wrap', md: 'nowrap'}}
+        wrap={{ base: 'wrap', md: 'nowrap' }}
       >
         {/* 個人大頭貼 */}
-        <Flex align={'end'} gap={{base: 1, md: 3}}
-        wrap={{base: 'wrap', md: 'nowrap'}}>
-        <Avatar
-          size={{base: 'xl', md: '2xl'}}
-          name={'Temp'}
-          src={userInfo?.avatar || ''}
-          border={'4px'}
-          color={'white'}
-        />
-        <Box>
-          <Flex align={'center'} gap={2}>
-            <Heading as={'h2'} size={{base: 'md', md: 'lg'}} color={'brand.500'}>
-              {userInfo?.name || ''}
-            </Heading>
-            <Tag
-              size={'md'}
-              borderRadius={'full'}
-              bg={'brand.400'}
-              color={'white'}
-            >
-              {userInfo?.role || ''}
-            </Tag>
-          </Flex>
-          <Text color={'brand.gray_3'}>@{userInfo?.account || ''}</Text>
-        </Box>
-        </Flex>
-        <Badge
-          fontSize={'md'}
-          bg={'transparent'}
-          color={'brand.500'}
+        <Flex
+          align={'end'}
+          gap={{ base: 1, md: 3 }}
         >
+          <Avatar
+            size={{ base: 'xl', md: '2xl' }}
+            name={'Temp'}
+            src={userInfo?.avatar || ''}
+            border={'4px'}
+            color={'white'}
+          />
+          <Box w={'80%'}>
+            <Flex align={'center'} gap={2} wrap={{base: 'wrap', sm: 'unset'}}>
+              <Heading
+                as={'h2'}
+                size={{ base: 'md', md: 'lg' }}
+                color={'brand.500'}
+              >
+                {userInfo?.name || ''}
+              </Heading>
+              <Tag
+                size={'md'}
+                borderRadius={'full'}
+                bg={'brand.400'}
+                color={'white'}
+              >
+                {userInfo?.role || ''}
+              </Tag>
+              {location.pathname === '/front/profile_others/' &&
+                (isFollowedLocal ? (
+                  <Button
+                    size={'xs'}
+                    borderRadius={'full'}
+                    rightIcon={<CheckedIcon />}
+                    color={'brand.500'}
+                    colorScheme={'green'}
+                    variant={'outline'}
+                    onClick={handleUnFollowedClick}
+                  >
+                    已追蹤
+                  </Button>
+                ) : (
+                  <Button
+                    size={'xs'}
+                    borderRadius={'full'}
+                    rightIcon={<AddIcon />}
+                    color={'brand.gray_3'}
+                    colorScheme={'gray'}
+                    borderColor={'brand.gray_3'}
+                    variant={'outline'}
+                    onClick={handleFollowedClick}
+                  >
+                    追蹤
+                  </Button>
+                ))}
+            </Flex>
+            <Text color={'brand.gray_3'}>@{userInfo?.account || ''}</Text>
+          </Box>
+        </Flex>
+        <Badge fontSize={'md'} bg={'transparent'} color={'brand.500'}>
           <ReactLink
             to={`/front/user/follow/?userId=${otherUserId}`}
-            state={{ isOnOthersPage, active: '追蹤者', userName: userInfo.name }}
+            state={{
+              isOnOthersPage,
+              active: '追蹤者',
+              userName: userInfo.name,
+            }}
           >
             {userInfo?.followerCount || 0}個追蹤者
-          </ReactLink>
-          {' '}|{' '}
+          </ReactLink>{' '}
+          |{' '}
           <ReactLink
             to={`/front/user/follow/?userId=${otherUserId}`}
-            state={{ isOnOthersPage, active: '追蹤中', userName: userInfo.name }}
+            state={{
+              isOnOthersPage,
+              active: '追蹤中',
+              userName: userInfo.name,
+            }}
           >
             {userInfo?.followingCount || 0}個追蹤中
           </ReactLink>
         </Badge>
       </Flex>
-      <Text m={3} position={'relative'} left={{base: -2, sm: 'unset'}}>
+      <Text m={3} position={'relative'} left={{ base: -2, sm: 'unset' }}>
         {userInfo?.introduction || ''}
       </Text>
       {!isOnOthersPage && (
@@ -174,6 +238,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
             size={'sm'}
             leftIcon={<EditIcon />}
             bg={'brand.400'}
+            color={'white'}
             colorScheme={'green'}
             onClick={onOpen}
           >
@@ -221,7 +286,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               as={ReactLink}
               to={`/front/user/all_questions/?userId=${otherUserId}`}
               state={{ isOnOthersPage }}
-              size={{base: 'md', sm: 'lg'}}
+              size={{ base: 'md', sm: 'lg' }}
               rightIcon={<RightArrowIcon />}
               variant={'ghost'}
               colorScheme={'green'}
@@ -230,7 +295,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               查看更多
             </Button>
           </Flex>
-          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', lg: 'nowrap'}}>
+          <Flex w={'100%'} gap={2} wrap={{ base: 'wrap', lg: 'nowrap' }}>
             {/* 排版用 */}
             {userAllQs.map((q: any) => (
               <LatestPostCard
@@ -257,7 +322,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               as={ReactLink}
               to={`/front/user/liked_questions/?userId=${otherUserId}`}
               state={{ isOnOthersPage }}
-              size={{base: 'md', sm: 'lg'}}
+              size={{ base: 'md', sm: 'lg' }}
               rightIcon={<RightArrowIcon />}
               variant={'ghost'}
               colorScheme={'green'}
@@ -266,7 +331,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               查看更多
             </Button>
           </Flex>
-          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', lg: 'nowrap'}}>
+          <Flex w={'100%'} gap={2} wrap={{ base: 'wrap', lg: 'nowrap' }}>
             {/* 排版用 */}
             {userLikedQs.map((q: any) => (
               <LatestPostCard
@@ -293,7 +358,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               as={ReactLink}
               to={`/front/user/replied_questions/?userId=${otherUserId}`}
               state={{ isOnOthersPage }}
-              size={{base: 'md', sm: 'lg'}}
+              size={{ base: 'md', sm: 'lg' }}
               rightIcon={<RightArrowIcon />}
               variant={'ghost'}
               colorScheme={'green'}
@@ -302,7 +367,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
               查看更多
             </Button>
           </Flex>
-          <Flex w={'100%'} gap={2} wrap={{base: 'wrap', lg: 'nowrap'}}>
+          <Flex w={'100%'} gap={2} wrap={{ base: 'wrap', lg: 'nowrap' }}>
             {/* 排版用 */}
             {userRepliedQs.map((q: any) => (
               <LatestPostCard

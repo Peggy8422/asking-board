@@ -23,6 +23,7 @@ import {
   SkeletonText,
   Image,
   useDisclosure,
+  useColorModeValue
 } from '@chakra-ui/react';
 import {
   GoBackIcon,
@@ -75,6 +76,11 @@ const ReplyPage = () => {
 
   const token = localStorage.getItem('token')!;
   const currentUserId = JSON.parse(localStorage.getItem('currentUser')!).id;
+
+  //樣式顏色
+  //背景色切換
+  const allRplyBg = useColorModeValue('brand.gray_2', 'blackAlpha.500')
+  const textareaBg = useColorModeValue('brand.gray_2', '')
 
   //收藏問題
   const handleLikePost = async () => {
@@ -152,7 +158,7 @@ const ReplyPage = () => {
   return (
     <Box w={'100%'}>
       {/* 標頭資訊們 */}
-      <Box bg={'white'}>
+      <Box>
         <Flex align={'start'} justify={'space-between'} pb={2}>
           <Flex align={'start'} rowGap={0} columnGap={3} wrap={{ base: 'wrap', md: 'nowrap' }}>
             <GoBackIcon onClick={() => navigate(-1)} />
@@ -307,7 +313,7 @@ const ReplyPage = () => {
           <Text mx={5} mt={5}>
             {questionData.description}
           </Text>
-          <Flex mt={5} py={2} pl={2} bg={'brand.gray_2'} align={'center'}>
+          <Flex mt={5} py={2} pl={2} bg={allRplyBg} align={'center'}>
             <CommentIcon fill="#707070" />
             <Text color={'brand.gray_3'} fontWeight={'semibold'}>
               所有回答：{questionData.replyCount}
@@ -321,7 +327,7 @@ const ReplyPage = () => {
             <Textarea
               w={'95%'}
               mx={5}
-              bg={'brand.gray_2'}
+              bg={textareaBg}
               placeholder="我的看法是..."
               size={'lg'}
               border={'none'}

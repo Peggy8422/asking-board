@@ -7,7 +7,7 @@ import { login, reset } from '../features/auth/authSlice';
 
 //元件
 import AuthForm, { AuthInput } from '../components/AuthForm';
-import { Box, Tooltip, Circle } from '@chakra-ui/react';
+import { Box, Tooltip, Circle, useColorModeValue } from '@chakra-ui/react';
 import { AdminIcon } from '../assets/icons';
 
 const LoginPage = () => {
@@ -25,6 +25,10 @@ const LoginPage = () => {
 
   const token = localStorage.getItem('token')! || searchParams.get('token')!;
   const isUser = user?.role !== 'admin';
+
+  //樣式顏色
+  //背景色切換
+  const bgColor = useColorModeValue('brand.400', 'gray.700')
 
   //處理google登入
   useEffect(() => {
@@ -76,7 +80,7 @@ const LoginPage = () => {
   }
 
   return (
-    <Box w={'100%'} h={'100vh'} bg={'brand.400'}>
+    <Box w={'100%'} h={'100vh'} bg={bgColor}>
       <AuthForm isOnRegist={false} onClickLogin={handleLoginClicked} isUser={true} isLoading={isLoading} >
         <AuthInput
           label="Email(帳號)"

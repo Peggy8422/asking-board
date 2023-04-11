@@ -18,6 +18,7 @@ import {
   Container,
   Hide,
   Show,
+  useColorModeValue
 } from '@chakra-ui/react';
 
 //card元件
@@ -30,6 +31,8 @@ const Layout = () => {
   const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  //邊線顏色切換
+  const borderColor = useColorModeValue('brand.gray_2', 'gray.700');
 
   useEffect(() => {
     if (!token || !currentUser || currentUser.role === 'admin') {
@@ -83,14 +86,12 @@ const Layout = () => {
                 // px={5}
                 mt={'92px'}
                 borderLeft={'4px'}
-                borderLeftColor={'brand.gray_2'}
-                bg={'white'}
+                borderLeftColor={borderColor}
                 overflow={'hidden'}
               >
                 <Heading
                   as={'h1'}
                   size={'lg'}
-                  bg={'white'}
                   color={'brand.500'}
                   ml={5}
                   mb={5}

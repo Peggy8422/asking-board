@@ -6,7 +6,7 @@ import { SidebarProps, UserNavProps } from './Sidebar';
 import { ModalOpenContext } from '../App';
 
 //元件
-import { Box, Flex, IconButton, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, IconButton, useDisclosure, useColorModeValue } from '@chakra-ui/react';
 import {
   HomeIcon,
   HotIcon,
@@ -155,6 +155,8 @@ const AdminMobileNavList = () => {
 
 const MobileSidebar: React.FC<SidebarProps> = (props) => {
   const dispatch = useDispatch();
+  //背景色切換
+  const bgColor = useColorModeValue('white', 'gray.900')
 
   return (
     <Box
@@ -163,7 +165,7 @@ const MobileSidebar: React.FC<SidebarProps> = (props) => {
       position={'absolute'}
       bottom={0}
       zIndex={2}
-      bg={'white'}
+      bg={bgColor}
       boxShadow={'dark-lg'}
     >
       <Flex

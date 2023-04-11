@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { adminLogin, reset } from '../features/auth/authSlice';
 //元件
 import AuthForm, { AuthInput } from '../components/AuthForm';
-import { Box } from '@chakra-ui/react';
+import { Box, useColorModeValue } from '@chakra-ui/react';
 
 const AdminLoginPage = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +16,10 @@ const AdminLoginPage = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  //樣式顏色
+  //背景色切換
+  const bgColor = useColorModeValue('brand.400', 'gray.700')
 
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state: any) => state.auth
@@ -57,7 +61,7 @@ const AdminLoginPage = () => {
   }
 
   return (
-    <Box w={'100%'} h={'100vh'} bg={'brand.400'}>
+    <Box w={'100%'} h={'100vh'} bg={bgColor}>
       <AuthForm isUser={false} isOnRegist={false} onClickLogin={handleAdminLoginClicked} isLoading={isLoading} >
         <AuthInput
           label="Email(帳號)"

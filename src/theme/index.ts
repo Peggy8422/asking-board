@@ -1,4 +1,4 @@
-import { extendTheme } from '@chakra-ui/react';
+import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
 
 //加入客製化品牌主題顏色
 const theme = extendTheme({
@@ -11,11 +11,11 @@ const theme = extendTheme({
       gray_2: '#F8F8F8',
       gray_3: '#707070'
     }
-  },
+  } as ThemeConfig,
   config: {
     initialColorMode: 'light',
     useSystemColorMode: false
-  }
+  } as ThemeConfig,
   
 });
 

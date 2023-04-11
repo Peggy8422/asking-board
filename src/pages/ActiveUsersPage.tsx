@@ -39,7 +39,7 @@ const ActiveUsersPage = () => {
 
   return (
     <Box w={'100%'}>
-      <Flex align={'start'} bg={'white'} gap={3} justify={'space-between'}>
+      <Flex align={'start'} gap={3} justify={'space-between'}>
         <Heading as={'h1'} size={'lg'} color={'brand.500'} mb={5}>
           活躍用戶
         </Heading>

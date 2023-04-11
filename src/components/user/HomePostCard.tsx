@@ -140,9 +140,8 @@ const HomePostCard: React.FC<CardProps> = (props) => {
             <Tag
               size={'md'}
               variant={'outline'}
-              color={'brand.500'}
               colorScheme={'green'}
-              bg={'white'}
+              bg={'whiteAlpha.300'}
               borderColor={'brand.400'}
             >
               {props.category}

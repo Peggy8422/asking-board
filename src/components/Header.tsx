@@ -23,9 +23,11 @@ import {
   MenuOptionGroup,
   IconButton,
   Hide,
+  useColorMode,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { Logo } from '../assets/images';
-import { SearchIcon, FilterIcon, BellIcon } from '../assets/icons';
+import { SearchIcon, FilterIcon, MoonIcon, SunIcon } from '../assets/icons';
 
 interface SearchProps {
   isDisabled: boolean;
@@ -77,6 +79,10 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
   const [filterOption, setFilterOption] = useState<string | string[]>('');
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  //input背景色切換
+  const searchbarBg = useColorModeValue('gray.50', '')
 
   //沒經過redux的dispatch action所以第一次要先自己抓
   const googleUserAvatar = JSON.parse(localStorage.getItem('currentUser')!).avatar;
@@ -111,7 +117,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
       position={'fixed'}
       width={'100%'}
       boxShadow={'md'}
-      bg={'white'}
+      // bg={'white'}
       zIndex={2}
     >
       <Container
@@ -139,7 +145,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
             type={'text'}
             placeholder={'請輸入關鍵字'}
             borderRadius={'20px'}
-            bg={'gray.50'}
+            bg={searchbarBg}
             value={keyword}
             onChange={(e) => {
               setKeyword(e.target.value);
@@ -165,7 +171,8 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
           />
         </InputGroup>
         <Flex align={'center'} gap={3}>
-          <BellIcon />
+          {colorMode === 'light' ? <MoonIcon onClick={toggleColorMode} /> : <SunIcon onClick={toggleColorMode} />}
+          {/* <BellIcon /> */}
           <Avatar
             as={ReactLink}
             to={isAdmin ? '' : '/front/profile'}
