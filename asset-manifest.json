@@ -1,11 +1,12 @@
 {
   "files": {
-    "main.css": "/asking-board/static/css/main.cce2e099.css",
-    "main.js": "/asking-board/static/js/main.ac23f09e.js",
+    "main.css": "/asking-board/static/css/main.a2e470e3.css",
+    "main.js": "/asking-board/static/js/main.82aa55eb.js",
     "static/js/787.596dbac0.chunk.js": "/asking-board/static/js/787.596dbac0.chunk.js",
     "static/media/illus-2.svg": "/asking-board/static/media/illus-2.9226b112aa5beadaab9b6edd61eb7905.svg",
     "static/media/google-icon.svg": "/asking-board/static/media/google-icon.63a4eb6f38250eedb6f9e89dc780c655.svg",
     "static/media/cross-icon.svg": "/asking-board/static/media/cross-icon.09907abc11bc89752cd799fa087c8081.svg",
+    "static/media/sun-icon.svg": "/asking-board/static/media/sun-icon.d72493fe94eaf4f75a02001fdab51652.svg",
     "static/media/logo.svg": "/asking-board/static/media/logo.d58c86a264d5aeb7fc2d72dabb8213a3.svg",
     "static/media/setting-icon.svg": "/asking-board/static/media/setting-icon.52ebd9c1014d996a0512f5f8cb56eb7d.svg",
     "static/media/comment-icon.svg": "/asking-board/static/media/comment-icon.f87fb9cd43fee18bb9108c01deb32c3b.svg",
@@ -32,12 +33,13 @@
     "static/media/arrow-down-icon.svg": "/asking-board/static/media/arrow-down-icon.bc779280c8984bb024b1fbd1f9af0db0.svg",
     "static/media/arrow-up-icon.svg": "/asking-board/static/media/arrow-up-icon.0dd16a7417379b4fae9d33bcce5c70be.svg",
     "static/media/right-arrow-icon.svg": "/asking-board/static/media/right-arrow-icon.373a1b17af6702e189f5d146f9cd36c9.svg",
-    "main.cce2e099.css.map": "/asking-board/static/css/main.cce2e099.css.map",
-    "main.ac23f09e.js.map": "/asking-board/static/js/main.ac23f09e.js.map",
+    "static/media/moon-icon.svg": "/asking-board/static/media/moon-icon.ec06b27ecb446f2e4a32120b06a8faca.svg",
+    "main.a2e470e3.css.map": "/asking-board/static/css/main.a2e470e3.css.map",
+    "main.82aa55eb.js.map": "/asking-board/static/js/main.82aa55eb.js.map",
     "787.596dbac0.chunk.js.map": "/asking-board/static/js/787.596dbac0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.cce2e099.css",
-    "static/js/main.ac23f09e.js"
+    "static/css/main.a2e470e3.css",
+    "static/js/main.82aa55eb.js"
   ]
 }
