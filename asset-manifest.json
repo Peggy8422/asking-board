@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/asking-board/static/css/main.a2e470e3.css",
-    "main.js": "/asking-board/static/js/main.82aa55eb.js",
+    "main.js": "/asking-board/static/js/main.ef751743.js",
     "static/js/787.596dbac0.chunk.js": "/asking-board/static/js/787.596dbac0.chunk.js",
     "static/media/illus-2.svg": "/asking-board/static/media/illus-2.9226b112aa5beadaab9b6edd61eb7905.svg",
     "static/media/google-icon.svg": "/asking-board/static/media/google-icon.63a4eb6f38250eedb6f9e89dc780c655.svg",
@@ -35,11 +35,11 @@
     "static/media/right-arrow-icon.svg": "/asking-board/static/media/right-arrow-icon.373a1b17af6702e189f5d146f9cd36c9.svg",
     "static/media/moon-icon.svg": "/asking-board/static/media/moon-icon.ec06b27ecb446f2e4a32120b06a8faca.svg",
     "main.a2e470e3.css.map": "/asking-board/static/css/main.a2e470e3.css.map",
-    "main.82aa55eb.js.map": "/asking-board/static/js/main.82aa55eb.js.map",
+    "main.ef751743.js.map": "/asking-board/static/js/main.ef751743.js.map",
     "787.596dbac0.chunk.js.map": "/asking-board/static/js/787.596dbac0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a2e470e3.css",
-    "static/js/main.82aa55eb.js"
+    "static/js/main.ef751743.js"
   ]
 }
