@@ -111,7 +111,7 @@ export const regist = createAsyncThunk('auth/regist', async (user: registParams,
   return thunkAPI.rejectWithValue(data); //errormessage
 })
 
-//非同步處理：註冊，也是action creator
+//非同步處理：登入，也是action creator
 export const login = createAsyncThunk('auth/login', async (user: loginParams, thunkAPI) => {
   const data = await loginRequest(user, 'users');
   if (data.status === "success") {

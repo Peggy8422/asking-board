@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as ReactLink, NavLink as ReactNavLink } from 'react-router-dom';
 import { logoutAct, reset, clearEmail } from '../features/auth/authSlice';
 import { SidebarProps, UserNavProps } from './Sidebar';
-import { ModalOpenContext } from '../App';
+import { useModalContext } from '../context/ModalOpenContext'; 
 
 //元件
 import { Box, Flex, IconButton, useDisclosure, useColorModeValue } from '@chakra-ui/react';
@@ -20,7 +20,7 @@ import AskingModal from './user/AskingModal';
 //使用者
 const UserMobileNavList: React.FC<UserNavProps> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { setIsModalClosed } = useContext(ModalOpenContext);
+  const { setIsModalClosed } = useModalContext();
   return (
     <>
       <ReactNavLink to="/front/home">

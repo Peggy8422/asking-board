@@ -67,7 +67,7 @@ const ReplyPage = () => {
     comment: '',
     images: [],
   });
-  const [isReplySubmmited, setIsReplySubmmited] = useState(false);
+  const [isReplySubmitted, setIsReplySubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
@@ -115,7 +115,7 @@ const ReplyPage = () => {
         comment: '',
         images: [],
       });
-      setIsReplySubmmited(true);
+      setIsReplySubmitted(true);
       setQuestionData({
         ...questionData,
         replyCount: questionData.replyCount + 1,
@@ -141,7 +141,7 @@ const ReplyPage = () => {
 
   //成功送出回答後重新撈取所有回答內容
   useEffect(() => {
-    if (isReplySubmmited) {
+    if (isReplySubmitted) {
       const getRepliesAgain = async () => {
         const replies = await getQuestionReplies(token, questionId);
         setRepliesData(replies);
@@ -151,9 +151,9 @@ const ReplyPage = () => {
     if (!token) return;
 
     return () => {
-      setIsReplySubmmited(false);
+      setIsReplySubmitted(false);
     };
-  }, [token, questionId, isReplySubmmited]);
+  }, [token, questionId, isReplySubmitted]);
 
   return (
     <Box w={'100%'}>

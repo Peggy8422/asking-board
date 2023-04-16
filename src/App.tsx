@@ -1,6 +1,7 @@
-import React, { useState, createContext } from 'react';
+import React from 'react';
 import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ModalOpenOrCloseProvider } from './context/ModalOpenContext';
 //Users pages
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
@@ -24,18 +25,18 @@ import AdminUsersPage from './pages/AdminUsersPage';
 //首頁根路由
 const basename = process.env.PUBLIC_URL;
 
-export const ModalOpenContext = createContext({
-  isModalClosed: true,
-  setIsModalClosed: (() => {}) as React.Dispatch<React.SetStateAction<boolean>>,
-});
+// export const ModalOpenContext = createContext({
+//   isModalClosed: true,
+//   setIsModalClosed: (() => {}) as React.Dispatch<React.SetStateAction<boolean>>,
+// });
 
 const App: React.FC = () => {
-  const [isModalClosed, setIsModalClosed] = useState(false);
+  // const [isModalClosed, setIsModalClosed] = useState(false);
 
   return (
     <div className="App">
       <BrowserRouter basename={basename}>
-        <ModalOpenContext.Provider value={{ isModalClosed, setIsModalClosed }}>
+        <ModalOpenOrCloseProvider>
           <Routes>
             <Route path="*" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -74,7 +75,7 @@ const App: React.FC = () => {
               <Route path="search_results" element={<SearchResultPage />} />
             </Route>
           </Routes>
-        </ModalOpenContext.Provider>
+        </ModalOpenOrCloseProvider>
       </BrowserRouter>
     </div>
   );

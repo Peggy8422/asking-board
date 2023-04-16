@@ -1,9 +1,9 @@
 //工具
-import React, { useContext } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as ReactLink, NavLink as ReactNavLink } from 'react-router-dom';
 import { logoutAct, reset, clearEmail } from '../features/auth/authSlice';
-import { ModalOpenContext } from '../App';
+import { useModalContext } from '../context/ModalOpenContext'; 
 //元件
 import {
   Box,
@@ -39,7 +39,7 @@ export interface UserNavProps {
 //用戶頁面Nav
 const UserNavList: React.FC<UserNavProps> = ({ userName, userAvatar }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { setIsModalClosed } = useContext(ModalOpenContext);
+  const { setIsModalClosed } = useModalContext();
 
   return (
     <Flex direction={'column'} align={'start'} gap={2} my={'5'}>

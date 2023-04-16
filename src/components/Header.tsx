@@ -40,7 +40,7 @@ const SearchFilterMenu: React.FC<SearchProps> = ({
   setFilterOption,
 }) => {
   return (
-    <Menu closeOnSelect={true}>
+    <Menu closeOnSelect={true} isLazy>
       <MenuButton
         as={IconButton}
         aria-label="Options"
@@ -171,8 +171,10 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
           />
         </InputGroup>
         <Flex align={'center'} gap={3}>
-          {colorMode === 'light' ? <MoonIcon onClick={toggleColorMode} /> : <SunIcon onClick={toggleColorMode} />}
-          {/* <BellIcon /> */}
+          <Box cursor={'pointer'}>
+            {colorMode === 'light' ? <MoonIcon onClick={toggleColorMode} /> : <SunIcon onClick={toggleColorMode} />}
+            {/* <BellIcon /> */}
+          </Box>
           <Avatar
             as={ReactLink}
             to={isAdmin ? '' : '/front/profile'}

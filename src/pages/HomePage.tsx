@@ -1,10 +1,10 @@
 //工具
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { userGetAllQuestions } from '../api/questionRelated';
 import { clearEmail } from '../features/auth/authSlice';
-import { ModalOpenContext } from '../App';
+import { useModalContext } from '../context/ModalOpenContext';
 
 //元件
 import {
@@ -27,7 +27,7 @@ const HomePage = () => {
   const [activeGrade, setActiveGrade] = useState('國中全年級');
   const [isLoading, setIsLoading] = useState(false);
   const [questions, setQuestions] = useState([]); //科目有選擇時要用filter改
-  const {isModalClosed} = useContext(ModalOpenContext);
+  const {isModalClosed} = useModalContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

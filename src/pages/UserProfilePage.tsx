@@ -1,5 +1,5 @@
 //工具
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Link as ReactLink,
   useLocation,
@@ -12,7 +12,7 @@ import {
   getUserAllReplies,
 } from '../api/userRelated';
 import { postFollowedUser, deleteFollowedUser } from '../api/followRelated';
-import { ModalOpenContext } from '../App';
+import { useModalContext } from '../context/ModalOpenContext';
 
 //元件
 import {
@@ -61,7 +61,7 @@ const UserProfilePage: React.FC<ProfileProps> = ({ isOnOthersPage }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchParams] = useSearchParams();
   let location = useLocation();
-  const { isModalClosed } = useContext(ModalOpenContext);
+  const { isModalClosed } = useModalContext();
 
   const token = localStorage.getItem('token')!;
   //使用者id
