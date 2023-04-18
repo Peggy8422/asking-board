@@ -25,13 +25,7 @@ import AdminUsersPage from './pages/AdminUsersPage';
 //首頁根路由
 const basename = process.env.PUBLIC_URL;
 
-// export const ModalOpenContext = createContext({
-//   isModalClosed: true,
-//   setIsModalClosed: (() => {}) as React.Dispatch<React.SetStateAction<boolean>>,
-// });
-
 const App: React.FC = () => {
-  // const [isModalClosed, setIsModalClosed] = useState(false);
 
   return (
     <div className="App">
