@@ -41,7 +41,7 @@ const AdminUsersPage = () => {
       return;
     }
     getUsers();
-  }, [token, navigate, currentUser.role]);
+  }, [token, navigate, currentUser?.role]);
 
   return (
     <Box width={'100%'} height={'100vh'} overflowX={'hidden'}>

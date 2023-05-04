@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { clearEmail } from '../features/auth/authSlice';
 import { userGetAllQuestions } from '../api/questionRelated';
+import { useModalContext } from '../context/ModalOpenContext';
 
 //元件
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -29,24 +30,25 @@ const Layout = () => {
   const [latestQuestions, setLatestQuestions] = useState([]);
   const token = localStorage.getItem('token')!;
   const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+  const {isModalClosed} = useModalContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   //邊線顏色切換
   const borderColor = useColorModeValue('brand.gray_2', 'gray.700');
 
   useEffect(() => {
-    if (!token || !currentUser || currentUser.role === 'admin') {
+    if (!token || currentUser.role === 'admin') {
       dispatch(clearEmail());
       navigate('/login');
       return;
     }
     const getLatestQuestions = async () => {
       const data = await userGetAllQuestions(token);
-      setLatestQuestions(data.slice(0, 10));
+      setLatestQuestions(data);
     };
 
     getLatestQuestions();
-  }, [token, navigate, currentUser, dispatch]);
+  }, [token, navigate, dispatch, currentUser?.role, isModalClosed]);
 
   return (
     <Box

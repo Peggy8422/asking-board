@@ -44,10 +44,11 @@ const HomePage = () => {
     if (!token || currentUser.role === 'admin') {
       dispatch(clearEmail());
       navigate('/login');
+      return;
     }
 
     getAllQuestions();
-  }, [token, navigate, isModalClosed, currentUser.role, dispatch]);
+  }, [token, navigate, isModalClosed, currentUser?.role, dispatch]);
 
   const handleSubjectClicked = async (subject: string) => {
     setIsLoading(true);

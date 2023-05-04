@@ -59,7 +59,7 @@ const AdminPostsPage = () => {
       return;
     }
     getQuestions();
-  }, [token, navigate, currentUser.role]);
+  }, [token, navigate, currentUser?.role]);
 
   return (
     <Box

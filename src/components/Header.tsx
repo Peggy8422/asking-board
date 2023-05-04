@@ -85,7 +85,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
   const searchbarBg = useColorModeValue('gray.50', '')
 
   //沒經過redux的dispatch action所以第一次要先自己抓
-  const googleUserAvatar = JSON.parse(localStorage.getItem('currentUser')!).avatar;
+  const googleUserAvatar = JSON.parse(localStorage.getItem('currentUser')!)?.avatar;
 
   //提交搜尋關鍵字
   const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
