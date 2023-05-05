@@ -44,7 +44,7 @@ const Layout = () => {
     }
     const getLatestQuestions = async () => {
       const data = await userGetAllQuestions(token);
-      setLatestQuestions(data);
+      setLatestQuestions(data.slice(0, 10));
     };
 
     getLatestQuestions();

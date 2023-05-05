@@ -195,6 +195,13 @@ const AskingModal: React.FC<ModalProps> = (props) => {
     }
   };
 
+  //處理文字按 Enter 換行
+  // const handleNextLineEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  //   if (e.key === 'Enter') {
+  //     setFormData({...formData, description: description + ''});
+  //   }
+  // }
+
   //載入原本問題的資料
   useEffect(() => {
     const getQuestion = async () => {

@@ -149,7 +149,7 @@ const HomePostCard: React.FC<CardProps> = (props) => {
           </Flex>
           {props.image && <Image mt={3} src={props.image} />}
           <Text mt={3} noOfLines={3}>
-            {props.content}
+            {props.content.split('\r\n').map(item => {return <>{item}<br/></>})}
           </Text>
         </Link>
       </CardBody>

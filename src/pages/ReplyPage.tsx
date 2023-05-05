@@ -164,7 +164,7 @@ const ReplyPage = () => {
             <GoBackIcon onClick={() => navigate(-1)} />
             <Heading
               as={'h1'}
-              size={{ base: 'sm', md: 'lg' }}
+              size={{ base: 'sm', md: 'md' }}
               color={'brand.500'}
               mb={5}
             >
@@ -311,7 +311,7 @@ const ReplyPage = () => {
             )}
           </Flex>
           <Text mx={5} mt={5}>
-            {questionData.description}
+            {questionData.description.split('\r\n').map(item => {return <>{item}<br/></>})}
           </Text>
           <Flex mt={5} py={2} pl={2} bg={allRplyBg} align={'center'}>
             <CommentIcon fill="#707070" />
